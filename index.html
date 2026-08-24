@@ -3,219 +3,249 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Saqif Shahriar // Mechanical & Computational Fluid Dynamics</title>
+  <title>Saqif Shahriar — Advanced Fluid Dynamics & Mechanical Systems</title>
   
+  <!-- Modern Typefaces -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Orbitron:wght@600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Three.js + GSAP + Lucide Icons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     :root {
-      --bg: #07090e;
-      --surface: #0e121a;
-      --surface-hover: #151b26;
-      --surface-border: #1e2638;
-      --border-highlight: #00f0ff;
-      --cyan: #00f0ff;
-      --cyan-glow: rgba(0, 240, 255, 0.18);
-      --amber: #f59e0b;
-      --amber-glow: rgba(245, 158, 11, 0.2);
-      --text: #f1f5f9;
-      --text-muted: #64748b;
-      --text-dim: #94a3b8;
-      --sans: 'Space Grotesk', sans-serif;
+      --bg: #030712;
+      --surface: rgba(15, 23, 42, 0.65);
+      --surface-solid: #0b0f19;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-cyan: rgba(0, 245, 255, 0.35);
+      --cyan: #00f5ff;
+      --cyan-glow: 0 0 25px rgba(0, 245, 255, 0.4);
+      --violet: #8b5cf6;
+      --violet-glow: 0 0 30px rgba(139, 92, 246, 0.35);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
       --mono: 'JetBrains Mono', monospace;
+      --heading: 'Orbitron', sans-serif;
+      --sans: 'Plus Jakarta Sans', sans-serif;
     }
 
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+      cursor: default;
     }
 
     html {
       scroll-behavior: smooth;
+      background-color: var(--bg);
     }
 
     body {
       background-color: var(--bg);
       color: var(--text);
       font-family: var(--sans);
-      line-height: 1.6;
       overflow-x: hidden;
-      selection-background-color: var(--cyan);
-      selection-color: #000;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
     }
 
-    /* Background Wind-Tunnel Streamlines Canvas */
-    #windTunnelCanvas {
+    /* Ambient CRT Scanline & Grain */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      background-size: 100% 3px, 6px 100%;
+      pointer-events: none;
+      z-index: 99;
+      opacity: 0.6;
+    }
+
+    /* 3D WebGL Background Canvas */
+    #webgl-bg {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      pointer-events: none;
       z-index: 0;
-      opacity: 0.75;
-    }
-
-    /* Technical Grid Overlay */
-    .grid-bg {
-      position: fixed;
-      inset: 0;
-      background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 48px 48px;
-      pointer-events: none;
-      z-index: 1;
+      pointer-events: auto;
     }
 
     .wrapper {
       position: relative;
-      z-index: 2;
+      z-index: 10;
     }
 
     .container {
-      max-width: 1120px;
+      max-width: 1240px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 28px;
     }
 
-    /* Navigation Bar */
+    /* HUD Top Header */
     header {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      width: 100%;
       z-index: 100;
-      backdrop-filter: blur(16px);
-      background: rgba(7, 9, 14, 0.75);
-      border-bottom: 1px solid var(--surface-border);
+      backdrop-filter: blur(20px);
+      background: rgba(3, 7, 18, 0.7);
+      border-bottom: 1px solid var(--border);
     }
 
     .nav-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 68px;
+      height: 70px;
     }
 
-    .brand {
+    .hud-brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       text-decoration: none;
-      color: var(--text);
-      font-family: var(--mono);
-      font-weight: 700;
+    }
+
+    .hud-chip {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--cyan-glow);
+      font-family: var(--heading);
+      font-weight: 900;
+      font-size: 0.9rem;
+      color: #000;
+    }
+
+    .hud-title {
+      font-family: var(--heading);
       font-size: 0.95rem;
-      letter-spacing: -0.5px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--text);
     }
 
-    .brand-tag {
-      padding: 2px 6px;
-      border-radius: 4px;
-      background: var(--cyan-glow);
-      border: 1px solid rgba(0, 240, 255, 0.4);
-      color: var(--cyan);
-      font-size: 0.7rem;
-    }
-
-    .nav-links {
+    .hud-telemetry {
       display: flex;
       align-items: center;
       gap: 24px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--text-dim);
-      text-decoration: none;
-      font-size: 0.88rem;
-      font-family: var(--mono);
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--cyan);
-    }
-
-    .nav-btn {
-      padding: 6px 14px;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--surface-border);
-      color: var(--text) !important;
-      transition: all 0.2s;
-    }
-
-    .nav-btn:hover {
-      background: var(--cyan);
-      color: #000 !important;
-      border-color: var(--cyan);
-      box-shadow: 0 0 16px var(--cyan-glow);
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 110px 0 80px;
-    }
-
-    .telemetry-bar {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
       font-family: var(--mono);
       font-size: 0.75rem;
-      color: var(--cyan);
-      background: rgba(0, 240, 255, 0.05);
-      border: 1px solid rgba(0, 240, 255, 0.25);
-      padding: 6px 14px;
-      border-radius: 4px;
-      margin-bottom: 24px;
+      color: var(--text-muted);
     }
 
-    .telemetry-pulse {
+    .hud-live-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--cyan);
+      background: rgba(0, 245, 255, 0.08);
+      border: 1px solid rgba(0, 245, 255, 0.3);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .hud-pulse {
       width: 6px;
       height: 6px;
-      border-radius: 50%;
       background: var(--cyan);
+      border-radius: 50%;
       box-shadow: 0 0 10px var(--cyan);
-      animation: pulse 2s infinite;
+      animation: pulse 1.5s infinite;
     }
 
     @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.85); }
+      50% { opacity: 0.3; transform: scale(0.8); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--cyan);
+      text-shadow: 0 0 12px var(--cyan);
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 95vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 100px;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--cyan);
+      background: rgba(0, 245, 255, 0.04);
+      border: 1px solid rgba(0, 245, 255, 0.25);
+      padding: 6px 16px;
+      border-radius: 4px;
+      margin-bottom: 28px;
+      width: fit-content;
+      backdrop-filter: blur(8px);
     }
 
     .hero h1 {
-      font-size: 3.6rem;
-      font-weight: 700;
-      line-height: 1.1;
+      font-family: var(--heading);
+      font-size: clamp(2.4rem, 6vw, 4.8rem);
+      font-weight: 900;
+      line-height: 1.05;
       letter-spacing: -1.5px;
       margin-bottom: 24px;
-      max-width: 820px;
+      max-width: 960px;
+      text-transform: uppercase;
     }
 
-    .hero h1 .highlight {
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.35);
+    .hero h1 span.gradient-text {
+      background: linear-gradient(135deg, #ffffff 30%, var(--cyan) 80%, var(--violet) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 40px rgba(0, 245, 255, 0.2);
     }
 
-    .hero h1 .cyan-text {
-      color: var(--cyan);
-      text-shadow: 0 0 30px var(--cyan-glow);
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      color: var(--text-dim);
-      max-width: 640px;
+    .hero-desc {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 660px;
       line-height: 1.7;
-      margin-bottom: 36px;
+      margin-bottom: 40px;
+      font-weight: 300;
     }
 
-    .hero-actions {
+    .hero-btns {
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
@@ -224,559 +254,812 @@
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      border-radius: 6px;
-      font-size: 0.9rem;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 8px;
       font-family: var(--mono);
-      font-weight: 600;
+      font-size: 0.88rem;
+      font-weight: 700;
       text-decoration: none;
-      cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
     }
 
     .btn-primary {
       background: var(--cyan);
-      color: #07090e;
+      color: #000;
+      box-shadow: 0 0 30px rgba(0, 245, 255, 0.35);
       border: 1px solid var(--cyan);
     }
 
     .btn-primary:hover {
-      background: #38bdf8;
-      box-shadow: 0 0 24px var(--cyan-glow);
-      transform: translateY(-2px);
+      background: #fff;
+      border-color: #fff;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
     }
 
     .btn-secondary {
-      background: var(--surface);
+      background: rgba(15, 23, 42, 0.8);
       color: var(--text);
-      border: 1px solid var(--surface-border);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
     }
 
     .btn-secondary:hover {
-      background: var(--surface-hover);
-      border-color: var(--text-muted);
-      transform: translateY(-2px);
+      border-color: var(--cyan);
+      background: rgba(0, 245, 255, 0.08);
+      transform: translateY(-3px);
     }
 
-    /* Section Structure */
+    /* Bento Grid Section */
     section {
-      padding: 70px 0;
+      padding: 90px 0;
     }
 
-    .section-header {
+    .section-head {
+      margin-bottom: 48px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      margin-bottom: 36px;
-      border-bottom: 1px solid var(--surface-border);
-      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
     }
 
-    .section-title {
-      font-size: 1.8rem;
-      font-weight: 700;
+    .section-head h2 {
+      font-family: var(--heading);
+      font-size: 2.2rem;
+      font-weight: 800;
       letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
     }
 
-    .section-num {
+    .section-head .tagline {
       font-family: var(--mono);
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       color: var(--cyan);
-      font-weight: 400;
     }
 
-    /* Interactive Airfoil & Wind Tunnel Lab Tool */
-    .lab-box {
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+    }
+
+    /* Bento Cards with Mouse Spotlight Effect */
+    .bento-card {
       background: var(--surface);
-      border: 1px solid var(--surface-border);
-      border-radius: 8px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      position: relative;
       overflow: hidden;
-      margin-bottom: 40px;
+      backdrop-filter: blur(24px);
+      transition: border-color 0.3s, transform 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .lab-header {
-      padding: 14px 20px;
-      background: #0a0d14;
-      border-bottom: 1px solid var(--surface-border);
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(600px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(0, 245, 255, 0.07), transparent 40%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .bento-card:hover {
+      border-color: rgba(0, 245, 255, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .col-8 { grid-column: span 8; }
+    .col-4 { grid-column: span 4; }
+    .col-6 { grid-column: span 6; }
+    .col-12 { grid-column: span 12; }
+
+    .bento-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      z-index: 2;
     }
 
-    .lab-canvas-wrap {
-      width: 100%;
-      height: 280px;
-      background: #05070a;
+    .bento-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      background: rgba(0, 245, 255, 0.06);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      border-radius: 4px;
+    }
+
+    .bento-title {
+      font-family: var(--heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #fff;
+      z-index: 2;
+    }
+
+    .bento-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 24px;
+      z-index: 2;
+    }
+
+    /* Live Interactive Fluid Foil Lab in Bento 1 */
+    .lab-interactive-area {
+      background: #02050e;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      height: 220px;
       position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+      z-index: 2;
     }
 
-    #foilCanvas {
+    #foilLabCanvas {
       width: 100%;
       height: 100%;
       display: block;
     }
 
-    .lab-footer {
-      padding: 20px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      background: #090c12;
-      border-top: 1px solid var(--surface-border);
-    }
-
-    .spec-metric-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .spec-chip {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--surface-border);
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-family: var(--mono);
-    }
-
-    .spec-chip-label {
-      font-size: 0.68rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 2px;
-    }
-
-    .spec-chip-val {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--cyan);
-    }
-
-    /* Project Spec Cards */
-    .dossier-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-      gap: 24px;
-    }
-
-    .dossier-card {
-      background: var(--surface);
-      border: 1px solid var(--surface-border);
-      border-radius: 8px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      transition: all 0.25s;
-    }
-
-    .dossier-card:hover {
-      border-color: rgba(0, 240, 255, 0.4);
-      background: var(--surface-hover);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-    }
-
-    .dossier-head {
+    .lab-controls-bar {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      background: rgba(11, 15, 25, 0.85);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 6px;
+      backdrop-filter: blur(8px);
       font-family: var(--mono);
       font-size: 0.75rem;
+    }
+
+    .spec-table {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      z-index: 2;
+    }
+
+    .spec-cell {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-family: var(--mono);
+    }
+
+    .spec-label {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .spec-val {
+      font-size: 1rem;
+      font-weight: 700;
       color: var(--cyan);
     }
 
-    .dossier-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      margin-bottom: 10px;
-    }
-
-    .dossier-desc {
-      font-size: 0.92rem;
-      color: var(--text-dim);
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .dossier-specs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 20px;
-      padding: 12px;
-      background: rgba(0, 0, 0, 0.35);
-      border-radius: 4px;
-      border: 1px solid rgba(255, 255, 255, 0.03);
+    /* Terminal CLI Component */
+    .terminal-window {
+      background: #050811;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
       font-family: var(--mono);
-      font-size: 0.75rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
     }
 
-    .dossier-specs span:nth-child(odd) {
-      color: var(--text-muted);
-    }
-
-    .dossier-specs span:nth-child(even) {
-      color: var(--text);
-      text-align: right;
-    }
-
-    .tech-tags {
+    .terminal-bar {
+      background: #0d121f;
+      padding: 10px 16px;
       display: flex;
-      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .terminal-dots {
+      display: flex;
       gap: 6px;
     }
 
-    .tech-tag {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      padding: 3px 8px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--surface-border);
-      border-radius: 3px;
-      color: var(--text-dim);
-    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
 
-    /* Capabilities Matrix */
-    .matrix-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-    }
-
-    .matrix-box {
-      background: var(--surface);
-      border: 1px solid var(--surface-border);
-      border-radius: 8px;
+    .terminal-body {
       padding: 24px;
+      min-height: 280px;
+      font-size: 0.88rem;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
     }
 
-    .matrix-box h4 {
-      font-family: var(--mono);
-      font-size: 0.9rem;
-      color: var(--cyan);
-      margin-bottom: 16px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+    .terminal-output {
+      flex-grow: 1;
+      overflow-y: auto;
+      margin-bottom: 12px;
+      line-height: 1.7;
     }
 
-    .matrix-list {
-      list-style: none;
-      font-size: 0.9rem;
-      color: var(--text-dim);
-    }
-
-    .matrix-list li {
-      margin-bottom: 8px;
+    .terminal-input-row {
       display: flex;
       align-items: center;
       gap: 10px;
-    }
-
-    .matrix-list li::before {
-      content: "■";
       color: var(--cyan);
-      font-size: 0.5rem;
     }
 
-    /* Terminal Contact Panel */
-    .terminal-card {
-      background: #0a0d14;
-      border: 1px solid var(--surface-border);
-      border-radius: 8px;
-      padding: 36px;
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 36px;
-      align-items: center;
-    }
-
-    .terminal-card h3 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-      letter-spacing: -0.5px;
-    }
-
-    .terminal-card p {
-      color: var(--text-dim);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
-
-    .contact-links-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .contact-link-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 16px;
-      background: var(--surface);
-      border: 1px solid var(--surface-border);
-      border-radius: 6px;
-      color: var(--text);
-      text-decoration: none;
+    .cli-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
       font-family: var(--mono);
-      font-size: 0.85rem;
-      transition: all 0.2s;
-    }
-
-    .contact-link-row:hover {
-      border-color: var(--cyan);
-      background: var(--surface-hover);
-      transform: translateX(4px);
+      font-size: 0.88rem;
+      width: 100%;
     }
 
     /* Footer */
     footer {
-      border-top: 1px solid var(--surface-border);
-      padding: 40px 0;
-      margin-top: 60px;
+      border-top: 1px solid var(--border);
+      padding: 48px 0;
+      margin-top: 80px;
       font-family: var(--mono);
       font-size: 0.8rem;
       color: var(--text-muted);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
     }
 
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 2.6rem; }
-      .lab-footer { grid-template-columns: 1fr; }
-      .terminal-card { grid-template-columns: 1fr; padding: 24px; }
+    @media (max-width: 900px) {
+      .col-8, .col-4, .col-6 { grid-column: span 12; }
+      .spec-table { grid-template-columns: repeat(2, 1fr); }
+      .hero h1 { font-size: 2.5rem; }
       .nav-links { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <canvas id="windTunnelCanvas"></canvas>
-  <div class="grid-bg"></div>
+  <!-- Scanline CRT Layer -->
+  <div class="scanlines"></div>
+
+  <!-- Background 3D WebGL Fluid Field -->
+  <canvas id="webgl-bg"></canvas>
 
   <div class="wrapper">
+    <!-- Header HUD -->
     <header>
       <div class="container nav-inner">
-        <a href="#" class="brand">
-          <span>SAQIF SHAHRIAR</span>
-          <span class="brand-tag">MECH.ENG / CFD</span>
+        <a href="#" class="hud-brand" onclick="playBeep(600, 0.05)">
+          <div class="hud-chip">S</div>
+          <div>
+            <div class="hud-title">SAQIF SHAHRIAR</div>
+          </div>
         </a>
-        <nav>
-          <ul class="nav-links">
-            <li><a href="#lab">Aero Lab</a></li>
-            <li><a href="#projects">Dossier</a></li>
-            <li><a href="#research">Research</a></li>
-            <li><a href="#capabilities">Matrix</a></li>
-            <li><a href="#contact" class="nav-btn">Initiate Contact</a></li>
-          </ul>
-        </nav>
+
+        <div class="hud-telemetry">
+          <div class="hud-live-tag">
+            <span class="hud-pulse"></span>
+            <span>SYSTEM ONLINE // CFD KINEMATICS</span>
+          </div>
+          <span id="fpsCounter">FPS: 60</span>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="#projects" onclick="playBeep(700, 0.03)">// DOSSIERS</a></li>
+          <li><a href="#research" onclick="playBeep(800, 0.03)">// RESEARCH</a></li>
+          <li><a href="#terminal" onclick="playBeep(900, 0.03)">// TERMINAL</a></li>
+          <li>
+            <a href="mailto:saqifshahriar007@gmail.com" class="btn-primary" style="padding: 6px 14px; border-radius: 4px; font-size: 0.75rem;">
+              INITIATE COMMS
+            </a>
+          </li>
+        </ul>
       </div>
     </header>
 
     <main class="container">
+      <!-- Hero Section -->
       <section class="hero">
-        <div class="telemetry-bar">
-          <span class="telemetry-pulse"></span>
-          <span>SYSTEM ACTIVE // FIELD: FLUID MECHANICS &amp; KINEMATICS</span>
+        <div class="hero-badge">
+          <i data-lucide="zap" size="14"></i>
+          <span>AEROSPACE &amp; HYDRODYNAMIC PROPULSION</span>
         </div>
         <h1>
-          Engineering <span class="cyan-text">Fluid Dynamics</span> &amp; <span class="highlight">Mechanical Systems</span>
+          Pioneering <span class="gradient-text">Fluid Dynamics</span> &amp; Complex Mechanical Systems.
         </h1>
-        <p>
-          Specializing in computational aerodynamic simulations, bio-inspired propulsion hydrofoils, and precision mechanism kinematics. Move your cursor to interact with the fluid field.
+        <p class="hero-desc">
+          Specialized in high-fidelity computational fluid dynamics (CFD), biomimetic propulsion foils, mechanism kinematics, and real-time numerical simulation engines.
         </p>
-        <div class="hero-actions">
-          <a href="#lab" class="btn btn-primary">Open Wind Tunnel Lab</a>
-          <a href="#projects" class="btn btn-secondary">Review Engineering Dossiers</a>
+        <div class="hero-actions hero-btns">
+          <a href="#projects" class="btn btn-primary" onclick="playBeep(500, 0.08)">
+            <i data-lucide="folder-git-2" size="16"></i> Inspect Project Dossiers
+          </a>
+          <a href="#terminal" class="btn btn-secondary" onclick="playBeep(400, 0.08)">
+            <i data-lucide="terminal" size="16"></i> Launch CLI Console
+          </a>
         </div>
       </section>
 
-      <section id="lab">
-        <div class="section-header">
-          <div class="section-title">
-            <span class="section-num">01 //</span> Interactive Aerodynamic Tool
-          </div>
-          <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--cyan);">NACA 0012 Dynamic Profiler</span>
-        </div>
-
-        <div class="lab-box">
-          <div class="lab-header">
-            <div style="font-family: var(--mono); font-size: 0.8rem; color: var(--text);">
-              Airfoil Boundary Layer &amp; Circulation Visualizer
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted);">Angle of Attack (&alpha;):</span>
-              <input type="range" id="aoaSlider" min="-10" max="25" step="1" value="6" style="width: 110px; cursor: pointer;">
-              <span id="aoaDisplay" style="font-family: var(--mono); font-size: 0.8rem; color: var(--cyan); min-width: 38px;">6.0°</span>
-            </div>
-          </div>
-
-          <div class="lab-canvas-wrap">
-            <canvas id="foilCanvas"></canvas>
-          </div>
-
-          <div class="lab-footer">
-            <div class="spec-metric-grid">
-              <div class="spec-chip">
-                <div class="spec-chip-label">Lift Coeff ($C_L$)</div>
-                <div class="spec-chip-val" id="clVal">0.68</div>
-              </div>
-              <div class="spec-chip">
-                <div class="spec-chip-label">Drag Coeff ($C_D$)</div>
-                <div class="spec-chip-val" id="cdVal">0.012</div>
-              </div>
-              <div class="spec-chip">
-                <div class="spec-chip-label">Efficiency ($L/D$)</div>
-                <div class="spec-chip-val" id="effVal">56.6</div>
-              </div>
-            </div>
-
-            <div style="display: flex; flex-direction: column; justify-content: center; font-size: 0.82rem; color: var(--text-dim); font-family: var(--mono);">
-              <div id="stallWarning" style="color: #38bdf8;">■ LAMINAR FLOW ATTACHED // LINEAR LIFT REGIME</div>
-              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">Adjust slider to observe boundary layer detachment &amp; dynamic stall vortex generation.</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      <!-- Bento Grid Project Dossiers -->
       <section id="projects">
-        <div class="section-header">
-          <div class="section-title">
-            <span class="section-num">02 //</span> Engineering Project Dossiers
+        <div class="section-head">
+          <div>
+            <h2>Engineering Lab Dossiers</h2>
+            <div class="tagline">// SELECTED VALIDATED SYSTEMS &amp; SIMULATION ENGINES</div>
           </div>
-          <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted);">INDEX: 3 ACTIVE REPOSITORIES</span>
         </div>
 
-        <div class="dossier-grid">
-          <article class="dossier-card">
+        <div class="bento-grid">
+          <!-- Bento 1: Interactive NACA Simulator (Large 8-col) -->
+          <div class="bento-card col-8">
             <div>
-              <div class="dossier-head">
-                <span>SIMULATION SYSTEM</span>
-                <span>CFD-01</span>
+              <div class="bento-header">
+                <span class="bento-tag">Interactive Simulation Engine</span>
+                <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted);">NACA-0012 // REAL-TIME</span>
               </div>
-              <h3 class="dossier-title">Boundary Layer Simulator</h3>
-              <p class="dossier-desc">
-                Interactive flow diagnostic solver calculating Blasius polynomial and 1/7th turbulent velocity profiles with dynamic Reynolds transitions.
+              <h3 class="bento-title">Boundary Layer &amp; Circulation Visualizer</h3>
+              <p class="bento-desc">
+                Real-time potential flow solver modeling streamline deflection, dynamic vortex shedding, and thin airfoil lift slope. Adjust angle of attack directly inside the interactive HUD.
               </p>
-              <div class="dossier-specs">
-                <span>SOLVER REGIME</span><span>Laminar/Turbulent</span>
-                <span>FRAMEWORK</span><span>HTML5 Canvas</span>
-                <span>METRICS</span><span>$Re_x$, $\delta$, $\tau_w$, $C_f$</span>
-                <span>DEPLOYMENT</span><span>Client GPU</span>
-              </div>
-            </div>
-            <div class="tech-tags">
-              <span class="tech-tag">JavaScript</span>
-              <span class="tech-tag">Fluid Dynamics</span>
-              <span class="tech-tag">Numerical Models</span>
-            </div>
-          </article>
 
-          <article class="dossier-card">
-            <div>
-              <div class="dossier-head">
-                <span>MECHANICAL CAD</span>
-                <span>ROV-04</span>
-              </div>
-              <h3 class="dossier-title">Planetary Rover Manipulator</h3>
-              <p class="dossier-desc">
-                Multi-degree-of-freedom robotic arm assembly engineered in SolidWorks with kinematic workspace envelope validation and gear-reduction analysis.
-              </p>
-              <div class="dossier-specs">
-                <span>KINEMATICS</span><span>Multi-DOF Linkage</span>
-                <span>MODELING</span><span>SolidWorks 3D</span>
-                <span>DRIVE UNIT</span><span>DC Geared Servos</span>
-                <span>VERIFICATION</span><span>Static FEA</span>
+              <!-- Interactive Canvas -->
+              <div class="lab-interactive-area">
+                <canvas id="foilLabCanvas"></canvas>
+                <div class="lab-controls-bar">
+                  <span>AoA (&alpha;): <strong id="aoaLabText" style="color: var(--cyan);">6.0°</strong></span>
+                  <input type="range" id="aoaLabSlider" min="-8" max="24" step="1" value="6" style="width: 120px; cursor: pointer;">
+                  <span id="regimeIndicator" style="color: #38bdf8;">FLOW ATTACHED</span>
+                </div>
               </div>
             </div>
-            <div class="tech-tags">
-              <span class="tech-tag">SolidWorks</span>
-              <span class="tech-tag">Kinematics</span>
-              <span class="tech-tag">Robotics</span>
-            </div>
-          </article>
 
-          <article class="dossier-card">
+            <!-- Real-time Spec Chips -->
+            <div class="spec-table">
+              <div class="spec-cell">
+                <div class="spec-label">Lift ($C_L$)</div>
+                <div class="spec-val" id="specCl">0.68</div>
+              </div>
+              <div class="spec-cell">
+                <div class="spec-label">Drag ($C_D$)</div>
+                <div class="spec-val" id="specCd">0.012</div>
+              </div>
+              <div class="spec-cell">
+                <div class="spec-label">Efficiency ($L/D$)</div>
+                <div class="spec-val" id="specLd">56.6</div>
+              </div>
+              <div class="spec-cell">
+                <div class="spec-label">Framework</div>
+                <div class="spec-val" style="color: #fff; font-size: 0.85rem;">GLSL / Canvas</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento 2: Rover Manipulator Hardware (4-col) -->
+          <div class="bento-card col-4">
             <div>
-              <div class="dossier-head">
-                <span>EMBEDDED CONTROL</span>
-                <span>EMB-07</span>
+              <div class="bento-header">
+                <span class="bento-tag">Robotics &amp; CAD</span>
+                <i data-lucide="box" size="20" style="color: var(--cyan);"></i>
               </div>
-              <h3 class="dossier-title">Closed-Loop Fluid Controller</h3>
-              <p class="dossier-desc">
-                Automated soil moisture sensing unit utilizing isolated dual-rail circuitry, relay-actuated valve pumping, and real-time state telemetry.
+              <h3 class="bento-title">Planetary Rover Manipulator</h3>
+              <p class="bento-desc">
+                Multi-degree-of-freedom robotic arm assembly engineered in SolidWorks. Evaluated via static FEA and kinematic joint torque simulations.
               </p>
-              <div class="dossier-specs">
-                <span>CONTROLLER</span><span>Arduino / C++</span>
-                <span>POWER BUS</span><span>Isolated Relays</span>
-                <span>FEEDBACK</span><span>Analog Resistance</span>
-                <span>DIAGNOSTICS</span><span>16x2 LCD Display</span>
+            </div>
+            <div style="background: rgba(0,0,0,0.5); padding: 16px; border-radius: 8px; border: 1px solid var(--border); font-family: var(--mono); font-size: 0.78rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span style="color: var(--text-muted);">CAD TOOL:</span>
+                <span style="color: #fff;">SolidWorks 3D</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span style="color: var(--text-muted);">KINEMATICS:</span>
+                <span style="color: var(--cyan);">Inverse Jacobian</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-muted);">DRIVE UNIT:</span>
+                <span style="color: #fff;">Geared DC Actuators</span>
               </div>
             </div>
-            <div class="tech-tags">
-              <span class="tech-tag">Arduino</span>
-              <span class="tech-tag">C++</span>
-              <span class="tech-tag">Circuits</span>
+          </div>
+
+          <!-- Bento 3: Hydrodynamic Penguin Hydrofoil (6-col) -->
+          <div class="bento-card col-6" id="research">
+            <div>
+              <div class="bento-header">
+                <span class="bento-tag">Hydrodynamics Research</span>
+                <i data-lucide="waves" size="20" style="color: var(--cyan);"></i>
+              </div>
+              <h3 class="bento-title">Biomimetic Flapping Hydrofoils</h3>
+              <p class="bento-desc">
+                Transient CFD modeling of penguin-inspired flexible flapping foils. Tracks reverse von Kármán vortex street wake generation and optimal thrust regimes ($St \approx 0.3$).
+              </p>
             </div>
-          </article>
+            <div class="spec-table" style="grid-template-columns: repeat(2, 1fr);">
+              <div class="spec-cell">
+                <div class="spec-label">CFD SOLVER</div>
+                <div class="spec-val" style="font-size: 0.9rem;">Ansys Fluent</div>
+              </div>
+              <div class="spec-cell">
+                <div class="spec-label">BOUNDARY LAYER</div>
+                <div class="spec-val" style="font-size: 0.9rem;">$y^+ \le 1.0$ (Resolved)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento 4: Tubercle Diffusers (6-col) -->
+          <div class="bento-card col-6">
+            <div>
+              <div class="bento-header">
+                <span class="bento-tag">Flow Separation Control</span>
+                <i data-lucide="wind" size="20" style="color: var(--cyan);"></i>
+              </div>
+              <h3 class="bento-title">Tubercle-Modified Diffuser Strakes</h3>
+              <p class="bento-desc">
+                Computational analysis of leading-edge tubercle protrusions creating streamwise counter-rotating vortex pairs to delay boundary layer stall in adverse pressure gradients.
+              </p>
+            </div>
+            <div class="spec-table" style="grid-template-columns: repeat(2, 1fr);">
+              <div class="spec-cell">
+                <div class="spec-label">PRESSURE REGIME</div>
+                <div class="spec-val" style="font-size: 0.9rem;">$\nabla P &gt; 0$ Adverse</div>
+              </div>
+              <div class="spec-cell">
+                <div class="spec-label">VORTEX PAIRS</div>
+                <div class="spec-val" style="font-size: 0.9rem;">Streamwise Swirl</div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section id="research">
-        <div class="section-header">
-          <div class="section-title">
-            <span class="section-num">03 //</span> Fluid Mechanics Research
+      <!-- Terminal Command Line Component -->
+      <section id="terminal">
+        <div class="section-head">
+          <div>
+            <h2>Command Interface</h2>
+            <div class="tagline">// REAL-TIME ENGINEERING SHELL</div>
           </div>
-          <span style="font-family: var(--mono); font-size: 0.75rem; color: var(--cyan);">TRANSIENT CFD INVESTIGATIONS</span>
         </div>
 
-        <div class="dossier-grid">
-          <article class="dossier-card">
-            <div>
-              <div class="dossier-head">
-                <span>HYDRODYNAMIC PROPULSION</span>
-                <span>BIO-01</span>
-              </div>
-              <h3 class="dossier-title">Penguin-Inspired Flapping Hydrofoils</h3>
-              <p class="dossier-desc">
-                Evaluation of thrust generation, propulsive efficiency, and reverse von Kármán vortex street structure for spanwise flexible flapping hydrofoils using transient CFD.
-              </p>
-              <div class="dossier-specs">
-                <span>SOLVER</span><span>Ansys Fluent</span>
-                <span>MESH SIZING</span><span>Inflation Layers ($y^+ \le 1$)</span>
-                <span>PHENOMENON</span><span>Leading-Edge Vortex</span>
-                <span>EFFICIENCY</span><span>Strouhal Match ($St \approx 0.3$)</span>
-              </div>
+        <div class="terminal-window">
+          <div class="terminal-bar">
+            <div class="terminal-dots">
+              <div class="dot dot-red"></div>
+              <div class="dot dot-yellow"></div>
+              <div class="dot dot-green"></div>
             </div>
-            <div class="tech-tags">
-              <span class="tech-tag">Ansys Fluent</span>
-              <span class="tech-tag">Unsteady Flow</span>
-              <span class="tech-tag">Vorticity</span>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">saqif@aero-sys: ~ (zsh)</span>
+            <span style="font-size: 0.72rem; color: var(--cyan);">STATUS: ACTIVE</span>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-output" id="termOutput">
+              <div>Welcome to <strong>Saqif Shahriar's Interactive Terminal</strong>.</div>
+              <div>Type <span style="color: var(--cyan);">help</span> to view available system commands.</div>
+              <div style="color: var(--text-muted);">--------------------------------------------------------</div>
             </div>
-          </article>
+            <div class="terminal-input-row">
+              <span>&gt;</span>
+              <input type="text" id="termInput" class="cli-input" placeholder="Type a command (e.g. 'skills', 'projects', 'cfd', 'contact')..." autofocus autocomplete="off">
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
 
-          <article class="dossier-card">
-            <div>
-              <div class="dossier-head">
-                <span>AERODYNAMIC FLOW CONTROL</span>
-                <span>AERO-02</span>
-              </div>
-              <h3 class="dossier-title">Tubercle-Modified Diffuser Strakes</h3>
-              <p class="dossier-desc">
-                Computational analysis of biomimetic leading-edge tubercles generating streamwise counter-rotating vortex pairs to delay separation under adverse pressure gradients.
-              </p>
-              <div class
+    <footer>
+      <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>© 2026 SAQIF SHAHRIAR // FLUID MECHANICS &amp; AERODYNAMIC SYSTEMS</div>
+        <div style="color: var(--cyan);">HOSTED ON VERCEL EDGE CLUSTER</div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Lucide Icon Activation -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+  <!-- SCRIPT 1: Audio Synthesizer for UI Feedback -->
+  <script>
+    let audioCtx = null;
+    function playBeep(freq = 600, duration = 0.04) {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+  </script>
+
+  <!-- SCRIPT 2: 3D GPU Particle Wind Tunnel Engine (Three.js) -->
+  <script>
+    const canvas3d = document.getElementById('webgl-bg');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 50);
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas3d, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Particle Cloud Geometry
+    const PARTICLE_COUNT = 1800;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(PARTICLE_COUNT * 3);
+    const velocities = new Float32Array(PARTICLE_COUNT * 3);
+    const colors = new Float32Array(PARTICLE_COUNT * 3);
+
+    const color1 = new THREE.Color(0x00f5ff); // Cyan
+    const color2 = new THREE.Color(0x8b5cf6); // Violet
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 140;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 90;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 60;
+
+      velocities[i * 3] = Math.random() * 0.4 + 0.3; // Streamwise X speed
+      velocities[i * 3 + 1] = (Math.random() - 0.5) * 0.08;
+      velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.08;
+
+      const mix = Math.random();
+      const c = color1.clone().lerp(color2, mix);
+      colors[i * 3] = c.r;
+      colors[i * 3 + 1] = c.g;
+      colors[i * 3 + 2] = c.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+      size: 1.2,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.65,
+      blending: THREE.AdditiveBlending
+    });
+
+    const particleSystem = new THREE.Points(geometry, material);
+    scene.add(particleSystem);
+
+    let mouseX = 0, mouseY = 0;
+    window.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 20;
+      mouseY = -(e.clientY / window.innerHeight - 0.5) * 20;
+      
+      // Update Bento Card Hover Spotlights
+      document.querySelectorAll('.bento-card').forEach(card => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+      });
+    });
+
+    // Render Loop & FPS Counter
+    let lastTime = performance.now();
+    let frameCount = 0;
+    const fpsEl = document.getElementById('fpsCounter');
+
+    function animate3d(now) {
+      requestAnimationFrame(animate3d);
+
+      frameCount++;
+      if (now - lastTime >= 1000) {
+        fpsEl.textContent = `FPS: ${frameCount}`;
+        frameCount = 0;
+        lastTime = now;
+      }
+
+      const pos = geometry.attributes.position.array;
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        pos[i * 3] += velocities[i * 3];
+
+        // Stream recirculation
+        if (pos[i * 3] > 70) {
+          pos[i * 3] = -70;
+          pos[i * 3 + 1] = (Math.random() - 0.5) * 90;
+        }
+
+        // Slight vortex swirl around cursor
+        const dx = pos[i * 3] - mouseX;
+        const dy = pos[i * 3 + 1] - mouseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 20) {
+          pos[i * 3 + 1] += (dy > 0 ? 0.2 : -0.2);
+        }
+      }
+      geometry.attributes.position.needsUpdate = true;
+
+      particleSystem.rotation.y = mouseX * 0.015;
+      particleSystem.rotation.x = -mouseY * 0.015;
+
+      renderer.render(scene, camera);
+    }
+    animate3d(performance.now());
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+
+  <!-- SCRIPT 3: Interactive Airfoil Lab Canvas -->
+  <script>
+    const labCanvas = document.getElementById('foilLabCanvas');
+    const lCtx = labCanvas.getContext('2d');
+    const aoaSlider = document.getElementById('aoaLabSlider');
+    const aoaText = document.getElementById('aoaLabText');
+    const regime = document.getElementById('regimeIndicator');
+    const specCl = document.getElementById('specCl');
+    const specCd = document.getElementById('specCd');
+    const specLd = document.getElementById('specLd');
+
+    const labParticles = [];
+    function initLab() {
+      labCanvas.width = labCanvas.offsetWidth;
+      labCanvas.height = labCanvas.offsetHeight;
+      labParticles.length = 0;
+      for (let i = 0; i < 70; i++) {
+        labParticles.push({
+          x: Math.random() * labCanvas.width,
+          y: Math.random() * labCanvas.height,
+          speed: Math.random() * 3 + 3
+        });
+      }
+    }
+    window.addEventListener('resize', initLab);
+    setTimeout(initLab, 150);
+
+    function drawLab() {
+      const W = labCanvas.width;
+      const H = labCanvas.height;
+      lCtx.clearRect(0, 0, W, H);
+
+      const alpha = parseFloat(aoaSlider.value);
+      aoaText.textContent = `${alpha.toFixed(1)}°`;
+
+      const alphaRad = (alpha * Math.PI) / 180;
+      let cl, cd;
+      if (alpha <= 14) {
+        cl = Math.max(-0.6, 2 * Math.PI * alphaRad * 0.9 + 0.1);
+        cd = 0.008 + 0.04 * cl * cl;
+        regime.textContent = "FLOW ATTACHED";
+        regime.style.color = "#00f5ff";
+      } else {
+        cl = 1.35 * Math.exp(-0.25 * (alpha - 14));
+        cd = 0.08 + 0.015 * Math.pow(alpha - 14, 1.8);
+        regime.textContent = "STALL SEPARATION";
+        regime.style.color = "#f59e0b";
+      }
+
+      specCl.textContent = cl.toFixed(2);
+      specCd.textContent = cd.toFixed(3);
+      specLd.textContent = (cd > 0.001) ? (cl / cd).toFixed(1) : "0.0";
+
+      // Draw Airfoil
+      const cx = W * 0.48;
+      const cy = H * 0.52;
+      const chord = 130;
+
+      lCtx.save();
+      lCtx.translate(cx, cy);
+      lCtx.rotate(-alphaRad);
+      lCtx.beginPath();
+      lCtx.fillStyle = '#050814';
+      lCtx.strokeStyle = (alpha > 14) ? '#f59e0b' : '#00f5ff';
+      lCtx.lineWidth = 2;
+
+      for (let i = 0; i <= 30; i++) {
+        const xn = i / 30;
+        const yt = 5 * 0.12 * (0.2969 * Math.sqrt(xn) - 0.1260 * xn - 0.3516 * xn * xn + 0.2843 * Math.pow(xn, 3) - 0.1015 * Math.pow(xn, 4));
+        const px = (xn - 0.35) * chord;
+        const py = yt * chord;
+        if (i === 0) lCtx.moveTo(px, -py);
+        else lCtx.lineTo(px, -py);
+      }
+      for (let i = 30; i >= 0; i--) {
+        const xn = i / 30;
+        const yt = 5 * 0.12 * (0.2969 * Math.sqrt(xn) - 0.1260 * xn - 0.3516 * xn * xn + 0.2843 * Math.pow(xn, 3) - 0.1015 * Math.pow(xn, 4));
+        lCtx.lineTo((xn - 0.35) * chord, yt * chord);
+      }
+      lCtx.closePath();
+      lCtx.fill();
+      lCtx.stroke();
+      lCtx.restore();
+
+      // Flow Particles
+      labParticles.forEach(p => {
+        p.x += p.speed;
+        if (p.x > W) { p.x = 0; p.y = Math.random() * H; }
+        const dx = p.x - cx;
+        const dy = p.y - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 70) {
+          p.y += (dy > 0 ? 1 : -1) * (1 - dist / 70) * (2 + cl);
+          if (alpha > 14 && dx > 0) p.y += Math.sin(p.x * 0.2) * 3;
+        }
+
+        lCtx.fillStyle = (alpha > 14 && dx > 10 && dist < 90) ? 'rgba(245, 158, 11, 0.7)' : 'rgba(0, 245, 255, 0.6)';
+        lCtx.fillRect(p.x, p.y, 2, 2);
+      });
+
+      requestAnimationFrame(drawLab);
+    }
+    drawLab();
+  </script>
+
+  <!-- SCRIPT 4: Interactive Command Line (CLI) Terminal -->
+  <script>
+    const termInput = document.getElementById('termInput');
+    const termOutput = document.getElementById('termOutput');
+
+    const COMMANDS = {
+      help: "Available commands: <span style='color:#00f5ff'>skills</span>, <span style='color:#00f5ff'>projects</span>, <span style='color:#00f5ff'>research</span>, <span style='color:#00f5ff'>cfd</span>, <span style='color:#00f5ff'>contact</span>, <span style='color:#00f5ff'>clear</span>",
+      skills: "• <strong>CAD &amp; Modeling:</strong> SolidWorks (Assemblies, Kinematics, GD&amp;T)<br>• <strong>Simulation:</strong> Ansys Fluent, OpenFOAM, Grid Independence ($y^+ \le 1$)<br>• <strong>Hardware &amp; Code:</strong> C++, Arduino Embedded, Python (NumPy/SciPy), Three.js",
+      projects: "1. <strong>Boundary Layer Simulator:</strong> Interactive fluid velocity profile solver.<br>2. <strong>Rover Manipulator:</strong> Multi-DOF robotic arm designed in SolidWorks.<br>3. <strong>Irrigation Controller:</strong> Automated dual-rail embedded moisture sensing unit.",
+      research: "• <strong>Penguin-Inspired Hydrofoils:</strong> Transient CFD analysis of flexible flapping foils ($St \approx 0.3$).<br>• <strong>Tubercle Diffusers:</strong> Streamwise counter-rotating vortex stall mitigation.",
+      cfd: "CFD Solver Status: <span style='color:#10b981'>CONVERGED</span> // Residuals &lt; 1e-6 // Mesh: 4.2M Hex Elements // Domain: Transonic/Incompressible",
+      contact: "Email: <a href='mailto:saqifshahriar007@gmail.com' style='color:#00f5ff;'>saqifshahriar007@gmail.com</a><br>GitHub: <a href='https://github.com/saqifshahriar007' target='_blank' style='color:#00f5ff;'>github.com/saqifshahriar007</a>"
+    };
+
+    termInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        playBeep(450, 0.05);
+        const cmd = termInput.value.trim().toLowerCase();
+        termInput.value = '';
+
+        const userRow = document.createElement('div');
+        userRow.innerHTML = `<span style="color:#00f5ff;">&gt; ${cmd}</span>`;
+        termOutput.appendChild(userRow);
+
+        if (cmd === 'clear') {
+          termOutput.innerHTML = '';
+          return;
+        }
+
+        const resRow = document.createElement('div');
+        resRow.style.margin = '4px 0 12px 0';
+        resRow.style.color = '#94a3b8';
+        resRow.innerHTML = COMMANDS[cmd] || `Command not recognized: '${cmd}'. Type <span style='color:#00f5ff;'>help</span> for a list of commands.`;
+        termOutput.appendChild(resRow);
+
+        termOutput.scrollTop = termOutput.scrollHeight;
+      }
+    });
+  </script>
+
+</body>
+</html>
