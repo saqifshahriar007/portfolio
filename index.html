@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Saqif | Mechanical Engineer</title>
   
-  <!-- Fonts -->
+  <!-- Poppins Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -21,6 +21,7 @@
             secondary: "#aaa6c3",
             tertiary: "#151030",
             "black-100": "#100d25",
+            "black-200": "#090325",
           },
           fontFamily: {
             poppins: ["Poppins", "sans-serif"],
@@ -56,23 +57,24 @@
       background: linear-gradient(90.13deg, #00cea8 1.9%, #bf61ff 97.5%);
     }
 
-    @keyframes scrollWheel {
+    /* Animated Bouncing Scroll Indicator */
+    @keyframes mouseScroll {
       0% { transform: translateY(0); opacity: 1; }
-      50% { transform: translateY(20px); opacity: 0.7; }
+      50% { transform: translateY(22px); opacity: 0.6; }
       100% { transform: translateY(0); opacity: 1; }
     }
     .animate-scroll-dot {
-      animation: scrollWheel 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+      animation: mouseScroll 1.8s infinite cubic-bezier(0.65, 0, 0.35, 1);
     }
   </style>
 </head>
 <body class="bg-primary text-white">
 
-  <!-- Fixed Nav -->
-  <nav class="sm:px-16 px-6 w-full flex items-center py-5 fixed top-0 z-50 bg-primary/80 backdrop-blur-md border-b border-white/5">
+  <!-- Navigation Bar -->
+  <nav class="sm:px-16 px-6 w-full flex items-center py-5 fixed top-0 z-50 bg-primary/75 backdrop-blur-md border-b border-white/5">
     <div class="w-full flex justify-between items-center max-w-7xl mx-auto">
       <a class="flex items-center gap-3" href="#">
-        <div class="w-9 h-9 rounded-lg bg-[#e11d48] flex items-center justify-center font-black text-white text-lg shadow-md shadow-rose-900/50">
+        <div class="w-9 h-9 rounded-lg bg-[#e11d48] flex items-center justify-center font-bold text-white text-lg shadow-md shadow-rose-950/60">
           ⚡
         </div>
         <p class="text-white text-[18px] font-bold cursor-pointer flex">
@@ -83,17 +85,16 @@
       <ul class="list-none hidden sm:flex flex-row gap-10">
         <li class="text-secondary hover:text-white text-[17px] font-medium transition cursor-pointer"><a href="#about">About</a></li>
         <li class="text-secondary hover:text-white text-[17px] font-medium transition cursor-pointer"><a href="#work">Work</a></li>
-        <li class="text-secondary hover:text-white text-[17px] font-medium transition cursor-pointer"><a href="#projects">Projects</a></li>
         <li class="text-secondary hover:text-white text-[17px] font-medium transition cursor-pointer"><a href="#contact">Contact</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- Hero with Point-Cloud & Aerodynamic Wave Contour Viewport -->
+  <!-- HERO SECTION WITH 3D F1 PARTICLE CAR & AERODYNAMIC WAVES -->
   <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
     
-    <!-- Hero Text -->
-    <div class="absolute inset-0 top-[140px] max-w-7xl mx-auto sm:px-16 px-6 flex flex-row items-start gap-5 pointer-events-none z-20">
+    <!-- Hero Text & Marker -->
+    <div class="absolute inset-0 top-[130px] max-w-7xl mx-auto sm:px-16 px-6 flex flex-row items-start gap-5 pointer-events-none z-20">
       <div class="flex flex-col justify-center items-center mt-5">
         <div class="w-5 h-5 rounded-full bg-[#915EFF] shadow-[0_0_16px_#915EFF]"></div>
         <div class="w-1 sm:h-80 h-44 violet-gradient"></div>
@@ -105,17 +106,17 @@
         </h1>
         <p class="text-[#dfd9ff] font-medium lg:text-[26px] sm:text-[22px] xs:text-[18px] text-[15px] lg:leading-[38px] mt-3 max-w-2xl">
           Mechanical engineer,<br class="sm:block hidden">
-          skilled in engineering analysis, fluid simulation, and practical design.
+          skilled in engineering analysis, design, and practical problem solving.
         </p>
       </div>
     </div>
 
-    <!-- 3D Canvas -->
+    <!-- 3D Canvas Viewport -->
     <div class="w-full h-full cursor-grab active:cursor-grabbing relative z-10" id="heroCanvas"></div>
 
-    <!-- Mouse Scroll Down Pill -->
+    <!-- Mouse Scroll Down Icon -->
     <div class="absolute xs:bottom-8 bottom-20 w-full flex justify-center items-center z-30">
-      <a href="#about">
+      <a href="#about" aria-label="Scroll to about">
         <div class="w-[34px] h-[60px] rounded-3xl border-4 border-secondary/60 flex justify-center items-start p-2">
           <div class="w-2.5 h-2.5 rounded-full bg-secondary mb-1 animate-scroll-dot"></div>
         </div>
@@ -123,106 +124,96 @@
     </div>
   </section>
 
-  <!-- Overview Section -->
-  <section class="sm:px-16 px-6 sm:py-16 py-10 max-w-7xl mx-auto relative z-20" id="about">
+  <!-- SECTION 1: OVERVIEW & 3D POLYHEDRAL CARDS -->
+  <section class="sm:px-16 px-6 sm:py-20 py-12 max-w-7xl mx-auto relative z-20" id="about">
     <div>
       <p class="sm:text-[18px] text-[14px] text-secondary uppercase tracking-wider">Introduction</p>
       <h2 class="text-white font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]">Overview.</h2>
     </div>
 
     <p class="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]">
-      I'm a Mechanical Engineer with experience in CAD modeling, computational fluid dynamics (CFD), and electro-mechanical systems. Skilled in transforming engineering concepts into validated, high-performance physical prototypes.
+      I'm a Mechanical Engineer with experience in CAD modeling, engineering design, and simulation tools. Skilled in transforming concepts into functional designs. I combine technical expertise with creativity to develop efficient and practical solutions.
     </p>
 
-    <!-- 4 Gradient Border Tilt Cards -->
-    <div class="mt-16 flex flex-wrap justify-center gap-10">
-      <div class="xs:w-[250px] w-full tilt-card" data-tilt data-tilt-max="20">
-        <div class="w-full green-pink-gradient p-[1px] rounded-[20px]">
-          <div class="bg-tertiary rounded-[20px] py-6 px-8 min-h-[280px] flex justify-evenly items-center flex-col text-center">
-            <div class="text-4xl">⚙️</div>
-            <h3 class="text-white text-[20px] font-bold">Mechanical Designer</h3>
-            <p class="text-secondary text-[13px]">SolidWorks 3D CAD, kinematics, &amp; assemblies</p>
+    <!-- 4 Tilt Cards with 3D Canvas Geometries -->
+    <div class="mt-16 flex flex-wrap justify-center gap-8">
+      
+      <!-- Card 1 -->
+      <div class="xs:w-[260px] w-full tilt-card" data-tilt data-tilt-max="20">
+        <div class="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-2xl">
+          <div class="bg-tertiary rounded-[20px] py-6 px-6 min-h-[300px] flex justify-evenly items-center flex-col text-center">
+            <div class="w-20 h-20 card-3d-canvas" data-shape="icosahedron"></div>
+            <h3 class="text-white text-[20px] font-bold mt-2">Mechanical Designer</h3>
           </div>
         </div>
       </div>
 
-      <div class="xs:w-[250px] w-full tilt-card" data-tilt data-tilt-max="20">
-        <div class="w-full green-pink-gradient p-[1px] rounded-[20px]">
-          <div class="bg-tertiary rounded-[20px] py-6 px-8 min-h-[280px] flex justify-evenly items-center flex-col text-center">
-            <div class="text-4xl">🌊</div>
-            <h3 class="text-white text-[20px] font-bold">Simulation Engineer</h3>
-            <p class="text-secondary text-[13px]">Ansys Fluent CFD &amp; aerodynamic modeling</p>
+      <!-- Card 2 -->
+      <div class="xs:w-[260px] w-full tilt-card" data-tilt data-tilt-max="20">
+        <div class="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-2xl">
+          <div class="bg-tertiary rounded-[20px] py-6 px-6 min-h-[300px] flex justify-evenly items-center flex-col text-center">
+            <div class="w-20 h-20 card-3d-canvas" data-shape="octahedron"></div>
+            <h3 class="text-white text-[20px] font-bold mt-2">Simulation Engineer</h3>
           </div>
         </div>
       </div>
 
-      <div class="xs:w-[250px] w-full tilt-card" data-tilt data-tilt-max="20">
-        <div class="w-full green-pink-gradient p-[1px] rounded-[20px]">
-          <div class="bg-tertiary rounded-[20px] py-6 px-8 min-h-[280px] flex justify-evenly items-center flex-col text-center">
-            <div class="text-4xl">🤖</div>
-            <h3 class="text-white text-[20px] font-bold">Robotics &amp; Control</h3>
-            <p class="text-secondary text-[13px]">Rover mechanisms &amp; embedded Arduino</p>
+      <!-- Card 3 -->
+      <div class="xs:w-[260px] w-full tilt-card" data-tilt data-tilt-max="20">
+        <div class="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-2xl">
+          <div class="bg-tertiary rounded-[20px] py-6 px-6 min-h-[300px] flex justify-evenly items-center flex-col text-center">
+            <div class="w-20 h-20 card-3d-canvas" data-shape="torusknot"></div>
+            <h3 class="text-white text-[20px] font-bold mt-2">Problem Solver</h3>
           </div>
         </div>
       </div>
 
-      <div class="xs:w-[250px] w-full tilt-card" data-tilt data-tilt-max="20">
-        <div class="w-full green-pink-gradient p-[1px] rounded-[20px]">
-          <div class="bg-tertiary rounded-[20px] py-6 px-8 min-h-[280px] flex justify-evenly items-center flex-col text-center">
-            <div class="text-4xl">💡</div>
-            <h3 class="text-white text-[20px] font-bold">Problem Solver</h3>
-            <p class="text-secondary text-[13px]">Fluid mechanics &amp; mechanism prototyping</p>
+      <!-- Card 4 -->
+      <div class="xs:w-[260px] w-full tilt-card" data-tilt data-tilt-max="20">
+        <div class="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-2xl">
+          <div class="bg-tertiary rounded-[20px] py-6 px-6 min-h-[300px] flex justify-evenly items-center flex-col text-center">
+            <div class="w-20 h-20 card-3d-canvas" data-shape="dodecahedron"></div>
+            <h3 class="text-white text-[20px] font-bold mt-2">Concept Designer</h3>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Projects Section -->
-  <section class="sm:px-16 px-6 sm:py-16 py-10 max-w-7xl mx-auto relative z-20" id="projects">
+  <!-- SECTION 2: WORK & CERTIFICATES -->
+  <section class="sm:px-16 px-6 sm:py-20 py-12 max-w-7xl mx-auto relative z-20" id="work">
     <div>
-      <p class="sm:text-[18px] text-[14px] text-secondary uppercase tracking-wider">My work</p>
-      <h2 class="text-white font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]">Projects.</h2>
+      <p class="sm:text-[18px] text-[14px] text-secondary uppercase tracking-wider text-center">What I have achieved so far</p>
+      <h2 class="text-white font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px] text-center">Focus &amp; Expertise.</h2>
     </div>
 
-    <div class="mt-14 flex flex-wrap justify-center gap-7">
-      <div class="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full border border-white/5 flex flex-col justify-between">
-        <div>
-          <div class="w-full h-[180px] bg-[#1d1836] rounded-xl flex items-center justify-center text-5xl mb-4">🌊</div>
-          <h3 class="text-white font-bold text-[22px]">Boundary Layer Simulator</h3>
-          <p class="mt-2 text-secondary text-[14px] leading-relaxed">
-            Analytical fluid mechanics solver modeling laminar/turbulent profiles and skin friction.
-          </p>
+    <div class="mt-14 max-w-4xl mx-auto flex flex-col gap-6">
+      <div class="bg-[#1d1836] border border-white/5 p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:border-[#915EFF]/40 transition">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-[#383e56] flex items-center justify-center text-2xl">📐</div>
+          <div>
+            <h3 class="text-white text-[20px] font-bold">SolidWorks 3D Parametric CAD</h3>
+            <p class="text-secondary text-[14px]">Part Modeling • Mechanism Kinematics • GD&amp;T</p>
+          </div>
         </div>
-        <div class="mt-4 flex flex-wrap gap-2 text-xs font-mono text-[#00cea8]">#JavaScript #CFD</div>
+        <span class="text-xs text-[#00cea8] font-mono bg-[#00cea8]/10 px-3 py-1 rounded-full border border-[#00cea8]/30">CAD</span>
       </div>
 
-      <div class="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full border border-white/5 flex flex-col justify-between">
-        <div>
-          <div class="w-full h-[180px] bg-[#1d1836] rounded-xl flex items-center justify-center text-5xl mb-4">🦾</div>
-          <h3 class="text-white font-bold text-[22px]">Rover Robotic Arm</h3>
-          <p class="mt-2 text-secondary text-[14px] leading-relaxed">
-            Multi-DOF planetary rover robotic arm modeled with SolidWorks kinematics and stress FEA.
-          </p>
+      <div class="bg-[#1d1836] border border-white/5 p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:border-[#915EFF]/40 transition">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-[#383e56] flex items-center justify-center text-2xl">💨</div>
+          <div>
+            <h3 class="text-white text-[20px] font-bold">Ansys Fluent &amp; CFD Solvers</h3>
+            <p class="text-secondary text-[14px]">Boundary Layer Resolution • Vortex Tracking • Hydrodynamics</p>
+          </div>
         </div>
-        <div class="mt-4 flex flex-wrap gap-2 text-xs font-mono text-[#915EFF]">#SolidWorks #Kinematics</div>
-      </div>
-
-      <div class="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full border border-white/5 flex flex-col justify-between">
-        <div>
-          <div class="w-full h-[180px] bg-[#1d1836] rounded-xl flex items-center justify-center text-5xl mb-4">🐧</div>
-          <h3 class="text-white font-bold text-[22px]">Biomimetic Hydrofoil</h3>
-          <p class="mt-2 text-secondary text-[14px] leading-relaxed">
-            CFD thrust efficiency and vortex wake analysis of penguin-inspired flexible flapping foils.
-          </p>
-        </div>
-        <div class="mt-4 flex flex-wrap gap-2 text-xs font-mono text-[#38bdf8]">#AnsysFluent #Hydrodynamics</div>
+        <span class="text-xs text-[#915EFF] font-mono bg-[#915EFF]/10 px-3 py-1 rounded-full border border-[#915EFF]/30">CFD</span>
       </div>
     </div>
   </section>
 
-  <!-- Contact -->
-  <section class="sm:px-16 px-6 sm:py-16 py-10 max-w-7xl mx-auto relative z-20" id="contact">
+  <!-- SECTION 3: CONTACT -->
+  <section class="sm:px-16 px-6 sm:py-20 py-12 max-w-7xl mx-auto relative z-20" id="contact">
     <div class="bg-black-100 p-8 sm:p-12 rounded-2xl border border-white/5 max-w-3xl mx-auto">
       <p class="sm:text-[18px] text-[14px] text-secondary uppercase tracking-wider">Get in touch</p>
       <h3 class="text-white font-black md:text-[50px] sm:text-[40px] text-[32px]">Contact.</h3>
@@ -247,107 +238,222 @@
   </section>
 
   <footer class="text-center py-8 text-secondary text-sm border-t border-white/5 mt-10">
-    <p>© 2026 Saqif Shahriar • Built with Three.js • Deployed on Vercel</p>
+    <p>© 2026 Saqif Shahriar • Built with Three.js &amp; Tailwind • Deployed on Vercel</p>
   </footer>
 
-  <!-- SCRIPT: HIGH-DENSITY 3D PARTICLE FIELD & CONTOUR WAVES -->
+  <!-- SCRIPT 1: THREE.JS FORMULA 1 POINT-CLOUD & AERODYNAMIC WAVES -->
   <script>
-    const container = document.getElementById('heroCanvas');
-    const scene = new THREE.Scene();
+    const heroContainer = document.getElementById('heroCanvas');
+    const heroScene = new THREE.Scene();
 
-    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(10, 5, 18);
+    const heroCamera = new THREE.PerspectiveCamera(45, heroContainer.clientWidth / heroContainer.clientHeight, 0.1, 1000);
+    heroCamera.position.set(16, 7, 20);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(renderer.domElement);
+    const heroRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    heroRenderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight);
+    heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    heroContainer.appendChild(heroRenderer.domElement);
 
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 1.2;
-    controls.enableZoom = false;
+    const heroControls = new THREE.OrbitControls(heroCamera, heroRenderer.domElement);
+    heroControls.enableDamping = true;
+    heroControls.dampingFactor = 0.05;
+    heroControls.autoRotate = true;
+    heroControls.autoRotateSpeed = 1.3;
+    heroControls.enableZoom = false;
 
-    // 1. Aerodynamic Contour Wave Ribbons
-    const ribbonGroup = new THREE.Group();
-    scene.add(ribbonGroup);
+    // --- Aerodynamic Contour Flow Lines (Right/Top of Car) ---
+    const waveGroup = new THREE.Group();
+    heroScene.add(waveGroup);
 
-    for (let j = -5; j <= 5; j++) {
-      const curvePoints = [];
-      for (let i = -18; i <= 18; i += 0.5) {
+    for (let j = -7; j <= 7; j++) {
+      const pts = [];
+      for (let i = -24; i <= 24; i += 0.6) {
         const x = i;
-        const y = Math.sin(i * 0.25 + j * 0.5) * 2.2 + (j * 1.6);
-        const z = Math.cos(i * 0.2) * 2.5 - 5;
-        curvePoints.push(new THREE.Vector3(x, y, z));
+        const y = Math.sin(i * 0.2 + j * 0.45) * 3.2 + (j * 1.5);
+        const z = Math.cos(i * 0.18) * 3.5 - 6;
+        pts.push(new THREE.Vector3(x, y, z));
       }
-      const curve = new THREE.CatmullRomCurve3(curvePoints);
-      const tubeGeo = new THREE.TubeGeometry(curve, 64, 0.035, 6, false);
+      const curve = new THREE.CatmullRomCurve3(pts);
+      const tubeGeo = new THREE.TubeGeometry(curve, 72, 0.032, 6, false);
       const tubeMat = new THREE.MeshBasicMaterial({
-        color: (j % 2 === 0) ? 0x915EFF : 0x00cea8,
+        color: (j % 2 === 0) ? 0x915EFF : 0x4f46e5,
         transparent: true,
-        opacity: 0.25
+        opacity: 0.22
       });
-      ribbonGroup.add(new THREE.Mesh(tubeGeo, tubeMat));
+      waveGroup.add(new THREE.Mesh(tubeGeo, tubeMat));
     }
 
-    // 2. High-Density 3D Aerodynamic Point-Cloud
-    const COUNT = 6000;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(COUNT * 3);
-    const colors = new Float32Array(COUNT * 3);
+    // --- FORMULA 1 CHASSIS POINT-CLOUD GENERATOR ---
+    const f1Group = new THREE.Group();
+    heroScene.add(f1Group);
 
-    const color1 = new THREE.Color(0x38bdf8);
-    const color2 = new THREE.Color(0x915EFF);
+    const f1Points = [];
+    const colorArray = [];
+    const colorViolet = new THREE.Color(0x915EFF);
+    const colorCyan = new THREE.Color(0x38bdf8);
 
-    let idx = 0;
-    for (let i = 0; i < COUNT; i++) {
-      const u = (Math.random() - 0.5) * 16;
-      const v = (Math.random() - 0.5) * 6;
-      const height = Math.max(0, 2.5 * (1 - Math.pow(u / 8, 2))) * Math.cos(v / 3 * 1.2);
-      const noise = (Math.random() - 0.5) * 0.2;
-      const w = height + noise - 0.5;
+    function addPt(x, y, z, noise = 0.05) {
+      const nx = x + (Math.random() - 0.5) * noise;
+      const ny = y + (Math.random() - 0.5) * noise;
+      const nz = z + (Math.random() - 0.5) * noise;
+      f1Points.push(nx, ny, nz);
 
-      positions[idx] = u + 2;
-      positions[idx + 1] = w;
-      positions[idx + 2] = v;
-
-      const mix = (u + 8) / 16;
-      const c = color1.clone().lerp(color2, mix);
-      colors[idx] = c.r;
-      colors[idx + 1] = c.g;
-      colors[idx + 2] = c.b;
-
-      idx += 3;
+      const mix = (nx + 8) / 16;
+      const c = colorCyan.clone().lerp(colorViolet, Math.max(0, Math.min(1, mix)));
+      colorArray.push(c.r, c.g, c.b);
     }
 
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    // 1. Nose Cone & Front Monocoque
+    for (let x = 2; x <= 6.5; x += 0.12) {
+      const taper = (6.5 - x) / 4.5;
+      const radius = 0.15 + taper * 0.6;
+      for (let a = 0; a < Math.PI * 2; a += 0.35) {
+        addPt(x, Math.sin(a) * radius * 0.7 - 0.2, Math.cos(a) * radius * 0.85);
+      }
+    }
 
-    const material = new THREE.PointsMaterial({
-      size: 0.12,
+    // 2. Front Wing (Mainplanes & Endplates)
+    for (let z = -3.2; z <= 3.2; z += 0.1) {
+      for (let x = 5.6; x <= 6.8; x += 0.12) {
+        addPt(x, -0.65, z, 0.03);
+        addPt(x, -0.5, z, 0.03);
+      }
+    }
+    // Front wing vertical endplates
+    for (let y = -0.7; y <= 0.1; y += 0.08) {
+      for (let x = 5.5; x <= 6.8; x += 0.12) {
+        addPt(x, y, 3.2, 0.03);
+        addPt(x, y, -3.2, 0.03);
+      }
+    }
+
+    // 3. Sidepods & Cockpit Halo
+    for (let x = -3.5; x <= 2.2; x += 0.14) {
+      const width = Math.sin((x + 3.5) / 5.7 * Math.PI) * 1.7 + 0.6;
+      for (let a = 0; a < Math.PI * 2; a += 0.28) {
+        const y = Math.sin(a) * 0.55;
+        const z = Math.cos(a) * width;
+        if (y < 0.45) addPt(x, y - 0.2, z);
+      }
+    }
+
+    // Halo & Airbox Intake
+    for (let x = -2; x <= 0.8; x += 0.1) {
+      addPt(x, 0.6 + (x > -1 ? 0.35 : 0.7), (Math.random() - 0.5) * 0.4, 0.04);
+      addPt(x, 0.2, (x > -0.5 ? 0.6 : 0.2), 0.04);
+      addPt(x, 0.2, (x > -0.5 ? -0.6 : -0.2), 0.04);
+    }
+
+    // 4. Rear Engine Cover & Shark Fin
+    for (let x = -5.0; x <= -1.5; x += 0.12) {
+      for (let y = 0.2; y <= 1.4; y += 0.1) {
+        if (y < 1.4 - ( -1.5 - x) * 0.25) {
+          addPt(x, y, (Math.random() - 0.5) * 0.08);
+        }
+      }
+    }
+
+    // 5. Rear Wing Assembly
+    for (let z = -2.2; z <= 2.2; z += 0.1) {
+      for (let x = -5.5; x <= -4.6; x += 0.12) {
+        addPt(x, 0.9, z, 0.03);
+        addPt(x, 1.25, z, 0.03);
+      }
+    }
+    // Rear Wing Endplates
+    for (let y = 0.1; y <= 1.4; y += 0.08) {
+      for (let x = -5.6; x <= -4.4; x += 0.12) {
+        addPt(x, y, 2.2, 0.03);
+        addPt(x, y, -2.2, 0.03);
+      }
+    }
+
+    // 6. 4 F1 Wheels & Tires (Front and Rear Cylinders)
+    const wheelPositions = [
+      { x: 4.2, z: 2.6 }, { x: 4.2, z: -2.6 },
+      { x: -3.8, z: 2.8 }, { x: -3.8, z: -2.8 }
+    ];
+
+    wheelPositions.forEach(w => {
+      const radius = 0.95;
+      const width = 0.75;
+      for (let a = 0; a < Math.PI * 2; a += 0.2) {
+        for (let d = -width / 2; d <= width / 2; d += 0.1) {
+          addPt(w.x + Math.cos(a) * radius, Math.sin(a) * radius - 0.15, w.z + d, 0.03);
+        }
+      }
+    });
+
+    const f1Geo = new THREE.BufferGeometry();
+    f1Geo.setAttribute('position', new THREE.Float32BufferAttribute(f1Points, 3));
+    f1Geo.setAttribute('color', new THREE.Float32BufferAttribute(colorArray, 3));
+
+    const f1Mat = new THREE.PointsMaterial({
+      size: 0.11,
       vertexColors: true,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.88,
       blending: THREE.AdditiveBlending
     });
 
-    const particles = new THREE.Points(geometry, material);
-    scene.add(particles);
+    const f1Mesh = new THREE.Points(f1Geo, f1Mat);
+    f1Mesh.position.set(0, 0, 0);
+    f1Group.add(f1Mesh);
 
+    // Animation Loop
     function animate() {
       requestAnimationFrame(animate);
-      controls.update();
-      ribbonGroup.rotation.y += 0.001;
-      renderer.render(scene, camera);
+      heroControls.update();
+      waveGroup.rotation.y += 0.001;
+      heroRenderer.render(heroScene, heroCamera);
     }
     animate();
 
     window.addEventListener('resize', () => {
-      camera.aspect = container.clientWidth / container.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
+      heroCamera.aspect = heroContainer.clientWidth / heroContainer.clientHeight;
+      heroCamera.updateProjectionMatrix();
+      heroRenderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight);
+    });
+
+    // --- SCRIPT 2: 3D SHAPES INSIDE OVERVIEW CARDS ---
+    document.querySelectorAll('.card-3d-canvas').forEach(el => {
+      const shapeType = el.dataset.shape;
+      const cScene = new THREE.Scene();
+      const cCam = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+      cCam.position.z = 3.2;
+
+      const cRend = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      cRend.setSize(80, 80);
+      el.appendChild(cRend.domElement);
+
+      let geo;
+      if (shapeType === 'icosahedron') geo = new THREE.IcosahedronGeometry(1.2, 0);
+      else if (shapeType === 'octahedron') geo = new THREE.OctahedronGeometry(1.2, 0);
+      else if (shapeType === 'torusknot') geo = new THREE.TorusKnotGeometry(0.75, 0.25, 64, 16);
+      else geo = new THREE.DodecahedronGeometry(1.2, 0);
+
+      const mat = new THREE.MeshStandardMaterial({
+        color: 0x915EFF,
+        metalness: 0.85,
+        roughness: 0.2,
+        wireframe: false
+      });
+
+      const mesh = new THREE.Mesh(geo, mat);
+      cScene.add(mesh);
+
+      const light = new THREE.DirectionalLight(0x00cea8, 3.0);
+      light.position.set(2, 2, 3);
+      cScene.add(light);
+      cScene.add(new THREE.AmbientLight(0xffffff, 0.8));
+
+      function animCard() {
+        requestAnimationFrame(animCard);
+        mesh.rotation.x += 0.01;
+        mesh.rotation.y += 0.015;
+        cRend.render(cScene, cCam);
+      }
+      animCard();
     });
 
     VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
@@ -357,6 +463,5 @@
       "max-glare": 0.25,
     });
   </script>
-
 </body>
 </html>
