@@ -44,6 +44,7 @@
 
   <!-- Three.js + Controls + Tilt + Icons -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -60,42 +61,26 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Fixed Background Canvas */
-    #flowSimCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Center Ambient Glow */
+    /* Ambient Hero Glow */
     .ambient-glow {
-      position: fixed;
-      top: -120px;
+      position: absolute;
+      top: -80px;
       left: 50%;
       transform: translateX(-50%);
       width: 850px;
       height: 480px;
-      background: radial-gradient(circle, rgba(77, 143, 122, 0.04) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(77, 143, 122, 0.05) 0%, transparent 70%);
       filter: blur(120px);
       pointer-events: none;
       z-index: 1;
     }
 
-    .wrapper {
-      position: relative;
-      z-index: 2;
-    }
-
     /* Modern Frosted Glass Card */
     .glow-card {
-      background: rgba(7, 13, 10, 0.78);
+      background: rgba(7, 13, 10, 0.85);
       backdrop-filter: blur(18px);
       border: 1px solid rgba(255, 255, 255, 0.06);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .glow-card:hover {
@@ -121,277 +106,282 @@
 </head>
 <body class="selection:bg-pine-dark selection:text-white">
 
-  <!-- Fixed Full-Page Flow Simulation Canvas -->
-  <canvas id="flowSimCanvas"></canvas>
-  <div class="ambient-glow"></div>
+  <!-- Header Navigation -->
+  <header class="fixed top-0 left-0 w-full z-50 bg-void/85 backdrop-blur-xl border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
+      
+      <!-- Brand / Logo Placeholder -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded-lg bg-pine-dark/50 border border-pine-muted/40 flex items-center justify-center font-mono font-bold text-pine-light text-sm group-hover:border-pine-accent transition">
+          [L]
+        </div>
+        <span class="text-text-primary font-bold text-base tracking-tight">[Your Name] <span class="text-text-muted font-normal text-sm hidden sm:inline">| [Your Specialization]</span></span>
+      </a>
 
-  <div class="wrapper">
-    <!-- Header Navigation -->
-    <header class="fixed top-0 left-0 w-full z-50 bg-void/80 backdrop-blur-xl border-b border-white/5">
-      <div class="max-w-7xl mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
-        
-        <!-- Brand / Logo Placeholder -->
-        <a href="#" class="flex items-center gap-3 group">
-          <div class="w-9 h-9 rounded-lg bg-pine-dark/50 border border-pine-muted/40 flex items-center justify-center font-mono font-bold text-pine-light text-sm group-hover:border-pine-accent transition">
-            [L]
-          </div>
-          <span class="text-text-primary font-bold text-base tracking-tight">[Your Name] <span class="text-text-muted font-normal text-sm hidden sm:inline">| [Your Specialization]</span></span>
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="#about" class="text-text-secondary hover:text-text-primary transition">About</a>
+        <a href="#skills" class="text-text-secondary hover:text-text-primary transition">Expertise</a>
+        <a href="#projects" class="text-text-secondary hover:text-text-primary transition">Work</a>
+        <a href="#contact" class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-pine-accent/50 text-text-primary font-mono text-xs hover:text-pine-light transition">
+          Get in Touch
         </a>
+      </nav>
+    </div>
+  </header>
 
-        <!-- Navigation Links -->
-        <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-          <a href="#about" class="text-text-secondary hover:text-text-primary transition">About</a>
-          <a href="#skills" class="text-text-secondary hover:text-text-primary transition">Expertise</a>
-          <a href="#projects" class="text-text-secondary hover:text-text-primary transition">Work</a>
-          <a href="#contact" class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-pine-accent/50 text-text-primary font-mono text-xs hover:text-pine-light transition">
-            Get in Touch
-          </a>
-        </nav>
+  <!-- 1. HERO / COVER SECTION (Interactive 3D Simulation Top Bookend) -->
+  <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
+    <div class="ambient-glow"></div>
+    
+    <div class="max-w-7xl mx-auto px-6 sm:px-12 flex flex-row items-start gap-6 z-20 w-full">
+      
+      <!-- Indicator Dot & Vertical Line -->
+      <div class="flex flex-col justify-center items-center mt-3">
+        <div class="w-4 h-4 rounded-full bg-pine-accent shadow-[0_0_12px_rgba(77,143,122,0.7)]"></div>
+        <div class="w-[2px] sm:h-72 h-40 gradient-line mt-1"></div>
       </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
-      <div class="max-w-7xl mx-auto px-6 sm:px-12 flex flex-row items-start gap-6 z-20 w-full">
-        
-        <!-- Indicator Dot & Vertical Line -->
-        <div class="flex flex-col justify-center items-center mt-3">
-          <div class="w-4 h-4 rounded-full bg-pine-accent shadow-[0_0_12px_rgba(77,143,122,0.7)]"></div>
-          <div class="w-[2px] sm:h-72 h-40 gradient-line mt-1"></div>
+      <!-- Headline & Bio -->
+      <div class="max-w-2xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pine-dark/40 border border-pine-muted/30 text-pine-light font-mono text-xs mb-4 backdrop-blur-sm">
+          <span class="w-1.5 h-1.5 rounded-full bg-pine-accent animate-pulse"></span>
+          [AVAILABLE FOR COLLABORATIONS / ROLES]
         </div>
 
-        <!-- Headline & Bio -->
-        <div class="max-w-2xl">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pine-dark/40 border border-pine-muted/30 text-pine-light font-mono text-xs mb-4 backdrop-blur-sm">
-            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent animate-pulse"></span>
-            [AVAILABLE FOR COLLABORATIONS / ROLES]
-          </div>
+        <h1 class="font-extrabold text-text-primary text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.08] mb-4">
+          Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-pine-light via-pine-accent to-text-secondary">[Your Name]</span>
+        </h1>
 
-          <h1 class="font-extrabold text-text-primary text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.08] mb-4">
-            Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-pine-light via-pine-accent to-text-secondary">[Your Name]</span>
-          </h1>
-
-          <p class="text-text-secondary text-base sm:text-xl font-normal leading-relaxed mb-8 max-w-xl">
-            [Write a 1-2 sentence statement highlighting your primary engineering domain, technical approach, and design philosophy.]
-          </p>
-
-          <div class="flex gap-4">
-            <a href="#projects" class="px-6 py-3 rounded-xl bg-text-primary text-void font-bold text-sm hover:bg-slate-200 transition shadow-lg shadow-white/5 flex items-center gap-2">
-              Explore Work <i data-lucide="arrow-down" size="16"></i>
-            </a>
-            <a href="#contact" class="px-6 py-3 rounded-xl bg-surface border border-white/10 hover:border-pine-accent text-text-primary font-medium text-sm transition flex items-center gap-2">
-              Contact Me <i data-lucide="mail" size="16"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mouse Scroll Down Indicator -->
-      <div class="absolute bottom-8 w-full flex justify-center items-center z-30 pointer-events-none">
-        <a href="#about" class="w-[30px] h-[52px] rounded-full border-2 border-white/15 flex justify-center items-start p-1.5 pointer-events-auto">
-          <div class="w-2 h-2 rounded-full bg-pine-accent animate-mouse-dot"></div>
-        </a>
-      </div>
-    </section>
-
-    <!-- Section 1: Overview & Focus Areas -->
-    <section id="about" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
-      <div class="mb-16">
-        <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[01 // OVERVIEW]</p>
-        <h2 class="text-text-primary font-extrabold text-3xl sm:text-5xl tracking-tight">Introduction.</h2>
-        <p class="mt-4 text-text-secondary text-base sm:text-lg max-w-3xl leading-relaxed">
-          [Add your background statement here. Describe your technical methodology, proficiency with simulation or prototyping tools, and ability to deliver production-ready systems.]
+        <p class="text-text-secondary text-base sm:text-xl font-normal leading-relaxed mb-8 max-w-xl">
+          [Write a 1-2 sentence statement highlighting your primary engineering domain, technical approach, and design philosophy.]
         </p>
-      </div>
 
-      <!-- 4 Cards with Shaded 3D Faceted Nodes -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-        <!-- Card 1 -->
-        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
-          <div class="w-20 h-20 card-3d-node mx-auto" data-shape="icosahedron"></div>
-          <div>
-            <h3 class="text-text-primary font-bold text-lg text-center mt-4">[Core Focus 1]</h3>
-            <p class="text-text-secondary text-xs text-center mt-2 leading-relaxed">[Brief description of primary discipline / toolset]</p>
-          </div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
-          <div class="w-20 h-20 card-3d-node mx-auto" data-shape="octahedron"></div>
-          <div>
-            <h3 class="text-text-primary font-bold text-lg text-center mt-4">[Core Focus 2]</h3>
-            <p class="text-text-secondary text-xs text-center mt-2 leading-relaxed">[Brief description of simulation / analysis capability]</p>
-          </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
-          <div class="w-20 h-20 card-3d-node mx-auto" data-shape="torusknot"></div>
-          <div>
-            <h3 class="text-text-primary font-bold text-lg text-center mt-4">[Core Focus 3]</h3>
-            <p class="text-text-secondary text-xs text-center mt-2 leading-relaxed">[Brief description of prototyping / hardware methods]</p>
-          </div>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
-          <div class="w-20 h-20 card-3d-node mx-auto" data-shape="dodecahedron"></div>
-          <div>
-            <h3 class="text-text-primary font-bold text-lg text-center mt-4">[Core Focus 4]</h3>
-            <p class="text-text-secondary text-xs text-center mt-2 leading-relaxed">[Brief description of software / system integration]</p>
-          </div>
+        <div class="flex gap-4">
+          <a href="#projects" class="px-6 py-3 rounded-xl bg-text-primary text-void font-bold text-sm hover:bg-slate-200 transition shadow-lg shadow-white/5 flex items-center gap-2">
+            Explore Work <i data-lucide="arrow-down" size="16"></i>
+          </a>
+          <a href="#contact" class="px-6 py-3 rounded-xl bg-surface border border-white/10 hover:border-pine-accent text-text-primary font-medium text-sm transition flex items-center gap-2">
+            Contact Me <i data-lucide="mail" size="16"></i>
+          </a>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- Section 2: Technical Capabilities -->
-    <section id="skills" class="py-20 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
-      <div class="mb-14">
-        <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[02 // CAPABILITIES]</p>
-        <h2 class="text-text-primary font-extrabold text-3xl sm:text-5xl tracking-tight">Technical Matrix.</h2>
-      </div>
+    <!-- Hero 3D Flow Field Canvas (Isolated to Cover Only) -->
+    <div id="heroCanvasContainer" class="w-full h-full cursor-grab active:cursor-grabbing absolute inset-0 z-10"></div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        <!-- Skill Group 1 -->
-        <div class="glow-card rounded-2xl p-6">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-10 h-10 rounded-lg bg-pine-dark/40 border border-pine-muted/30 flex items-center justify-center text-pine-light">
-              <i data-lucide="layers" size="20"></i>
-            </div>
-            <h3 class="text-text-primary font-bold text-lg">[Discipline 1]</h3>
-          </div>
-          <ul class="space-y-3 text-sm text-text-secondary">
-            <li class="flex items-center gap-2.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-              [Tool / Method 1]
-            </li>
-            <li class="flex items-center gap-2.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-              [Tool / Method 2]
-            </li>
-            <li class="flex items-center gap-2.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-              [Tool / Method 3]
-            </li>
-          </ul>
-        </div>
+    <!-- Mouse Scroll Down Indicator -->
+    <div class="absolute bottom-8 w-full flex justify-center items-center z-30 pointer-events-none">
+      <a href="#about" class="w-[30px] h-[52px] rounded-full border-2 border-white/15 flex justify-center items-start p-1.5 pointer-events-auto">
+        <div class="w-2 h-2 rounded-full bg-pine-accent animate-mouse-dot"></div>
+      </a>
+    </div>
+  </section>
 
-        <!-- Skill Group 2 -->
-        <div class="glow-card rounded-2xl p-6">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-10 h-10 rounded-lg bg-pine-dark/40 border border-pine-muted/30 flex items-center justify-center text-pine-light">
-              <i data-lucide="activity" size="20"></i>
-            </div>
-            <h3 class="text-text-primary font-bold text-lg">[Discipline 2]</h3>
-          </div>
-          <ul class="space-y-3 text-sm text-text-secondary">
-            <li class="flex items-center gap-2.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-              [Tool / Method 1]
-            </li>
-            <li class="flex items-center gap-2.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-              [Tool / Method 2]
-            </li>
-            <li class="flex items-center gap-2.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-              [Tool / Method 3]
-            </li>
-          </ul>
-        </div>
+  <!-- 2. OVERVIEW & FOCUS AREAS (Clean, Distraction-Free) -->
+  <section id="about" class="py-28 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
+    <div class="mb-16">
+      <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[01 // OVERVIEW]</p>
+      <h2 class="text-text-primary font-extrabold text-3xl sm:text-5xl tracking-tight">Introduction.</h2>
+      <p class="mt-4 text-text-secondary text-base sm:text-lg max-w-3xl leading-relaxed">
+        [Add your background statement here. Describe your technical methodology, proficiency with simulation or prototyping tools, and ability to deliver production-ready systems.]
+      </p>
+    </div>
 
-        <!-- Skill Group 3 -->
-        <div class="glow-card rounded-2xl p-6">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-10 h-10 rounded-lg bg-pine-dark/40 border border-pine-muted/30 flex items-center justify-center text-pine-light">
-              <i data-lucide="cpu" size="20"></i>
-            </div>
-            <h3 class="text-text-primary font-bold text-lg">[Discipline 3]</h3>
-          </div>
-          <ul class="space-y-3 text-sm text-text-secondary">
-            <li class="flex items-center gap-2.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-              [Tool / Method 1]
-            </li>
-            <li class="flex items-center gap-2.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-              [Tool / Method 2]
-            </li>
-            <li class="flex items-center gap-2.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-              [Tool / Method 3]
-            </li>
-          </ul>
+    <!-- 4 Cards with Shaded 3D Faceted Nodes -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      <!-- Card 1 -->
+      <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
+        <div class="w-20 h-20 card-3d-node mx-auto" data-shape="icosahedron"></div>
+        <div>
+          <h3 class="text-text-primary font-bold text-lg text-center mt-4">[Core Focus 1]</h3>
+          <p class="text-text-secondary text-xs text-center mt-2 leading-relaxed">[Brief description of primary discipline / toolset]</p>
         </div>
       </div>
-    </section>
 
-    <!-- Section 3: Engineering Projects -->
-    <section id="projects" class="py-20 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
-      <div class="mb-14">
-        <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[03 // FEATURED WORK]</p>
-        <h2 class="text-text-primary font-extrabold text-3xl sm:text-5xl tracking-tight">Engineering Projects.</h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        
-        <!-- Project 1 -->
-        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between">
-          <div>
-            <div class="w-full h-44 bg-surface-subtle border border-white/5 rounded-xl flex items-center justify-center font-mono text-xs text-text-muted mb-6">
-              [Project Asset / CAD Render]
-            </div>
-            <h3 class="text-text-primary font-bold text-xl mb-2">[Project Title 1]</h3>
-            <p class="text-text-secondary text-sm leading-relaxed mb-6">
-              [2-3 sentence overview of this project, problem solved, technical parameters, and outcomes.]
-            </p>
-          </div>
-          <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light">
-            <span class="px-2.5 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#[Tag 1]</span>
-            <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-text-muted">#[Tag 2]</span>
-          </div>
-        </div>
-
-        <!-- Project 2 -->
-        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between">
-          <div>
-            <div class="w-full h-44 bg-surface-subtle border border-white/5 rounded-xl flex items-center justify-center font-mono text-xs text-text-muted mb-6">
-              [Project Asset / CAD Render]
-            </div>
-            <h3 class="text-text-primary font-bold text-xl mb-2">[Project Title 2]</h3>
-            <p class="text-text-secondary text-sm leading-relaxed mb-6">
-              [2-3 sentence overview of this project, problem solved, technical parameters, and outcomes.]
-            </p>
-          </div>
-          <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light">
-            <span class="px-2.5 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#[Tag 1]</span>
-            <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-text-muted">#[Tag 2]</span>
-          </div>
-        </div>
-
-        <!-- Project 3 -->
-        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between">
-          <div>
-            <div class="w-full h-44 bg-surface-subtle border border-white/5 rounded-xl flex items-center justify-center font-mono text-xs text-text-muted mb-6">
-              [Project Asset / CAD Render]
-            </div>
-            <h3 class="text-text-primary font-bold text-xl mb-2">[Project Title 3]</h3>
-            <p class="text-text-secondary text-sm leading-relaxed mb-6">
-              [2-3 sentence overview of this project, problem solved, technical parameters, and outcomes.]
-            </p>
-          </div>
-          <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light">
-            <span class="px-2.5 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#[Tag 1]</span>
-            <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-text-muted">#[Tag 2]</span>
-          </div>
+      <!-- Card 2 -->
+      <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
+        <div class="w-20 h-20 card-3d-node mx-auto" data-shape="octahedron"></div>
+        <div>
+          <h3 class="text-text-primary font-bold text-lg text-center mt-4">[Core Focus 2]</h3>
+          <p class="text-text-secondary text-xs text-center mt-2 leading-relaxed">[Brief description of simulation / analysis capability]</p>
         </div>
       </div>
-    </section>
 
-    <!-- Section 4: Direct Contact -->
-    <section id="contact" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
+      <!-- Card 3 -->
+      <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
+        <div class="w-20 h-20 card-3d-node mx-auto" data-shape="torusknot"></div>
+        <div>
+          <h3 class="text-text-primary font-bold text-lg text-center mt-4">[Core Focus 3]</h3>
+          <p class="text-text-secondary text-xs text-center mt-2 leading-relaxed">[Brief description of prototyping / hardware methods]</p>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
+        <div class="w-20 h-20 card-3d-node mx-auto" data-shape="dodecahedron"></div>
+        <div>
+          <h3 class="text-text-primary font-bold text-lg text-center mt-4">[Core Focus 4]</h3>
+          <p class="text-text-secondary text-xs text-center mt-2 leading-relaxed">[Brief description of software / system integration]</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. TECHNICAL MATRIX (Clean Layout) -->
+  <section id="skills" class="py-20 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
+    <div class="mb-14">
+      <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[02 // CAPABILITIES]</p>
+      <h2 class="text-text-primary font-extrabold text-3xl sm:text-5xl tracking-tight">Technical Matrix.</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Skill Group 1 -->
+      <div class="glow-card rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 rounded-lg bg-pine-dark/40 border border-pine-muted/30 flex items-center justify-center text-pine-light">
+            <i data-lucide="layers" size="20"></i>
+          </div>
+          <h3 class="text-text-primary font-bold text-lg">[Discipline 1]</h3>
+        </div>
+        <ul class="space-y-3 text-sm text-text-secondary">
+          <li class="flex items-center gap-2.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+            [Tool / Method 1]
+          </li>
+          <li class="flex items-center gap-2.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+            [Tool / Method 2]
+          </li>
+          <li class="flex items-center gap-2.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+            [Tool / Method 3]
+          </li>
+        </ul>
+      </div>
+
+      <!-- Skill Group 2 -->
+      <div class="glow-card rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 rounded-lg bg-pine-dark/40 border border-pine-muted/30 flex items-center justify-center text-pine-light">
+            <i data-lucide="activity" size="20"></i>
+          </div>
+          <h3 class="text-text-primary font-bold text-lg">[Discipline 2]</h3>
+        </div>
+        <ul class="space-y-3 text-sm text-text-secondary">
+          <li class="flex items-center gap-2.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+            [Tool / Method 1]
+          </li>
+          <li class="flex items-center gap-2.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+            [Tool / Method 2]
+          </li>
+          <li class="flex items-center gap-2.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+            [Tool / Method 3]
+          </li>
+        </ul>
+      </div>
+
+      <!-- Skill Group 3 -->
+      <div class="glow-card rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 rounded-lg bg-pine-dark/40 border border-pine-muted/30 flex items-center justify-center text-pine-light">
+            <i data-lucide="cpu" size="20"></i>
+          </div>
+          <h3 class="text-text-primary font-bold text-lg">[Discipline 3]</h3>
+        </div>
+        <ul class="space-y-3 text-sm text-text-secondary">
+          <li class="flex items-center gap-2.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+            [Tool / Method 1]
+          </li>
+          <li class="flex items-center gap-2.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+            [Tool / Method 2]
+          </li>
+          <li class="flex items-center gap-2.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+            [Tool / Method 3]
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. ENGINEERING PROJECTS (High Readability & Focus) -->
+  <section id="projects" class="py-20 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
+    <div class="mb-14">
+      <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[03 // FEATURED WORK]</p>
+      <h2 class="text-text-primary font-extrabold text-3xl sm:text-5xl tracking-tight">Engineering Projects.</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- Project 1 -->
+      <div class="glow-card rounded-2xl p-6 flex flex-col justify-between">
+        <div>
+          <div class="w-full h-44 bg-surface-subtle border border-white/5 rounded-xl flex items-center justify-center font-mono text-xs text-text-muted mb-6">
+            [Project Asset / CAD Render]
+          </div>
+          <h3 class="text-text-primary font-bold text-xl mb-2">[Project Title 1]</h3>
+          <p class="text-text-secondary text-sm leading-relaxed mb-6">
+            [2-3 sentence overview of this project, problem solved, technical parameters, and outcomes.]
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light">
+          <span class="px-2.5 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#[Tag 1]</span>
+          <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-text-muted">#[Tag 2]</span>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="glow-card rounded-2xl p-6 flex flex-col justify-between">
+        <div>
+          <div class="w-full h-44 bg-surface-subtle border border-white/5 rounded-xl flex items-center justify-center font-mono text-xs text-text-muted mb-6">
+            [Project Asset / CAD Render]
+          </div>
+          <h3 class="text-text-primary font-bold text-xl mb-2">[Project Title 2]</h3>
+          <p class="text-text-secondary text-sm leading-relaxed mb-6">
+            [2-3 sentence overview of this project, problem solved, technical parameters, and outcomes.]
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light">
+          <span class="px-2.5 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#[Tag 1]</span>
+          <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-text-muted">#[Tag 2]</span>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="glow-card rounded-2xl p-6 flex flex-col justify-between">
+        <div>
+          <div class="w-full h-44 bg-surface-subtle border border-white/5 rounded-xl flex items-center justify-center font-mono text-xs text-text-muted mb-6">
+            [Project Asset / CAD Render]
+          </div>
+          <h3 class="text-text-primary font-bold text-xl mb-2">[Project Title 3]</h3>
+          <p class="text-text-secondary text-sm leading-relaxed mb-6">
+            [2-3 sentence overview of this project, problem solved, technical parameters, and outcomes.]
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light">
+          <span class="px-2.5 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#[Tag 1]</span>
+          <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-text-muted">#[Tag 2]</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. CONTACT & BOTTOM SECTION (Interactive 3D Flow Simulation Bottom Bookend) -->
+  <section id="contact" class="py-28 relative overflow-hidden flex flex-col items-center justify-center">
+    
+    <!-- Contact 3D Ambient Flow Canvas (Behind Contact Card) -->
+    <div id="contactCanvasContainer" class="w-full h-full absolute inset-0 z-10 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 sm:px-12 w-full relative z-20">
       <div class="glow-card rounded-3xl p-8 sm:p-14 max-w-3xl mx-auto">
         <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[04 // COMMUNICATION]</p>
         <h2 class="text-text-primary font-black text-3xl sm:text-5xl tracking-tight mb-4">Let's Connect.</h2>
@@ -429,192 +419,140 @@
           </a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="text-center py-8 text-text-muted text-xs border-t border-white/5 font-mono">
-      © 2026 [Your Name] • High-Precision Dark Pine &amp; Obsidian Studio
-    </footer>
-  </div>
+  <!-- Footer -->
+  <footer class="text-center py-8 text-text-muted text-xs border-t border-white/5 font-mono relative z-20">
+    © 2026 [Your Name] • High-Precision Dark Pine &amp; Obsidian Studio
+  </footer>
 
-  <!-- SCRIPT: THREE.JS INERTIAL CONTINUOUS 3D FLOW ENGINE -->
+  <!-- SCRIPT 1: HERO TOP 3D FLOW ENGINE (Hero Viewport Only) -->
   <script>
-    const canvas = document.getElementById('flowSimCanvas');
-    const scene = new THREE.Scene();
+    const heroContainer = document.getElementById('heroCanvasContainer');
+    const heroScene = new THREE.Scene();
 
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0, 28);
+    const heroCamera = new THREE.PerspectiveCamera(45, heroContainer.clientWidth / heroContainer.clientHeight, 0.1, 1000);
+    heroCamera.position.set(0, 0, 24);
 
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const heroRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    heroRenderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight);
+    heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    heroContainer.appendChild(heroRenderer.domElement);
 
-    // --- 1. CONTINUOUS PARAMETRIC RIBBONS (Side Flanks) ---
-    const waveGroup = new THREE.Group();
-    scene.add(waveGroup);
+    const heroControls = new THREE.OrbitControls(heroCamera, heroRenderer.domElement);
+    heroControls.enableDamping = true;
+    heroControls.dampingFactor = 0.05;
+    heroControls.autoRotate = true;
+    heroControls.autoRotateSpeed = 0.9;
+    heroControls.enableZoom = false;
 
-    const wavePoints = [];
-    const waveColors = [];
+    // Top Dotted Parametric Wave Streamlines
+    const heroWaveGroup = new THREE.Group();
+    heroScene.add(heroWaveGroup);
+
+    const heroWavePts = [];
+    const heroWaveCols = [];
     const cPineLight = new THREE.Color(0x72a997);
     const cPineDark = new THREE.Color(0x142820);
 
-    const flanks = [-1, 1];
-    flanks.forEach(side => {
-      for (let j = -6; j <= 6; j++) {
-        for (let i = -45; i <= 45; i += 0.3) {
-          const y = i;
-          const x = (side * 17.5) + Math.sin(y * 0.14 + j * 0.35) * 3.8;
-          const z = Math.cos(y * 0.11) * 3.2 - 4.5;
+    for (let j = -7; j <= 7; j++) {
+      for (let i = -30; i <= 30; i += 0.28) {
+        const x = i;
+        const y = Math.sin(i * 0.16 + j * 0.38) * 3.4 + (j * 1.35);
+        const z = Math.cos(i * 0.12) * 3.8 - 4.5;
 
-          wavePoints.push(x, y, z);
-
-          const mix = (Math.sin(y * 0.08 + j) + 1) / 2;
-          const c = cPineDark.clone().lerp(cPineLight, mix * 0.55);
-          waveColors.push(c.r, c.g, c.b);
-        }
+        heroWavePts.push(x, y, z);
+        const mix = (Math.sin(i * 0.1 + j) + 1) / 2;
+        const c = cPineDark.clone().lerp(cPineLight, mix * 0.65);
+        heroWaveCols.push(c.r, c.g, c.b);
       }
-    });
+    }
 
-    const waveGeo = new THREE.BufferGeometry();
-    waveGeo.setAttribute('position', new THREE.Float32BufferAttribute(wavePoints, 3));
-    waveGeo.setAttribute('color', new THREE.Float32BufferAttribute(waveColors, 3));
+    const heroWaveGeo = new THREE.BufferGeometry();
+    heroWaveGeo.setAttribute('position', new THREE.Float32BufferAttribute(heroWavePts, 3));
+    heroWaveGeo.setAttribute('color', new THREE.Float32BufferAttribute(heroWaveCols, 3));
 
-    const waveMat = new THREE.PointsMaterial({
+    const heroWaveMat = new THREE.PointsMaterial({
       size: 0.08,
       vertexColors: true,
       transparent: true,
-      opacity: 0.38,
+      opacity: 0.42,
       blending: THREE.AdditiveBlending
     });
 
-    const waveMesh = new THREE.Points(waveGeo, waveMat);
-    waveGroup.add(waveMesh);
+    heroWaveGroup.add(new THREE.Points(heroWaveGeo, heroWaveMat));
 
-    // --- 2. SEAMLESS INFINITE DOTTED SWARM (Modular Space Math) ---
-    const SWARM_COUNT = 3200;
-    const PERIOD_HEIGHT = 80; // Total circulation span
-    const swarmGeo = new THREE.BufferGeometry();
-    const positions = new Float32Array(SWARM_COUNT * 3);
-    const colors = new Float32Array(SWARM_COUNT * 3);
-    const velocities = new Float32Array(SWARM_COUNT * 3);
-    const basePositions = new Float32Array(SWARM_COUNT * 3);
+    // Top Dynamic Swarm Particles
+    const HERO_COUNT = 3000;
+    const heroSwarmGeo = new THREE.BufferGeometry();
+    const heroPositions = new Float32Array(HERO_COUNT * 3);
+    const heroColors = new Float32Array(HERO_COUNT * 3);
+    const heroVelocities = new Float32Array(HERO_COUNT * 3);
 
-    const cAccent = new THREE.Color(0x4d8f7a);
-    const cDeep = new THREE.Color(0x0e1c17);
-
-    for (let i = 0; i < SWARM_COUNT; i++) {
-      const side = Math.random() > 0.5 ? 1 : -1;
-      const x = side * (11 + Math.random() * 15);
-      const y = (Math.random() - 0.5) * PERIOD_HEIGHT;
+    for (let i = 0; i < HERO_COUNT; i++) {
+      const x = (Math.random() - 0.5) * 32;
+      const y = (Math.random() - 0.5) * 20;
       const z = (Math.random() - 0.5) * 16;
 
-      positions[i * 3] = x;
-      positions[i * 3 + 1] = y;
-      positions[i * 3 + 2] = z;
+      heroPositions[i * 3] = x;
+      heroPositions[i * 3 + 1] = y;
+      heroPositions[i * 3 + 2] = z;
 
-      basePositions[i * 3] = x;
-      basePositions[i * 3 + 1] = y;
-      basePositions[i * 3 + 2] = z;
-
-      velocities[i * 3] = (Math.random() * 0.012 + 0.004) * side;
-      velocities[i * 3 + 1] = (Math.random() * 0.018 + 0.008); // Downward drift
-      velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.008;
+      heroVelocities[i * 3] = (Math.random() * 0.02 + 0.01);
+      heroVelocities[i * 3 + 1] = (Math.random() - 0.5) * 0.01;
 
       const mix = Math.random();
-      const c = cDeep.clone().lerp(cAccent, mix * 0.85);
-      colors[i * 3] = c.r;
-      colors[i * 3 + 1] = c.g;
-      colors[i * 3 + 2] = c.b;
+      const c = cPineDark.clone().lerp(cPineLight, mix * 0.85);
+      heroColors[i * 3] = c.r;
+      heroColors[i * 3 + 1] = c.g;
+      heroColors[i * 3 + 2] = c.b;
     }
 
-    swarmGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    swarmGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    heroSwarmGeo.setAttribute('position', new THREE.BufferAttribute(heroPositions, 3));
+    heroSwarmGeo.setAttribute('color', new THREE.BufferAttribute(heroColors, 3));
 
-    const swarmMat = new THREE.PointsMaterial({
+    const heroSwarmMat = new THREE.PointsMaterial({
       size: 0.09,
       vertexColors: true,
       transparent: true,
-      opacity: 0.68,
+      opacity: 0.7,
       blending: THREE.AdditiveBlending
     });
 
-    const swarmMesh = new THREE.Points(swarmGeo, swarmMat);
-    scene.add(swarmMesh);
+    const heroSwarmMesh = new THREE.Points(heroSwarmGeo, heroSwarmMat);
+    heroScene.add(heroSwarmMesh);
 
-    // --- 3. FLUID INERTIAL SCROLL & MOUSE INTERPOLATION ---
-    let currentScroll = 0;
-    let targetScroll = 0;
-    let mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
-    let flowTime = 0;
+    function animateHero() {
+      requestAnimationFrame(animateHero);
 
-    window.addEventListener('scroll', () => {
-      targetScroll = window.scrollY;
-    }, { passive: true });
+      const pos = heroSwarmGeo.attributes.position.array;
+      for (let i = 0; i < HERO_COUNT; i++) {
+        pos[i * 3] += heroVelocities[i * 3];
+        pos[i * 3 + 1] += Math.sin(pos[i * 3] * 0.2) * 0.008;
 
-    window.addEventListener('mousemove', (e) => {
-      mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 22;
-      mouse.targetY = -(e.clientY / window.innerHeight - 0.5) * 22;
-    });
-
-    function animate() {
-      requestAnimationFrame(animate);
-
-      // Liquid Inertial Lerp (0.035 for ultra-smooth viscous damping)
-      currentScroll += (targetScroll - currentScroll) * 0.035;
-      mouse.x += (mouse.targetX - mouse.x) * 0.035;
-      mouse.y += (mouse.targetY - mouse.y) * 0.035;
-
-      const targetCamY = -currentScroll * 0.013;
-      camera.position.y += (targetCamY - camera.position.y) * 0.04;
-
-      flowTime += 0.01;
-
-      // Update Swarm with Periodic Continuous Wrapping
-      const pos = swarmGeo.attributes.position.array;
-      const camY = camera.position.y;
-
-      for (let i = 0; i < SWARM_COUNT; i++) {
-        const drift = flowTime * velocities[i * 3 + 1] * 25;
-        const rawY = basePositions[i * 3 + 1] - drift;
-        
-        // Seamless modular wrapping centered around current camera position
-        const relY = ((rawY - camY + PERIOD_HEIGHT * 100) % PERIOD_HEIGHT) - (PERIOD_HEIGHT / 2);
-        const y = camY + relY;
-
-        let x = basePositions[i * 3] + Math.sin(y * 0.15 + flowTime * 0.5) * 0.3;
-        let z = basePositions[i * 3 + 2];
-
-        // Smooth Mouse Vector Deflection
-        const dx = x - mouse.x;
-        const dy = (y - camY) - mouse.y;
-        const distSq = dx * dx + dy * dy;
-
-        if (distSq < 18) {
-          const force = (1 - distSq / 18) * 0.04;
-          x += (dx > 0 ? 1 : -1) * force;
+        if (pos[i * 3] > 16) {
+          pos[i * 3] = -16;
+          pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
         }
-
-        pos[i * 3] = x;
-        pos[i * 3 + 1] = y;
-        pos[i * 3 + 2] = z;
       }
-      swarmGeo.attributes.position.needsUpdate = true;
+      heroSwarmGeo.attributes.position.needsUpdate = true;
 
-      // Gentle Streamline Wave Dynamics
-      waveGroup.position.y = camY * 0.85; // Subtle parallax depth
-      waveGroup.rotation.y = Math.sin(flowTime * 0.05) * 0.06;
-
-      renderer.render(scene, camera);
+      heroControls.update();
+      heroWaveGroup.rotation.y += 0.0006;
+      heroRenderer.render(heroScene, heroCamera);
     }
-    animate();
+    animateHero();
 
     window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      heroCamera.aspect = heroContainer.clientWidth / heroContainer.clientHeight;
+      heroCamera.updateProjectionMatrix();
+      heroRenderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight);
     });
+  </script>
 
-    // --- 3D Geometric Nodes in Overview Cards ---
+  <!-- SCRIPT 2: 3D SHAPES IN OVERVIEW CARDS -->
+  <script>
     document.querySelectorAll('.card-3d-node').forEach(el => {
       const shapeType = el.dataset.shape;
       const cScene = new THREE.Scene();
@@ -661,12 +599,107 @@
       animNode();
     });
 
-    // Card Tilt Initiation
     VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
       max: 14,
       speed: 400,
       glare: true,
       "max-glare": 0.15,
+    });
+  </script>
+
+  <!-- SCRIPT 3: BOTTOM SECTION 3D INTERACTIVE FLOW ENGINE (Bottom Bookend) -->
+  <script>
+    const contactContainer = document.getElementById('contactCanvasContainer');
+    const contactScene = new THREE.Scene();
+
+    const contactCamera = new THREE.PerspectiveCamera(45, contactContainer.clientWidth / contactContainer.clientHeight, 0.1, 1000);
+    contactCamera.position.set(0, 0, 22);
+
+    const contactRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    contactRenderer.setSize(contactContainer.clientWidth, contactContainer.clientHeight);
+    contactRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    contactContainer.appendChild(contactRenderer.domElement);
+
+    // Subtle Undulating Floor Streamline Dotted Mesh
+    const bottomPts = [];
+    const bottomCols = [];
+
+    for (let j = -6; j <= 6; j++) {
+      for (let i = -28; i <= 28; i += 0.35) {
+        const x = i;
+        const y = Math.sin(i * 0.14 + j * 0.3) * 2.2 + (j * 1.5) - 3;
+        const z = Math.cos(i * 0.1) * 3.5 - 2;
+
+        bottomPts.push(x, y, z);
+        const mix = (Math.sin(i * 0.1 + j) + 1) / 2;
+        const c = cPineDark.clone().lerp(cPineLight, mix * 0.5);
+        bottomCols.push(c.r, c.g, c.b);
+      }
+    }
+
+    const bottomGeo = new THREE.BufferGeometry();
+    bottomGeo.setAttribute('position', new THREE.Float32BufferAttribute(bottomPts, 3));
+    bottomGeo.setAttribute('color', new THREE.Float32BufferAttribute(bottomCols, 3));
+
+    const bottomMat = new THREE.PointsMaterial({
+      size: 0.08,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.35,
+      blending: THREE.AdditiveBlending
+    });
+
+    const bottomMesh = new THREE.Points(bottomGeo, bottomMat);
+    contactScene.add(bottomMesh);
+
+    // Bottom Ambient Floating Dotted Swarm
+    const BTM_COUNT = 1500;
+    const btmSwarmGeo = new THREE.BufferGeometry();
+    const btmPos = new Float32Array(BTM_COUNT * 3);
+    const btmColors = new Float32Array(BTM_COUNT * 3);
+
+    for (let i = 0; i < BTM_COUNT; i++) {
+      btmPos[i * 3] = (Math.random() - 0.5) * 30;
+      btmPos[i * 3 + 1] = (Math.random() - 0.5) * 16;
+      btmPos[i * 3 + 2] = (Math.random() - 0.5) * 10;
+
+      const mix = Math.random();
+      const c = cPineDark.clone().lerp(cPineLight, mix * 0.7);
+      btmColors[i * 3] = c.r;
+      btmColors[i * 3 + 1] = c.g;
+      btmColors[i * 3 + 2] = c.b;
+    }
+
+    btmSwarmGeo.setAttribute('position', new THREE.BufferAttribute(btmPos, 3));
+    btmSwarmGeo.setAttribute('color', new THREE.BufferAttribute(btmColors, 3));
+
+    const btmSwarmMat = new THREE.PointsMaterial({
+      size: 0.08,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.5,
+      blending: THREE.AdditiveBlending
+    });
+
+    const btmSwarmMesh = new THREE.Points(btmSwarmGeo, btmSwarmMat);
+    contactScene.add(btmSwarmMesh);
+
+    let contactTime = 0;
+    function animateContact() {
+      requestAnimationFrame(animateContact);
+      contactTime += 0.008;
+
+      bottomMesh.rotation.y = Math.sin(contactTime * 0.4) * 0.06;
+      btmSwarmMesh.rotation.y += 0.0004;
+
+      contactRenderer.render(contactScene, contactCamera);
+    }
+    animateContact();
+
+    window.addEventListener('resize', () => {
+      contactCamera.aspect = contactContainer.clientWidth / contactContainer.clientHeight;
+      contactCamera.updateProjectionMatrix();
+      contactRenderer.setSize(contactContainer.clientWidth, contactContainer.clientHeight);
     });
 
     lucide.createIcons();
