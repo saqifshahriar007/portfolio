@@ -61,15 +61,14 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Ambient Hero Glow */
+    /* Ambient Hero Glow (Right Biased) */
     .ambient-glow {
       position: absolute;
       top: -80px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 850px;
+      right: 0;
+      width: 650px;
       height: 480px;
-      background: radial-gradient(circle, rgba(77, 143, 122, 0.05) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(77, 143, 122, 0.06) 0%, transparent 70%);
       filter: blur(120px);
       pointer-events: none;
       z-index: 1;
@@ -130,7 +129,7 @@
     </div>
   </header>
 
-  <!-- 1. HERO / COVER SECTION (Interactive 3D Simulation Top Bookend) -->
+  <!-- 1. HERO / COVER SECTION (Right-Aligned 3D Simulation) -->
   <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
     <div class="ambient-glow"></div>
     
@@ -142,7 +141,7 @@
         <div class="w-[2px] sm:h-72 h-40 gradient-line mt-1"></div>
       </div>
 
-      <!-- Headline & Bio -->
+      <!-- Headline & Bio (Completely Clear Left Half) -->
       <div class="max-w-2xl">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pine-dark/40 border border-pine-muted/30 text-pine-light font-mono text-xs mb-4 backdrop-blur-sm">
           <span class="w-1.5 h-1.5 rounded-full bg-pine-accent animate-pulse"></span>
@@ -168,7 +167,7 @@
       </div>
     </div>
 
-    <!-- Hero 3D Flow Field Canvas (Isolated to Cover Only) -->
+    <!-- Hero 3D Flow Field Canvas (Shifted to Right Half) -->
     <div id="heroCanvasContainer" class="w-full h-full cursor-grab active:cursor-grabbing absolute inset-0 z-10"></div>
 
     <!-- Mouse Scroll Down Indicator -->
@@ -179,7 +178,7 @@
     </div>
   </section>
 
-  <!-- 2. OVERVIEW & FOCUS AREAS (Clean, Distraction-Free) -->
+  <!-- 2. OVERVIEW & FOCUS AREAS -->
   <section id="about" class="py-28 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="mb-16">
       <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[01 // OVERVIEW]</p>
@@ -230,7 +229,7 @@
     </div>
   </section>
 
-  <!-- 3. TECHNICAL MATRIX (Clean Layout) -->
+  <!-- 3. TECHNICAL MATRIX -->
   <section id="skills" class="py-20 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="mb-14">
       <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[02 // CAPABILITIES]</p>
@@ -313,7 +312,7 @@
     </div>
   </section>
 
-  <!-- 4. ENGINEERING PROJECTS (High Readability & Focus) -->
+  <!-- 4. ENGINEERING PROJECTS -->
   <section id="projects" class="py-20 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="mb-14">
       <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[03 // FEATURED WORK]</p>
@@ -375,10 +374,10 @@
     </div>
   </section>
 
-  <!-- 5. CONTACT & BOTTOM SECTION (Interactive 3D Flow Simulation Bottom Bookend) -->
+  <!-- 5. CONTACT & BOTTOM SECTION (Flow Simulation Background) -->
   <section id="contact" class="py-28 relative overflow-hidden flex flex-col items-center justify-center">
     
-    <!-- Contact 3D Ambient Flow Canvas (Behind Contact Card) -->
+    <!-- Contact 3D Canvas -->
     <div id="contactCanvasContainer" class="w-full h-full absolute inset-0 z-10 pointer-events-none"></div>
 
     <div class="max-w-7xl mx-auto px-6 sm:px-12 w-full relative z-20">
@@ -427,7 +426,7 @@
     © 2026 [Your Name] • High-Precision Dark Pine &amp; Obsidian Studio
   </footer>
 
-  <!-- SCRIPT 1: HERO TOP 3D FLOW ENGINE (Hero Viewport Only) -->
+  <!-- SCRIPT 1: HERO TOP 3D FLOW (Strictly Right-Biased so it never overlaps Intro) -->
   <script>
     const heroContainer = document.getElementById('heroCanvasContainer');
     const heroScene = new THREE.Scene();
@@ -447,7 +446,7 @@
     heroControls.autoRotateSpeed = 0.9;
     heroControls.enableZoom = false;
 
-    // Top Dotted Parametric Wave Streamlines
+    // Streamlines offset to the RIGHT (+X zone)
     const heroWaveGroup = new THREE.Group();
     heroScene.add(heroWaveGroup);
 
@@ -457,10 +456,11 @@
     const cPineDark = new THREE.Color(0x142820);
 
     for (let j = -7; j <= 7; j++) {
-      for (let i = -30; i <= 30; i += 0.28) {
-        const x = i;
-        const y = Math.sin(i * 0.16 + j * 0.38) * 3.4 + (j * 1.35);
-        const z = Math.cos(i * 0.12) * 3.8 - 4.5;
+      for (let i = -24; i <= 24; i += 0.3) {
+        // Offset X so everything lives on the right half (X: +3.0 to +18.0)
+        const x = 7.5 + Math.sin(i * 0.16 + j * 0.35) * 3.8 + (j * 0.6);
+        const y = i * 0.7;
+        const z = Math.cos(i * 0.12) * 3.2 - 3.5;
 
         heroWavePts.push(x, y, z);
         const mix = (Math.sin(i * 0.1 + j) + 1) / 2;
@@ -483,17 +483,18 @@
 
     heroWaveGroup.add(new THREE.Points(heroWaveGeo, heroWaveMat));
 
-    // Top Dynamic Swarm Particles
-    const HERO_COUNT = 3000;
+    // Dynamic Swarm Particles on the RIGHT (+X zone)
+    const HERO_COUNT = 2200;
     const heroSwarmGeo = new THREE.BufferGeometry();
     const heroPositions = new Float32Array(HERO_COUNT * 3);
     const heroColors = new Float32Array(HERO_COUNT * 3);
     const heroVelocities = new Float32Array(HERO_COUNT * 3);
 
     for (let i = 0; i < HERO_COUNT; i++) {
-      const x = (Math.random() - 0.5) * 32;
-      const y = (Math.random() - 0.5) * 20;
-      const z = (Math.random() - 0.5) * 16;
+      // Confined strictly to X > 3.0 (Leaves left half completely clear for text)
+      const x = 3.5 + Math.random() * 15;
+      const y = (Math.random() - 0.5) * 22;
+      const z = (Math.random() - 0.5) * 14;
 
       heroPositions[i * 3] = x;
       heroPositions[i * 3 + 1] = y;
@@ -503,7 +504,7 @@
       heroVelocities[i * 3 + 1] = (Math.random() - 0.5) * 0.01;
 
       const mix = Math.random();
-      const c = cPineDark.clone().lerp(cPineLight, mix * 0.85);
+      const c = cPineDark.clone().lerp(cPineLight, mix * 0.8);
       heroColors[i * 3] = c.r;
       heroColors[i * 3 + 1] = c.g;
       heroColors[i * 3 + 2] = c.b;
@@ -531,9 +532,10 @@
         pos[i * 3] += heroVelocities[i * 3];
         pos[i * 3 + 1] += Math.sin(pos[i * 3] * 0.2) * 0.008;
 
-        if (pos[i * 3] > 16) {
-          pos[i * 3] = -16;
-          pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
+        // Loop bounds confined to right half
+        if (pos[i * 3] > 19) {
+          pos[i * 3] = 3.5;
+          pos[i * 3 + 1] = (Math.random() - 0.5) * 22;
         }
       }
       heroSwarmGeo.attributes.position.needsUpdate = true;
@@ -607,7 +609,7 @@
     });
   </script>
 
-  <!-- SCRIPT 3: BOTTOM SECTION 3D INTERACTIVE FLOW ENGINE (Bottom Bookend) -->
+  <!-- SCRIPT 3: BOTTOM CONTACT 3D FLOW ENGINE -->
   <script>
     const contactContainer = document.getElementById('contactCanvasContainer');
     const contactScene = new THREE.Scene();
@@ -620,7 +622,6 @@
     contactRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     contactContainer.appendChild(contactRenderer.domElement);
 
-    // Subtle Undulating Floor Streamline Dotted Mesh
     const bottomPts = [];
     const bottomCols = [];
 
@@ -652,7 +653,6 @@
     const bottomMesh = new THREE.Points(bottomGeo, bottomMat);
     contactScene.add(bottomMesh);
 
-    // Bottom Ambient Floating Dotted Swarm
     const BTM_COUNT = 1500;
     const btmSwarmGeo = new THREE.BufferGeometry();
     const btmPos = new Float32Array(BTM_COUNT * 3);
