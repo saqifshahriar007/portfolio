@@ -3,26 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Saqif Shahriar | Mechanical Systems & CFD</title>
+  <title>Saqif | Mechanical Engineer</title>
   
-  <!-- Google Fonts: Poppins & JetBrains Mono -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: "#060913",
-            secondary: "#94a3b8",
-            tertiary: "#0f172a",
-            "card-bg": "#0c1322",
-            accent: "#00f0ff",
-            violet: "#9d4edd",
+            primary: "#050816",
+            secondary: "#aaa6c3",
+            tertiary: "#151030",
+            "black-100": "#100d25",
           },
           fontFamily: {
             poppins: ["Poppins", "sans-serif"],
@@ -33,11 +31,10 @@
     }
   </script>
 
-  <!-- Three.js + OrbitControls + Lucide Icons + Vanilla Tilt -->
+  <!-- Three.js + OrbitControls + Vanilla Tilt -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     * {
@@ -46,605 +43,319 @@
     }
 
     body {
-      background-color: #060913;
-      color: #f8fafc;
+      background-color: #050816;
+      color: #fff;
       overflow-x: hidden;
     }
 
-    .violet-cyan-gradient {
-      background: linear-gradient(135deg, #00f0ff 0%, #9d4edd 100%);
+    .violet-gradient {
+      background: linear-gradient(to bottom, #915EFF 0%, rgba(145, 94, 255, 0) 100%);
     }
 
-    .border-glow {
-      background: linear-gradient(90deg, rgba(0, 240, 255, 0.4), rgba(157, 78, 221, 0.4));
+    .green-pink-gradient {
+      background: linear-gradient(90.13deg, #00cea8 1.9%, #bf61ff 97.5%);
     }
 
-    /* Animated Scroll Dot */
-    @keyframes scrollAnimation {
+    @keyframes scrollWheel {
       0% { transform: translateY(0); opacity: 1; }
-      50% { transform: translateY(18px); opacity: 0.6; }
+      50% { transform: translateY(20px); opacity: 0.7; }
       100% { transform: translateY(0); opacity: 1; }
     }
     .animate-scroll-dot {
-      animation: scrollAnimation 1.8s infinite cubic-bezier(0.65, 0, 0.35, 1);
+      animation: scrollWheel 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
     }
   </style>
 </head>
-<body class="bg-primary text-white selection:bg-accent selection:text-black">
+<body class="bg-primary text-white">
 
-  <!-- Header Navigation -->
-  <nav class="sm:px-16 px-6 w-full flex items-center py-4 fixed top-0 z-50 bg-primary/85 backdrop-blur-lg border-b border-white/5">
+  <!-- Fixed Nav -->
+  <nav class="sm:px-16 px-6 w-full flex items-center py-5 fixed top-0 z-50 bg-primary/80 backdrop-blur-md border-b border-white/5">
     <div class="w-full flex justify-between items-center max-w-7xl mx-auto">
       <a class="flex items-center gap-3" href="#">
-        <div class="w-9 h-9 rounded-lg violet-cyan-gradient flex items-center justify-center font-black text-black text-base shadow-lg shadow-cyan-500/20">
-          S
+        <div class="w-9 h-9 rounded-lg bg-[#e11d48] flex items-center justify-center font-black text-white text-lg shadow-md shadow-rose-900/50">
+          ⚡
         </div>
-        <p class="text-white text-[17px] font-bold tracking-tight">
-          Saqif Shahriar <span class="text-secondary font-normal text-sm hidden sm:inline">| Mechanical &amp; CFD</span>
+        <p class="text-white text-[18px] font-bold cursor-pointer flex">
+          Saqif&nbsp;<span class="sm:block hidden text-secondary font-medium">| Mechanical Engineer</span>
         </p>
       </a>
 
-      <ul class="list-none hidden sm:flex flex-row gap-8 items-center">
-        <li><a href="#engine" class="text-secondary hover:text-accent text-[15px] font-medium transition">3D Engine</a></li>
-        <li><a href="#about" class="text-secondary hover:text-accent text-[15px] font-medium transition">Overview</a></li>
-        <li><a href="#projects" class="text-secondary hover:text-accent text-[15px] font-medium transition">Projects</a></li>
-        <li><a href="#research" class="text-secondary hover:text-accent text-[15px] font-medium transition">Research</a></li>
-        <li>
-          <a href="#contact" class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-accent text-accent text-sm font-mono font-semibold transition">
-            Initiate Contact
-          </a>
-        </li>
+      <ul class="list-none hidden sm:flex flex-row gap-10">
+        <li class="text-secondary hover:text-white text-[17px] font-medium transition cursor-pointer"><a href="#about">About</a></li>
+        <li class="text-secondary hover:text-white text-[17px] font-medium transition cursor-pointer"><a href="#work">Work</a></li>
+        <li class="text-secondary hover:text-white text-[17px] font-medium transition cursor-pointer"><a href="#projects">Projects</a></li>
+        <li class="text-secondary hover:text-white text-[17px] font-medium transition cursor-pointer"><a href="#contact">Contact</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- HERO SECTION WITH RUNNING 3D ENGINE -->
-  <section class="relative w-full min-h-screen pt-24 pb-12 flex flex-col justify-center max-w-7xl mx-auto sm:px-16 px-6" id="engine">
+  <!-- Hero with Point-Cloud & Aerodynamic Wave Contour Viewport -->
+  <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
     
-    <!-- Top Hero Meta -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-      
-      <!-- Left Hero Description -->
-      <div class="lg:col-span-5 z-20">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent font-mono text-xs mb-4">
-          <span class="w-2 h-2 rounded-full bg-accent animate-ping"></span>
-          REAL-TIME KINEMATICS ENGINE
-        </div>
-        <h1 class="font-black text-white text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-tight mb-4">
-          Precision <span class="text-transparent bg-clip-text violet-cyan-gradient">Kinematics</span> &amp; Fluid Systems.
-        </h1>
-        <p class="text-secondary text-base sm:text-lg leading-relaxed mb-6 font-light">
-          Mechanical Engineer specializing in computational fluid dynamics (CFD), multi-body mechanism dynamics, and automated mechatronic design.
-        </p>
-
-        <!-- Live Telemetry Matrix -->
-        <div class="bg-card-bg/80 border border-white/10 rounded-xl p-4 backdrop-blur-md mb-6 font-mono text-xs grid grid-cols-3 gap-2">
-          <div class="bg-primary/60 p-2.5 rounded-lg border border-white/5">
-            <div class="text-secondary text-[10px] uppercase">Engine Speed</div>
-            <div class="text-accent font-bold text-sm" id="hudRpm">900 RPM</div>
-          </div>
-          <div class="bg-primary/60 p-2.5 rounded-lg border border-white/5">
-            <div class="text-secondary text-[10px] uppercase">Piston Pos ($y_p$)</div>
-            <div class="text-white font-bold text-sm" id="hudPos">0.0 mm</div>
-          </div>
-          <div class="bg-primary/60 p-2.5 rounded-lg border border-white/5">
-            <div class="text-secondary text-[10px] uppercase">Crank Angle ($\theta$)</div>
-            <div class="text-violet font-bold text-sm" id="hudAngle">0°</div>
-          </div>
-        </div>
-
-        <div class="flex gap-4">
-          <a href="#projects" class="px-6 py-3 rounded-xl bg-white text-black font-semibold text-sm hover:bg-slate-200 transition shadow-lg shadow-white/10">
-            View Projects
-          </a>
-          <a href="#contact" class="px-6 py-3 rounded-xl bg-card-bg border border-white/10 hover:border-accent text-white font-semibold text-sm transition">
-            Contact
-          </a>
-        </div>
+    <!-- Hero Text -->
+    <div class="absolute inset-0 top-[140px] max-w-7xl mx-auto sm:px-16 px-6 flex flex-row items-start gap-5 pointer-events-none z-20">
+      <div class="flex flex-col justify-center items-center mt-5">
+        <div class="w-5 h-5 rounded-full bg-[#915EFF] shadow-[0_0_16px_#915EFF]"></div>
+        <div class="w-1 sm:h-80 h-44 violet-gradient"></div>
       </div>
 
-      <!-- Right 3D Interactive Engine Viewport -->
-      <div class="lg:col-span-7 relative">
-        <div class="w-full h-[480px] sm:h-[540px] bg-gradient-to-b from-[#0e1628] to-[#080d19] rounded-2xl border border-white/10 shadow-2xl relative overflow-hidden flex items-center justify-center">
-          
-          <!-- WebGL Canvas Container -->
-          <div id="engineCanvasContainer" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
-
-          <!-- Interactive Engine Toolbar (HUD Overlay) -->
-          <div class="absolute top-4 left-4 right-4 flex justify-between items-center bg-primary/80 backdrop-blur-md p-3 rounded-xl border border-white/10 text-xs font-mono">
-            <div class="flex items-center gap-3">
-              <button id="toggleRunBtn" class="px-3 py-1.5 rounded-lg bg-accent text-black font-bold hover:opacity-90 transition">
-                ⏸ PAUSE
-              </button>
-              <button id="toggleBlockBtn" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition">
-                X-RAY BLOCK
-              </button>
-            </div>
-            
-            <div class="flex items-center gap-2">
-              <span class="text-secondary hidden sm:inline">RPM:</span>
-              <input type="range" id="rpmSlider" min="0" max="2400" step="50" value="900" class="w-24 sm:w-32 cursor-pointer accent-accent">
-            </div>
-          </div>
-
-          <!-- Bottom Control Hint -->
-          <div class="absolute bottom-3 text-secondary text-[11px] font-mono bg-primary/70 px-3 py-1 rounded-full border border-white/5 pointer-events-none">
-            🖱 Orbit: Drag | Zoom: Scroll | Pan: Right-Click
-          </div>
-        </div>
+      <div>
+        <h1 class="font-black text-white lg:text-[76px] sm:text-[58px] xs:text-[46px] text-[38px] lg:leading-[92px] mt-2">
+          Hi, I'm <span class="text-[#915EFF]">Saqif</span>
+        </h1>
+        <p class="text-[#dfd9ff] font-medium lg:text-[26px] sm:text-[22px] xs:text-[18px] text-[15px] lg:leading-[38px] mt-3 max-w-2xl">
+          Mechanical engineer,<br class="sm:block hidden">
+          skilled in engineering analysis, fluid simulation, and practical design.
+        </p>
       </div>
     </div>
 
-    <!-- Scroll Indicator -->
-    <div class="flex justify-center mt-12">
-      <a href="#about" class="w-7 h-12 rounded-full border-2 border-secondary/40 flex justify-center items-start p-1.5">
-        <div class="w-2 h-2 rounded-full bg-accent animate-scroll-dot"></div>
+    <!-- 3D Canvas -->
+    <div class="w-full h-full cursor-grab active:cursor-grabbing relative z-10" id="heroCanvas"></div>
+
+    <!-- Mouse Scroll Down Pill -->
+    <div class="absolute xs:bottom-8 bottom-20 w-full flex justify-center items-center z-30">
+      <a href="#about">
+        <div class="w-[34px] h-[60px] rounded-3xl border-4 border-secondary/60 flex justify-center items-start p-2">
+          <div class="w-2.5 h-2.5 rounded-full bg-secondary mb-1 animate-scroll-dot"></div>
+        </div>
       </a>
     </div>
   </section>
 
-  <!-- SECTION 1: ABOUT / CAPABILITIES -->
-  <section class="sm:px-16 px-6 py-20 max-w-7xl mx-auto" id="about">
+  <!-- Overview Section -->
+  <section class="sm:px-16 px-6 sm:py-16 py-10 max-w-7xl mx-auto relative z-20" id="about">
     <div>
-      <p class="text-accent font-mono text-xs uppercase tracking-widest">Engineering Domain</p>
-      <h2 class="text-white font-extrabold text-3xl sm:text-4xl mt-1">Technical Overview.</h2>
+      <p class="sm:text-[18px] text-[14px] text-secondary uppercase tracking-wider">Introduction</p>
+      <h2 class="text-white font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]">Overview.</h2>
     </div>
 
-    <p class="mt-4 text-secondary text-base sm:text-lg max-w-3xl leading-relaxed">
-      Transforming complex fluid and mechanical phenomena into high-performance, validated physical prototypes. Equipped with solid computational modeling foundations and precision prototyping tools.
+    <p class="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]">
+      I'm a Mechanical Engineer with experience in CAD modeling, computational fluid dynamics (CFD), and electro-mechanical systems. Skilled in transforming engineering concepts into validated, high-performance physical prototypes.
     </p>
 
-    <!-- 4 Interactive 3D Tilt Cards -->
-    <div class="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="tilt-card" data-tilt data-tilt-max="15">
-        <div class="border-glow p-[1px] rounded-2xl">
-          <div class="bg-card-bg p-6 rounded-2xl min-h-[260px] flex flex-col justify-between">
-            <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent text-2xl">
-              ⚙️
-            </div>
-            <div>
-              <h3 class="text-white font-bold text-lg">CAD &amp; Mechanism</h3>
-              <p class="text-secondary text-xs mt-2 leading-relaxed">SolidWorks 3D parametric modeling, multi-linkage kinematics, and GD&amp;T tolerancing.</p>
-            </div>
+    <!-- 4 Gradient Border Tilt Cards -->
+    <div class="mt-16 flex flex-wrap justify-center gap-10">
+      <div class="xs:w-[250px] w-full tilt-card" data-tilt data-tilt-max="20">
+        <div class="w-full green-pink-gradient p-[1px] rounded-[20px]">
+          <div class="bg-tertiary rounded-[20px] py-6 px-8 min-h-[280px] flex justify-evenly items-center flex-col text-center">
+            <div class="text-4xl">⚙️</div>
+            <h3 class="text-white text-[20px] font-bold">Mechanical Designer</h3>
+            <p class="text-secondary text-[13px]">SolidWorks 3D CAD, kinematics, &amp; assemblies</p>
           </div>
         </div>
       </div>
 
-      <div class="tilt-card" data-tilt data-tilt-max="15">
-        <div class="border-glow p-[1px] rounded-2xl">
-          <div class="bg-card-bg p-6 rounded-2xl min-h-[260px] flex flex-col justify-between">
-            <div class="w-12 h-12 rounded-xl bg-violet/10 flex items-center justify-center text-violet text-2xl">
-              🌊
-            </div>
-            <div>
-              <h3 class="text-white font-bold text-lg">Simulation &amp; CFD</h3>
-              <p class="text-secondary text-xs mt-2 leading-relaxed">Ansys Fluent, OpenFOAM, unsteady vortex wake tracking, and boundary layer resolution ($y^+ \le 1$).</p>
-            </div>
+      <div class="xs:w-[250px] w-full tilt-card" data-tilt data-tilt-max="20">
+        <div class="w-full green-pink-gradient p-[1px] rounded-[20px]">
+          <div class="bg-tertiary rounded-[20px] py-6 px-8 min-h-[280px] flex justify-evenly items-center flex-col text-center">
+            <div class="text-4xl">🌊</div>
+            <h3 class="text-white text-[20px] font-bold">Simulation Engineer</h3>
+            <p class="text-secondary text-[13px]">Ansys Fluent CFD &amp; aerodynamic modeling</p>
           </div>
         </div>
       </div>
 
-      <div class="tilt-card" data-tilt data-tilt-max="15">
-        <div class="border-glow p-[1px] rounded-2xl">
-          <div class="bg-card-bg p-6 rounded-2xl min-h-[260px] flex flex-col justify-between">
-            <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent text-2xl">
-              🤖
-            </div>
-            <div>
-              <h3 class="text-white font-bold text-lg">Robotics &amp; Control</h3>
-              <p class="text-secondary text-xs mt-2 leading-relaxed">Embedded Arduino C++ firmware, isolated multi-rail power supplies, and actuators.</p>
-            </div>
+      <div class="xs:w-[250px] w-full tilt-card" data-tilt data-tilt-max="20">
+        <div class="w-full green-pink-gradient p-[1px] rounded-[20px]">
+          <div class="bg-tertiary rounded-[20px] py-6 px-8 min-h-[280px] flex justify-evenly items-center flex-col text-center">
+            <div class="text-4xl">🤖</div>
+            <h3 class="text-white text-[20px] font-bold">Robotics &amp; Control</h3>
+            <p class="text-secondary text-[13px]">Rover mechanisms &amp; embedded Arduino</p>
           </div>
         </div>
       </div>
 
-      <div class="tilt-card" data-tilt data-tilt-max="15">
-        <div class="border-glow p-[1px] rounded-2xl">
-          <div class="bg-card-bg p-6 rounded-2xl min-h-[260px] flex flex-col justify-between">
-            <div class="w-12 h-12 rounded-xl bg-violet/10 flex items-center justify-center text-violet text-2xl">
-              🔬
-            </div>
-            <div>
-              <h3 class="text-white font-bold text-lg">Applied Research</h3>
-              <p class="text-secondary text-xs mt-2 leading-relaxed">Biomimetic hydrodynamics, spanwise flexible flapping foils, and tubercle flow control.</p>
-            </div>
+      <div class="xs:w-[250px] w-full tilt-card" data-tilt data-tilt-max="20">
+        <div class="w-full green-pink-gradient p-[1px] rounded-[20px]">
+          <div class="bg-tertiary rounded-[20px] py-6 px-8 min-h-[280px] flex justify-evenly items-center flex-col text-center">
+            <div class="text-4xl">💡</div>
+            <h3 class="text-white text-[20px] font-bold">Problem Solver</h3>
+            <p class="text-secondary text-[13px]">Fluid mechanics &amp; mechanism prototyping</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 2: FEATURED PROJECTS -->
-  <section class="sm:px-16 px-6 py-20 max-w-7xl mx-auto" id="projects">
+  <!-- Projects Section -->
+  <section class="sm:px-16 px-6 sm:py-16 py-10 max-w-7xl mx-auto relative z-20" id="projects">
     <div>
-      <p class="text-accent font-mono text-xs uppercase tracking-widest">Hardware &amp; Code</p>
-      <h2 class="text-white font-extrabold text-3xl sm:text-4xl mt-1">Featured Projects.</h2>
+      <p class="sm:text-[18px] text-[14px] text-secondary uppercase tracking-wider">My work</p>
+      <h2 class="text-white font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]">Projects.</h2>
     </div>
 
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- Project 1 -->
-      <div class="bg-card-bg border border-white/10 rounded-2xl p-6 flex flex-col justify-between hover:border-accent/40 transition">
+    <div class="mt-14 flex flex-wrap justify-center gap-7">
+      <div class="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full border border-white/5 flex flex-col justify-between">
         <div>
-          <div class="w-full h-44 bg-gradient-to-br from-slate-900 to-slate-950 rounded-xl border border-white/5 flex items-center justify-center text-4xl mb-6">
-            🌊
-          </div>
-          <h3 class="text-white font-bold text-xl mb-2">Boundary Layer Simulator</h3>
-          <p class="text-secondary text-xs leading-relaxed mb-6">
-            Real-time interactive CFD solver calculating laminar Blasius and turbulent velocity profiles, Reynolds numbers, and skin friction coefficients.
+          <div class="w-full h-[180px] bg-[#1d1836] rounded-xl flex items-center justify-center text-5xl mb-4">🌊</div>
+          <h3 class="text-white font-bold text-[22px]">Boundary Layer Simulator</h3>
+          <p class="mt-2 text-secondary text-[14px] leading-relaxed">
+            Analytical fluid mechanics solver modeling laminar/turbulent profiles and skin friction.
           </p>
         </div>
-        <div class="flex flex-wrap gap-2 font-mono text-[11px]">
-          <span class="px-2.5 py-1 rounded-md bg-accent/10 text-accent border border-accent/20">JavaScript</span>
-          <span class="px-2.5 py-1 rounded-md bg-white/5 text-secondary">Fluid Mechanics</span>
-        </div>
+        <div class="mt-4 flex flex-wrap gap-2 text-xs font-mono text-[#00cea8]">#JavaScript #CFD</div>
       </div>
 
-      <!-- Project 2 -->
-      <div class="bg-card-bg border border-white/10 rounded-2xl p-6 flex flex-col justify-between hover:border-violet/40 transition">
+      <div class="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full border border-white/5 flex flex-col justify-between">
         <div>
-          <div class="w-full h-44 bg-gradient-to-br from-slate-900 to-slate-950 rounded-xl border border-white/5 flex items-center justify-center text-4xl mb-6">
-            🦾
-          </div>
-          <h3 class="text-white font-bold text-xl mb-2">Rover Robotic Manipulator</h3>
-          <p class="text-secondary text-xs leading-relaxed mb-6">
-            Multi-DOF planetary rover robotic arm modeled in SolidWorks with inverse kinematic verification, gear-train torque sizing, and static FEA.
+          <div class="w-full h-[180px] bg-[#1d1836] rounded-xl flex items-center justify-center text-5xl mb-4">🦾</div>
+          <h3 class="text-white font-bold text-[22px]">Rover Robotic Arm</h3>
+          <p class="mt-2 text-secondary text-[14px] leading-relaxed">
+            Multi-DOF planetary rover robotic arm modeled with SolidWorks kinematics and stress FEA.
           </p>
         </div>
-        <div class="flex flex-wrap gap-2 font-mono text-[11px]">
-          <span class="px-2.5 py-1 rounded-md bg-violet/10 text-violet border border-violet/20">SolidWorks</span>
-          <span class="px-2.5 py-1 rounded-md bg-white/5 text-secondary">Kinematics</span>
-        </div>
+        <div class="mt-4 flex flex-wrap gap-2 text-xs font-mono text-[#915EFF]">#SolidWorks #Kinematics</div>
       </div>
 
-      <!-- Project 3 -->
-      <div class="bg-card-bg border border-white/10 rounded-2xl p-6 flex flex-col justify-between hover:border-accent/40 transition">
+      <div class="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full border border-white/5 flex flex-col justify-between">
         <div>
-          <div class="w-full h-44 bg-gradient-to-br from-slate-900 to-slate-950 rounded-xl border border-white/5 flex items-center justify-center text-4xl mb-6">
-            🌱
-          </div>
-          <h3 class="text-white font-bold text-xl mb-2">Automated Irrigation Unit</h3>
-          <p class="text-secondary text-xs leading-relaxed mb-6">
-            Closed-loop soil moisture regulation system with relay-driven pumps, isolated power rails, and diagnostic LCD telemetry feedback.
+          <div class="w-full h-[180px] bg-[#1d1836] rounded-xl flex items-center justify-center text-5xl mb-4">🐧</div>
+          <h3 class="text-white font-bold text-[22px]">Biomimetic Hydrofoil</h3>
+          <p class="mt-2 text-secondary text-[14px] leading-relaxed">
+            CFD thrust efficiency and vortex wake analysis of penguin-inspired flexible flapping foils.
           </p>
         </div>
-        <div class="flex flex-wrap gap-2 font-mono text-[11px]">
-          <span class="px-2.5 py-1 rounded-md bg-accent/10 text-accent border border-accent/20">Arduino C++</span>
-          <span class="px-2.5 py-1 rounded-md bg-white/5 text-secondary">Embedded</span>
-        </div>
+        <div class="mt-4 flex flex-wrap gap-2 text-xs font-mono text-[#38bdf8]">#AnsysFluent #Hydrodynamics</div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 3: RESEARCH -->
-  <section class="sm:px-16 px-6 py-20 max-w-7xl mx-auto" id="research">
-    <div>
-      <p class="text-accent font-mono text-xs uppercase tracking-widest">Academic CFD</p>
-      <h2 class="text-white font-extrabold text-3xl sm:text-4xl mt-1">Fluid Dynamics Research.</h2>
-    </div>
+  <!-- Contact -->
+  <section class="sm:px-16 px-6 sm:py-16 py-10 max-w-7xl mx-auto relative z-20" id="contact">
+    <div class="bg-black-100 p-8 sm:p-12 rounded-2xl border border-white/5 max-w-3xl mx-auto">
+      <p class="sm:text-[18px] text-[14px] text-secondary uppercase tracking-wider">Get in touch</p>
+      <h3 class="text-white font-black md:text-[50px] sm:text-[40px] text-[32px]">Contact.</h3>
 
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="bg-card-bg border border-white/10 rounded-2xl p-6 hover:border-accent/40 transition">
-        <span class="text-xs font-mono text-accent">HYDRODYNAMICS</span>
-        <h3 class="text-white font-bold text-xl mt-2 mb-3">Penguin-Inspired Flapping Hydrofoils</h3>
-        <p class="text-secondary text-sm leading-relaxed mb-4">
-          Evaluation of propulsive efficiency and reverse von Kármán vortex street wake generation across spanwise flexible hydrofoils using transient Ansys Fluent solvers.
-        </p>
-        <div class="flex gap-2 font-mono text-xs text-secondary">
-          <span>• Ansys Fluent</span>
-          <span>• Vortex Dynamics</span>
-          <span>• Flexible Foils</span>
-        </div>
-      </div>
-
-      <div class="bg-card-bg border border-white/10 rounded-2xl p-6 hover:border-violet/40 transition">
-        <span class="text-xs font-mono text-violet">FLOW CONTROL</span>
-        <h3 class="text-white font-bold text-xl mt-2 mb-3">Tubercle Leading-Edge Diffusers</h3>
-        <p class="text-secondary text-sm leading-relaxed mb-4">
-          Investigation into biomimetic leading-edge tubercles generating streamwise counter-rotating vortex pairs to delay boundary layer stall in adverse pressure gradients.
-        </p>
-        <div class="flex gap-2 font-mono text-xs text-secondary">
-          <span>• Adverse Pressure Gradients</span>
-          <span>• Separation Delay</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 4: CONTACT -->
-  <section class="sm:px-16 px-6 py-20 max-w-7xl mx-auto" id="contact">
-    <div class="bg-card-bg border border-white/10 rounded-3xl p-8 sm:p-14 max-w-3xl mx-auto">
-      <p class="text-accent font-mono text-xs uppercase tracking-widest">Communication</p>
-      <h2 class="text-white font-black text-3xl sm:text-5xl mt-2 mb-8">Get In Touch.</h2>
-
-      <div class="flex flex-col gap-4 font-mono text-sm">
-        <a href="mailto:saqifshahriar007@gmail.com" class="p-4 rounded-xl bg-primary/80 border border-white/10 hover:border-accent text-white flex items-center justify-between transition group">
-          <div class="flex items-center gap-3">
-            <span class="text-xl">📧</span>
-            <span>saqifshahriar007@gmail.com</span>
+      <div class="mt-8 flex flex-col gap-4">
+        <a href="mailto:saqifshahriar007@gmail.com" class="bg-tertiary py-4 px-6 rounded-xl flex items-center gap-4 text-white hover:border-[#915EFF]/50 border border-white/5 transition">
+          <span class="text-2xl">📧</span>
+          <div>
+            <p class="text-secondary text-xs uppercase">Email</p>
+            <p class="font-medium">saqifshahriar007@gmail.com</p>
           </div>
-          <span class="text-accent group-hover:translate-x-1 transition">→</span>
         </a>
-
-        <a href="https://github.com/saqifshahriar007" target="_blank" rel="noopener noreferrer" class="p-4 rounded-xl bg-primary/80 border border-white/10 hover:border-accent text-white flex items-center justify-between transition group">
-          <div class="flex items-center gap-3">
-            <span class="text-xl">💻</span>
-            <span>github.com/saqifshahriar007</span>
+        <a href="https://github.com/saqifshahriar007" target="_blank" rel="noopener noreferrer" class="bg-tertiary py-4 px-6 rounded-xl flex items-center gap-4 text-white hover:border-[#00cea8]/50 border border-white/5 transition">
+          <span class="text-2xl">💻</span>
+          <div>
+            <p class="text-secondary text-xs uppercase">GitHub</p>
+            <p class="font-medium">github.com/saqifshahriar007</p>
           </div>
-          <span class="text-accent group-hover:translate-x-1 transition">→</span>
-        </a>
-
-        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="p-4 rounded-xl bg-primary/80 border border-white/10 hover:border-accent text-white flex items-center justify-between transition group">
-          <div class="flex items-center gap-3">
-            <span class="text-xl">🔗</span>
-            <span>LinkedIn Profile</span>
-          </div>
-          <span class="text-accent group-hover:translate-x-1 transition">→</span>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="text-center py-8 text-secondary text-xs border-t border-white/5 font-mono">
-    © 2026 SAQIF SHAHRIAR • ENGINEERED WITH THREE.JS &amp; TAILWIND • DEPLOYED ON VERCEL
+  <footer class="text-center py-8 text-secondary text-sm border-t border-white/5 mt-10">
+    <p>© 2026 Saqif Shahriar • Built with Three.js • Deployed on Vercel</p>
   </footer>
 
-  <!-- SCRIPT: RUNNING 3D IC ENGINE SIMULATION (Three.js Kinematics) -->
+  <!-- SCRIPT: HIGH-DENSITY 3D PARTICLE FIELD & CONTOUR WAVES -->
   <script>
-    const container = document.getElementById('engineCanvasContainer');
-    const hudRpm = document.getElementById('hudRpm');
-    const hudPos = document.getElementById('hudPos');
-    const hudAngle = document.getElementById('hudAngle');
-    const rpmSlider = document.getElementById('rpmSlider');
-    const toggleRunBtn = document.getElementById('toggleRunBtn');
-    const toggleBlockBtn = document.getElementById('toggleBlockBtn');
-
-    // 1. Three.js Scene Setup
+    const container = document.getElementById('heroCanvas');
     const scene = new THREE.Scene();
+
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(12, 10, 18);
+    camera.position.set(10, 5, 18);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.3;
     container.appendChild(renderer.domElement);
 
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 1.2;
+    controls.enableZoom = false;
 
-    // 2. Studio Lighting
-    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+    // 1. Aerodynamic Contour Wave Ribbons
+    const ribbonGroup = new THREE.Group();
+    scene.add(ribbonGroup);
 
-    const keyLight = new THREE.DirectionalLight(0x00f0ff, 2.5);
-    keyLight.position.set(10, 15, 10);
-    scene.add(keyLight);
-
-    const rimLight = new THREE.DirectionalLight(0x9d4edd, 2.0);
-    rimLight.position.set(-10, -10, -10);
-    scene.add(rimLight);
-
-    const fillLight = new THREE.PointLight(0xffffff, 1.2, 30);
-    fillLight.position.set(0, 10, 8);
-    scene.add(fillLight);
-
-    // Spark Plug Combustion Flash Light (TDC)
-    const sparkLight = new THREE.PointLight(0xff7700, 0, 15);
-    sparkLight.position.set(0, 7.5, 0);
-    scene.add(sparkLight);
-
-    // 3. Materials
-    const steelMat = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.9, roughness: 0.15 });
-    const darkSteelMat = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.8, roughness: 0.3 });
-    const pistonMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.7, roughness: 0.25 });
-    const bronzeMat = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.85, roughness: 0.2 });
-
-    const blockMat = new THREE.MeshPhysicalMaterial({
-      color: 0x00f0ff,
-      metalness: 0.1,
-      roughness: 0.1,
-      transparent: true,
-      opacity: 0.25,
-      transmission: 0.6,
-      thickness: 1.2
-    });
-
-    // 4. Assembly Kinematics Components
-    const R = 2.2;  // Crank Radius
-    const L = 5.8;  // Connecting Rod Length
-
-    const engineAssembly = new THREE.Group();
-    scene.add(engineAssembly);
-
-    // --- Crankshaft Subassembly ---
-    const crankshaft = new THREE.Group();
-    engineAssembly.add(crankshaft);
-
-    // Main Journals (Shaft)
-    const shaftGeo = new THREE.CylinderGeometry(0.5, 0.5, 6, 24);
-    shaftGeo.rotateX(Math.PI / 2);
-    const shaft = new THREE.Mesh(shaftGeo, darkSteelMat);
-    crankshaft.add(shaft);
-
-    // Counterweight Discs
-    const cwGeo = new THREE.CylinderGeometry(2.4, 2.4, 0.6, 32, 1, false, 0, Math.PI);
-    cwGeo.rotateZ(Math.PI / 2);
-    const cw1 = new THREE.Mesh(cwGeo, darkSteelMat);
-    cw1.position.z = -1.2;
-    cw1.rotation.x = Math.PI;
-    const cw2 = new THREE.Mesh(cwGeo, darkSteelMat);
-    cw2.position.z = 1.2;
-    cw2.rotation.x = Math.PI;
-    crankshaft.add(cw1, cw2);
-
-    // Crankpin
-    const crankpinGeo = new THREE.CylinderGeometry(0.4, 0.4, 1.8, 20);
-    crankpinGeo.rotateX(Math.PI / 2);
-    const crankpin = new THREE.Mesh(crankpinGeo, bronzeMat);
-    crankpin.position.set(0, R, 0);
-    crankshaft.add(crankpin);
-
-    // Flywheel
-    const flywheelGeo = new THREE.CylinderGeometry(3.5, 3.5, 0.5, 36);
-    flywheelGeo.rotateX(Math.PI / 2);
-    const flywheel = new THREE.Mesh(flywheelGeo, steelMat);
-    flywheel.position.z = -3.2;
-    crankshaft.add(flywheel);
-
-    // --- Connecting Rod Subassembly ---
-    const conRod = new THREE.Group();
-    engineAssembly.add(conRod);
-
-    const rodBeamGeo = new THREE.BoxGeometry(0.4, L, 0.35);
-    rodBeamGeo.translate(0, L / 2, 0);
-    const rodBeam = new THREE.Mesh(rodBeamGeo, steelMat);
-    conRod.add(rodBeam);
-
-    const bigEnd = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.7, 0.8, 24), bronzeMat);
-    bigEnd.rotation.x = Math.PI / 2;
-    conRod.add(bigEnd);
-
-    const smallEnd = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.6, 24), bronzeMat);
-    smallEnd.position.y = L;
-    smallEnd.rotation.x = Math.PI / 2;
-    conRod.add(smallEnd);
-
-    // --- Piston Subassembly ---
-    const piston = new THREE.Group();
-    engineAssembly.add(piston);
-
-    const crownGeo = new THREE.CylinderGeometry(2.0, 2.0, 2.4, 32);
-    const crown = new THREE.Mesh(crownGeo, pistonMat);
-    piston.add(crown);
-
-    // Gudgeon Pin
-    const pinGeo = new THREE.CylinderGeometry(0.3, 0.3, 3.8, 16);
-    pinGeo.rotateX(Math.PI / 2);
-    const pin = new THREE.Mesh(pinGeo, steelMat);
-    piston.add(pin);
-
-    // --- Cylinder Engine Block with Cooling Fins ---
-    const blockGroup = new THREE.Group();
-    engineAssembly.add(blockGroup);
-
-    const cylSleeveGeo = new THREE.CylinderGeometry(2.08, 2.08, 9.5, 32, 1, true);
-    const cylSleeve = new THREE.Mesh(cylSleeveGeo, blockMat);
-    cylSleeve.position.y = 5.5;
-    blockGroup.add(cylSleeve);
-
-    // 7 Cooling Fins
-    for (let f = 0; f < 7; f++) {
-      const finGeo = new THREE.TorusGeometry(2.8, 0.08, 8, 36);
-      finGeo.rotateX(Math.PI / 2);
-      const fin = new THREE.Mesh(finGeo, steelMat);
-      fin.position.y = 2.2 + f * 1.0;
-      blockGroup.add(fin);
+    for (let j = -5; j <= 5; j++) {
+      const curvePoints = [];
+      for (let i = -18; i <= 18; i += 0.5) {
+        const x = i;
+        const y = Math.sin(i * 0.25 + j * 0.5) * 2.2 + (j * 1.6);
+        const z = Math.cos(i * 0.2) * 2.5 - 5;
+        curvePoints.push(new THREE.Vector3(x, y, z));
+      }
+      const curve = new THREE.CatmullRomCurve3(curvePoints);
+      const tubeGeo = new THREE.TubeGeometry(curve, 64, 0.035, 6, false);
+      const tubeMat = new THREE.MeshBasicMaterial({
+        color: (j % 2 === 0) ? 0x915EFF : 0x00cea8,
+        transparent: true,
+        opacity: 0.25
+      });
+      ribbonGroup.add(new THREE.Mesh(tubeGeo, tubeMat));
     }
 
-    // Engine Spark Plug on Head
-    const plug = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 1.2, 16), steelMat);
-    plug.position.y = 10.4;
-    blockGroup.add(plug);
+    // 2. High-Density 3D Aerodynamic Point-Cloud
+    const COUNT = 6000;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(COUNT * 3);
+    const colors = new Float32Array(COUNT * 3);
 
-    // 5. Kinematics Mathematical Solver Loop
-    let isRunning = true;
-    let isXray = true;
-    let currentRpm = 900;
-    let engineTheta = 0;
+    const color1 = new THREE.Color(0x38bdf8);
+    const color2 = new THREE.Color(0x915EFF);
 
-    rpmSlider.addEventListener('input', (e) => {
-      currentRpm = parseFloat(e.target.value);
-      hudRpm.textContent = `${currentRpm} RPM`;
+    let idx = 0;
+    for (let i = 0; i < COUNT; i++) {
+      const u = (Math.random() - 0.5) * 16;
+      const v = (Math.random() - 0.5) * 6;
+      const height = Math.max(0, 2.5 * (1 - Math.pow(u / 8, 2))) * Math.cos(v / 3 * 1.2);
+      const noise = (Math.random() - 0.5) * 0.2;
+      const w = height + noise - 0.5;
+
+      positions[idx] = u + 2;
+      positions[idx + 1] = w;
+      positions[idx + 2] = v;
+
+      const mix = (u + 8) / 16;
+      const c = color1.clone().lerp(color2, mix);
+      colors[idx] = c.r;
+      colors[idx + 1] = c.g;
+      colors[idx + 2] = c.b;
+
+      idx += 3;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+      size: 0.12,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.85,
+      blending: THREE.AdditiveBlending
     });
 
-    toggleRunBtn.addEventListener('click', () => {
-      isRunning = !isRunning;
-      toggleRunBtn.textContent = isRunning ? '⏸ PAUSE' : '▶ RUN';
-      toggleRunBtn.className = isRunning
-        ? 'px-3 py-1.5 rounded-lg bg-accent text-black font-bold hover:opacity-90 transition'
-        : 'px-3 py-1.5 rounded-lg bg-white/20 text-white font-bold hover:bg-white/30 transition';
-    });
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
 
-    toggleBlockBtn.addEventListener('click', () => {
-      isXray = !isXray;
-      blockMat.wireframe = !isXray;
-      toggleBlockBtn.textContent = isXray ? 'X-RAY BLOCK' : 'WIREFRAME BLOCK';
-    });
-
-    let lastTime = performance.now();
-
-    function animateEngine(now) {
-      requestAnimationFrame(animateEngine);
-
-      const delta = (now - lastTime) / 1000;
-      lastTime = now;
-
-      if (isRunning && currentRpm > 0) {
-        const omega = (currentRpm * 2 * Math.PI) / 60;
-        engineTheta += omega * delta;
-      }
-
-      // --- Precise Slider-Crank Kinematics Calculations ---
-      const theta = engineTheta;
-      const sinT = Math.sin(theta);
-      const cosT = Math.cos(theta);
-
-      // Crank Rotation
-      crankshaft.rotation.z = theta;
-
-      // Crankpin Coordinate in 2D Plane
-      const crankPinX = -R * sinT;
-      const crankPinY = R * cosT;
-
-      // Piston Linear Displacement: y_p = R*cos(theta) + sqrt(L^2 - R^2*sin^2(theta))
-      const pistonY = R * cosT + Math.sqrt(L * L - R * R * sinT * sinT);
-
-      // Connecting Rod Tilt Angle: beta = asin(-R * sin(theta) / L)
-      const beta = Math.asin((-R * sinT) / L);
-
-      // Apply to Con-Rod
-      conRod.position.set(crankPinX, crankPinY, 0);
-      conRod.rotation.z = beta;
-
-      // Apply to Piston
-      piston.position.set(0, pistonY, 0);
-
-      // Combustion Spark Light near Top Dead Center (TDC)
-      const distFromTdc = Math.abs((theta % (2 * Math.PI)));
-      if (distFromTdc < 0.25 || distFromTdc > 6.0) {
-        sparkLight.intensity = 6.0;
-      } else {
-        sparkLight.intensity *= 0.85;
-      }
-
-      // Update Live Telemetry HUD
-      hudPos.textContent = `${(pistonY - (L - R)).toFixed(2)} mm`;
-      hudAngle.textContent = `${Math.round(((theta * 180) / Math.PI) % 360)}°`;
-
+    function animate() {
+      requestAnimationFrame(animate);
       controls.update();
+      ribbonGroup.rotation.y += 0.001;
       renderer.render(scene, camera);
     }
+    animate();
 
-    animateEngine(performance.now());
-
-    // Responsive Canvas Resize
     window.addEventListener('resize', () => {
       camera.aspect = container.clientWidth / container.clientHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(container.clientWidth, container.clientHeight);
     });
 
-    // 6. Initialize Tilt Effect on Cards
     VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
-      max: 15,
+      max: 18,
       speed: 400,
       glare: true,
-      "max-glare": 0.2,
+      "max-glare": 0.25,
     });
-
-    lucide.createIcons();
   </script>
 
 </body>
