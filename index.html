@@ -60,7 +60,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Fixed Full-Page Flow Simulation Canvas */
+    /* Fixed Background Canvas */
     #flowSimCanvas {
       position: fixed;
       top: 0;
@@ -79,7 +79,7 @@
       transform: translateX(-50%);
       width: 850px;
       height: 480px;
-      background: radial-gradient(circle, rgba(77, 143, 122, 0.05) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(77, 143, 122, 0.04) 0%, transparent 70%);
       filter: blur(120px);
       pointer-events: none;
       z-index: 1;
@@ -95,7 +95,7 @@
       background: rgba(7, 13, 10, 0.78);
       backdrop-filter: blur(18px);
       border: 1px solid rgba(255, 255, 255, 0.06);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .glow-card:hover {
@@ -437,7 +437,7 @@
     </footer>
   </div>
 
-  <!-- SCRIPT: THREE.JS INTERACTIVE SIMULATION DOTTED FLOW FIELD -->
+  <!-- SCRIPT: THREE.JS INERTIAL CONTINUOUS 3D FLOW ENGINE -->
   <script>
     const canvas = document.getElementById('flowSimCanvas');
     const scene = new THREE.Scene();
@@ -449,7 +449,7 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // --- 1. DOTTED PARAMETRIC STREAMLINES (Focused on lateral flanks) ---
+    // --- 1. CONTINUOUS PARAMETRIC RIBBONS (Side Flanks) ---
     const waveGroup = new THREE.Group();
     scene.add(waveGroup);
 
@@ -461,7 +461,7 @@
     const flanks = [-1, 1];
     flanks.forEach(side => {
       for (let j = -6; j <= 6; j++) {
-        for (let i = -36; i <= 36; i += 0.28) {
+        for (let i = -45; i <= 45; i += 0.3) {
           const y = i;
           const x = (side * 17.5) + Math.sin(y * 0.14 + j * 0.35) * 3.8;
           const z = Math.cos(y * 0.11) * 3.2 - 4.5;
@@ -490,34 +490,34 @@
     const waveMesh = new THREE.Points(waveGeo, waveMat);
     waveGroup.add(waveMesh);
 
-    // --- 2. INTERACTIVE SIMULATION SWARM (Curled Vector Field + Mouse Deflection) ---
+    // --- 2. SEAMLESS INFINITE DOTTED SWARM (Modular Space Math) ---
     const SWARM_COUNT = 3200;
+    const PERIOD_HEIGHT = 80; // Total circulation span
     const swarmGeo = new THREE.BufferGeometry();
     const positions = new Float32Array(SWARM_COUNT * 3);
     const colors = new Float32Array(SWARM_COUNT * 3);
     const velocities = new Float32Array(SWARM_COUNT * 3);
-    const origins = new Float32Array(SWARM_COUNT * 3);
+    const basePositions = new Float32Array(SWARM_COUNT * 3);
 
     const cAccent = new THREE.Color(0x4d8f7a);
     const cDeep = new THREE.Color(0x0e1c17);
 
     for (let i = 0; i < SWARM_COUNT; i++) {
-      // Flank-biased distribution (|x| > 11) with a soft gradient into hero
       const side = Math.random() > 0.5 ? 1 : -1;
       const x = side * (11 + Math.random() * 15);
-      const y = (Math.random() - 0.5) * 75;
+      const y = (Math.random() - 0.5) * PERIOD_HEIGHT;
       const z = (Math.random() - 0.5) * 16;
 
       positions[i * 3] = x;
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = z;
 
-      origins[i * 3] = x;
-      origins[i * 3 + 1] = y;
-      origins[i * 3 + 2] = z;
+      basePositions[i * 3] = x;
+      basePositions[i * 3 + 1] = y;
+      basePositions[i * 3 + 2] = z;
 
       velocities[i * 3] = (Math.random() * 0.012 + 0.004) * side;
-      velocities[i * 3 + 1] = (Math.random() * 0.025 + 0.012);
+      velocities[i * 3 + 1] = (Math.random() * 0.018 + 0.008); // Downward drift
       velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.008;
 
       const mix = Math.random();
@@ -541,57 +541,68 @@
     const swarmMesh = new THREE.Points(swarmGeo, swarmMat);
     scene.add(swarmMesh);
 
-    // --- Interactive Mouse Deflection & Scroll Sync ---
+    // --- 3. FLUID INERTIAL SCROLL & MOUSE INTERPOLATION ---
+    let currentScroll = 0;
+    let targetScroll = 0;
     let mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
-    window.addEventListener('mousemove', (e) => {
-      mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 20;
-      mouse.targetY = -(e.clientY / window.innerHeight - 0.5) * 20;
-    });
+    let flowTime = 0;
 
-    let scrollY = 0;
     window.addEventListener('scroll', () => {
-      scrollY = window.scrollY;
+      targetScroll = window.scrollY;
+    }, { passive: true });
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 22;
+      mouse.targetY = -(e.clientY / window.innerHeight - 0.5) * 22;
     });
 
     function animate() {
       requestAnimationFrame(animate);
 
-      // Smooth mouse interpolation
-      mouse.x += (mouse.targetX - mouse.x) * 0.04;
-      mouse.y += (mouse.targetY - mouse.y) * 0.04;
+      // Liquid Inertial Lerp (0.035 for ultra-smooth viscous damping)
+      currentScroll += (targetScroll - currentScroll) * 0.035;
+      mouse.x += (mouse.targetX - mouse.x) * 0.035;
+      mouse.y += (mouse.targetY - mouse.y) * 0.035;
 
-      // Parallax scroll tracking
-      const targetCamY = -scrollY * 0.014;
-      camera.position.y += (targetCamY - camera.position.y) * 0.05;
+      const targetCamY = -currentScroll * 0.013;
+      camera.position.y += (targetCamY - camera.position.y) * 0.04;
 
+      flowTime += 0.01;
+
+      // Update Swarm with Periodic Continuous Wrapping
       const pos = swarmGeo.attributes.position.array;
+      const camY = camera.position.y;
+
       for (let i = 0; i < SWARM_COUNT; i++) {
-        // Streamwise downward drift
-        pos[i * 3 + 1] -= velocities[i * 3 + 1];
+        const drift = flowTime * velocities[i * 3 + 1] * 25;
+        const rawY = basePositions[i * 3 + 1] - drift;
+        
+        // Seamless modular wrapping centered around current camera position
+        const relY = ((rawY - camY + PERIOD_HEIGHT * 100) % PERIOD_HEIGHT) - (PERIOD_HEIGHT / 2);
+        const y = camY + relY;
 
-        // Harmonic fluid wave motion
-        pos[i * 3] += Math.sin(pos[i * 3 + 1] * 0.15) * 0.01;
+        let x = basePositions[i * 3] + Math.sin(y * 0.15 + flowTime * 0.5) * 0.3;
+        let z = basePositions[i * 3 + 2];
 
-        // Subtle interactive mouse deflection
-        const dx = pos[i * 3] - mouse.x;
-        const dy = (pos[i * 3 + 1] - camera.position.y) - mouse.y;
+        // Smooth Mouse Vector Deflection
+        const dx = x - mouse.x;
+        const dy = (y - camY) - mouse.y;
         const distSq = dx * dx + dy * dy;
 
-        if (distSq < 16) {
-          const force = (1 - distSq / 16) * 0.03;
-          pos[i * 3] += (dx > 0 ? 1 : -1) * force;
+        if (distSq < 18) {
+          const force = (1 - distSq / 18) * 0.04;
+          x += (dx > 0 ? 1 : -1) * force;
         }
 
-        // Seamless vertical re-circulation
-        if (pos[i * 3 + 1] < camera.position.y - 40) {
-          pos[i * 3 + 1] = camera.position.y + 40;
-          pos[i * 3] = origins[i * 3];
-        }
+        pos[i * 3] = x;
+        pos[i * 3 + 1] = y;
+        pos[i * 3 + 2] = z;
       }
       swarmGeo.attributes.position.needsUpdate = true;
 
-      // Ambient streamline rotation
-      waveGroup.rotation.y = Math.sin(Date.now() * 0.0003) * 0.06;
+      // Gentle Streamline Wave Dynamics
+      waveGroup.position.y = camY * 0.85; // Subtle parallax depth
+      waveGroup.rotation.y = Math.sin(flowTime * 0.05) * 0.06;
 
       renderer.render(scene, camera);
     }
