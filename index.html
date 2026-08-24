@@ -3,24 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Engineering & Research Portfolio</title>
+  <title>Saqif Shahriar | Engineering & Research Portfolio</title>
+  
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <style>
     :root {
-      --bg: #0d1117;
-      --card-bg: #161b22;
-      --border: #30363d;
-      --accent: #58a6ff;
-      --accent-glow: rgba(88, 166, 255, 0.15);
-      --accent-turbulent: #f78166;
-      --text: #e6edf3;
-      --text-muted: #8b949e;
-      --tag-bg: #21262d;
-      --mono-font: 'Fira Code', monospace;
-      --sans-font: 'Inter', sans-serif;
+      --bg-primary: #050816;
+      --bg-card: #100d25;
+      --bg-card-hover: #151030;
+      --border-card: rgba(255, 255, 255, 0.08);
+      --accent: #915eff;
+      --accent-secondary: #00cea8;
+      --accent-tertiary: #ff5656;
+      --text-white: #f3f3f3;
+      --text-secondary: #aaa6c3;
+      --font-sans: 'Poppins', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
 
     * {
@@ -29,103 +34,175 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: var(--sans-font);
+      background-color: var(--bg-primary);
+      color: var(--text-white);
+      font-family: var(--font-sans);
       line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      background-image: radial-gradient(var(--border) 1px, transparent 1px);
-      background-size: 32px 32px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Starfield Background Canvas */
+    #starsCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
     }
 
     .container {
-      max-width: 1080px;
+      max-width: 1120px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    /* Header & Navigation */
+    /* Navigation Bar */
     header {
-      border-bottom: 1px solid var(--border);
-      background: rgba(13, 17, 23, 0.88);
-      backdrop-filter: blur(12px);
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      width: 100%;
       z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(5, 8, 22, 0.75);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .nav-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 68px;
+      height: 72px;
     }
 
     .logo {
-      font-family: var(--mono-font);
-      font-weight: 600;
-      font-size: 1.05rem;
-      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
       text-decoration: none;
+      color: var(--text-white);
+      font-weight: 700;
+      font-size: 1.15rem;
       letter-spacing: -0.5px;
     }
 
-    nav a {
-      color: var(--text-muted);
-      text-decoration: none;
+    .logo-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
       font-size: 0.9rem;
-      margin-left: 20px;
-      transition: color 0.2s ease;
     }
 
-    nav a:hover {
-      color: var(--text);
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-white);
+    }
+
+    .nav-btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      background: rgba(145, 94, 255, 0.15);
+      border: 1px solid var(--accent);
+      color: var(--text-white) !important;
+      font-weight: 600;
+      transition: all 0.25s;
+    }
+
+    .nav-btn:hover {
+      background: var(--accent);
+      box-shadow: 0 0 16px rgba(145, 94, 255, 0.4);
     }
 
     /* Hero Section */
     .hero {
-      padding: 80px 0 48px;
-    }
-
-    .status-badge {
-      display: inline-flex;
+      min-height: 90vh;
+      display: flex;
       align-items: center;
-      gap: 8px;
-      font-family: var(--mono-font);
-      font-size: 0.8rem;
-      color: #3fb950;
-      background: rgba(63, 185, 80, 0.1);
-      border: 1px solid rgba(63, 185, 80, 0.25);
-      padding: 4px 12px;
-      border-radius: 999px;
-      margin-bottom: 24px;
+      padding-top: 100px;
+      position: relative;
     }
 
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      background-color: #3fb950;
+    .hero-content {
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+    }
+
+    .hero-marker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .marker-dot {
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      box-shadow: 0 0 8px #3fb950;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
     }
 
-    .hero h1 {
-      font-size: 2.75rem;
-      font-weight: 700;
+    .marker-line {
+      width: 3px;
+      height: 220px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+
+    .hero-text h1 {
+      font-size: 3.6rem;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 16px;
       letter-spacing: -1px;
-      line-height: 1.2;
-      margin-bottom: 20px;
     }
 
-    .hero p {
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      max-width: 680px;
+    .hero-text h1 span {
+      color: var(--accent);
+    }
+
+    .hero-text p {
+      font-size: 1.35rem;
+      color: var(--text-secondary);
+      max-width: 620px;
+      line-height: 1.6;
       margin-bottom: 32px;
     }
 
-    .hero-actions {
+    .hero-cta {
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
@@ -134,1159 +211,680 @@
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-size: 0.92rem;
-      font-weight: 500;
+      gap: 10px;
+      padding: 12px 26px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
       text-decoration: none;
       cursor: pointer;
-      transition: all 0.2s ease;
-      border: 1px solid transparent;
-      font-family: var(--sans-font);
+      transition: all 0.25s ease;
+      border: none;
     }
 
     .btn-primary {
-      background: var(--accent);
-      color: #0d1117;
-      font-weight: 600;
+      background: linear-gradient(135deg, var(--accent), #7033ff);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(145, 94, 255, 0.35);
     }
 
     .btn-primary:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(145, 94, 255, 0.55);
     }
 
     .btn-secondary {
-      background: var(--card-bg);
-      color: var(--text);
-      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-white);
+      border: 1px solid var(--border-card);
     }
 
     .btn-secondary:hover {
-      border-color: var(--text-muted);
-      transform: translateY(-1px);
+      background: var(--bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
     }
 
-    /* Section Headers */
+    /* Section Typography */
     section {
-      padding: 56px 0;
+      padding: 80px 0;
     }
 
-    .section-header {
-      margin-bottom: 28px;
+    .section-head {
+      margin-bottom: 48px;
     }
 
-    .section-tag {
-      font-family: var(--mono-font);
-      font-size: 0.82rem;
-      color: var(--accent);
+    .section-sub {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-      display: block;
+      letter-spacing: 2px;
+      font-weight: 600;
+      margin-bottom: 6px;
     }
 
     .section-title {
-      font-size: 1.85rem;
-      font-weight: 700;
+      font-size: 2.5rem;
+      font-weight: 800;
       letter-spacing: -0.5px;
     }
 
-    /* Simulation & CAD Containers */
-    .interactive-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      margin-bottom: 24px;
+    /* Overview Cards */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
     }
 
-    .interactive-header {
-      padding: 16px 20px;
-      background: rgba(22, 27, 34, 0.95);
-      border-bottom: 1px solid var(--border);
+    .overview-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 32px 24px;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .sim-status {
-      font-family: var(--mono-font);
-      font-size: 0.82rem;
-      padding: 4px 10px;
-      border-radius: 4px;
-    }
-
-    .status-laminar {
-      color: var(--accent);
-      background: rgba(88, 166, 255, 0.12);
-      border: 1px solid rgba(88, 166, 255, 0.3);
-    }
-
-    .status-turbulent {
-      color: var(--accent-turbulent);
-      background: rgba(247, 129, 102, 0.12);
-      border: 1px solid rgba(247, 129, 102, 0.3);
-    }
-
-    .canvas-wrapper {
+      text-align: center;
+      transition: all 0.3s ease;
       position: relative;
-      background: #090d13;
+      overflow: hidden;
+    }
+
+    .overview-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
-    /* Controls & Metrics Panels */
-    .controls-panel {
-      padding: 24px;
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 24px;
-      background: #11151c;
-      border-top: 1px solid var(--border);
+    .overview-card:hover {
+      transform: translateY(-6px);
+      background: var(--bg-card-hover);
+      border-color: rgba(145, 94, 255, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
-    .control-group {
+    .overview-card:hover::before {
+      opacity: 1;
+    }
+
+    .overview-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: rgba(145, 94, 255, 0.1);
       display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .slider-row {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .slider-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      font-family: var(--mono-font);
-      color: var(--text-muted);
-    }
-
-    .slider-label span:last-child {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    input[type="range"] {
-      width: 100%;
-      height: 6px;
-      border-radius: 3px;
-      background: var(--border);
-      outline: none;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: var(--accent);
-      cursor: pointer;
-      box-shadow: 0 0 8px var(--accent);
-    }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .metric-card {
-      background: var(--tag-bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 12px;
-    }
-
-    .metric-name {
-      font-family: var(--mono-font);
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-
-    .metric-val {
-      font-family: var(--mono-font);
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    /* Content Cards Grid */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-      gap: 24px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .card:hover {
-      border-color: var(--accent);
-      box-shadow: 0 4px 20px var(--accent-glow);
-    }
-
-    .card-meta {
-      font-family: var(--mono-font);
-      font-size: 0.78rem;
+      align-items: center;
+      justify-content: center;
       color: var(--accent);
-      margin-bottom: 12px;
-      text-transform: uppercase;
-    }
-
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-
-    .card-desc {
-      color: var(--text-muted);
-      font-size: 0.92rem;
       margin-bottom: 20px;
     }
 
-    .tags {
+    .overview-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .overview-card p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 28px;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(145, 94, 255, 0.4);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .project-img-wrapper {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #181438, #0a0818);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border-card);
+    }
+
+    .project-img-icon {
+      color: var(--accent);
+      opacity: 0.8;
+    }
+
+    .project-links {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(5, 8, 22, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .icon-btn:hover {
+      background: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .project-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    .project-body h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .project-body p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .project-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 24px;
     }
 
-    .tag {
-      font-family: var(--mono-font);
-      font-size: 0.75rem;
-      background: var(--tag-bg);
-      color: var(--text-muted);
-      padding: 3px 8px;
-      border-radius: 4px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+    .tag-pill {
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      font-weight: 500;
     }
 
-    .card-links {
-      display: flex;
-      gap: 16px;
-      margin-top: auto;
-      font-size: 0.88rem;
-      font-family: var(--mono-font);
-    }
+    .tag-blue { color: #38bdf8; }
+    .tag-purple { color: #c084fc; }
+    .tag-green { color: #34d399; }
+    .tag-orange { color: #fb923c; }
 
-    .card-links a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .card-links a:hover {
-      text-decoration: underline;
-    }
-
-    /* Skills Grid */
-    .skills-table {
+    /* Skills / Tech Section */
+    .skills-wrapper {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
     }
 
-    .skill-block {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px;
+    .skills-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 28px;
     }
 
-    .skill-block h4 {
-      font-size: 0.95rem;
-      font-family: var(--mono-font);
+    .skills-box h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-white);
+    }
+
+    .skills-box h3 i {
       color: var(--accent);
+    }
+
+    .skills-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .skill-badge {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-card);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .skill-badge:hover {
+      background: rgba(145, 94, 255, 0.12);
+      border-color: var(--accent);
+      color: var(--text-white);
+      transform: translateY(-2px);
+    }
+
+    /* Contact Section */
+    .contact-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 24px;
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .contact-info h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
       margin-bottom: 12px;
     }
 
-    .skill-list {
-      list-style: none;
-      font-size: 0.9rem;
-      color: var(--text-muted);
+    .contact-info p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      margin-bottom: 24px;
     }
 
-    .skill-list li {
-      margin-bottom: 6px;
-      position: relative;
-      padding-left: 14px;
+    .contact-direct {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
 
-    .skill-list li::before {
-      content: "›";
-      position: absolute;
-      left: 0;
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .contact-row i {
       color: var(--accent);
-      font-weight: bold;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
     }
 
     /* Footer */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 48px 0;
-      margin-top: 64px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 40px 0;
+      margin-top: 80px;
+      text-align: center;
       font-size: 0.9rem;
-      color: var(--text-muted);
+      color: var(--text-secondary);
     }
 
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    @media (max-width: 820px) {
-      .controls-panel { grid-template-columns: 1fr; }
-      .hero h1 { font-size: 2.2rem; }
-      .nav-inner { flex-direction: column; gap: 12px; height: auto; padding: 16px 0; }
-      nav a { margin: 0 10px; }
+    @media (max-width: 768px) {
+      .hero-text h1 { font-size: 2.5rem; }
+      .hero-text p { font-size: 1.1rem; }
+      .contact-card { grid-template-columns: 1fr; padding: 30px; }
+      .nav-links { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="container nav-inner">
-      <a href="#" class="logo">eng.sys/portfolio</a>
-      <nav>
-        <a href="#simulator">CFD Simulator</a>
-        <a href="#cad-viewer">3D CAD Viewer</a>
-        <a href="#projects">Projects</a>
-        <a href="#research">Research</a>
-        <a href="#skills">Toolkit</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
-  </header>
+  <!-- Starfield Canvas Animation -->
+  <canvas id="starsCanvas"></canvas>
 
-  <main class="container">
-    <section class="hero">
-      <div class="status-badge">
-        <span class="status-dot"></span> Available for Engineering & Research Roles
+  <div class="wrapper">
+    <!-- Header / Navbar -->
+    <header>
+      <div class="container nav-inner">
+        <a href="#" class="logo">
+          <div class="logo-badge">S</div>
+          <span>Saqif Shahriar</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#research">Research</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact" class="nav-btn">Contact Me</a></li>
+        </ul>
       </div>
-      <h1>Mechanical Engineering &<br>Computational Fluid Dynamics</h1>
-      <p>
-        Focused on biomimetic hydrodynamic propulsion, vortex wake analysis, robotic mechanism kinematics, and interactive engineering tools.
-      </p>
-      <div class="hero-actions">
-        <a href="#simulator" class="btn btn-primary">Try Fluid Simulator</a>
-        <a href="#cad-viewer" class="btn btn-secondary">Inspect 3D CAD</a>
-        <a href="#contact" class="btn btn-secondary">Get in Touch</a>
-      </div>
-    </section>
+    </header>
 
-    <section id="simulator">
-      <div class="section-header">
-        <span class="section-tag">01. Interactive Simulation</span>
-        <h2 class="section-title">Flat Plate Boundary Layer Simulator</h2>
-      </div>
-
-      <div class="interactive-card">
-        <div class="interactive-header">
-          <div>
-            <strong style="font-size: 0.95rem;">Velocity Profile & Boundary Layer Evolution</strong>
-            <div style="font-size: 0.8rem; color: var(--text-muted); font-family: var(--mono-font);">
-              Blasius Polynomial ($Re_x &lt; 5\times 10^5$) &amp; 1/7th Power Law ($Re_x \ge 5\times 10^5$)
+    <main class="container">
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-content">
+          <div class="hero-marker">
+            <div class="marker-dot"></div>
+            <div class="marker-line"></div>
+          </div>
+          <div class="hero-text">
+            <h1>Hi, I'm <span>Saqif</span></h1>
+            <p>
+              Mechanical Engineer specializing in <strong>Computational Fluid Dynamics (CFD)</strong>, bio-inspired aerodynamics, 3D mechanical CAD design, and interactive technical simulators.
+            </p>
+            <div class="hero-cta">
+              <a href="#projects" class="btn btn-primary">
+                View My Work <i data-lucide="arrow-right"></i>
+              </a>
+              <a href="#contact" class="btn btn-secondary">
+                Get In Touch <i data-lucide="mail"></i>
+              </a>
             </div>
           </div>
-          <div id="regimeBadge" class="sim-status status-laminar">
-            LAMINAR REGIME
+        </div>
+      </section>
+
+      <!-- About / Overview -->
+      <section id="about">
+        <div class="section-head">
+          <div class="section-sub">Introduction</div>
+          <h2 class="section-title">Overview.</h2>
+        </div>
+
+        <div class="overview-grid">
+          <div class="overview-card">
+            <div class="overview-icon"><i data-lucide="wind" size="28"></i></div>
+            <h3>CFD & Fluid Dynamics</h3>
+            <p>Hydrofoil propulsion, vortex wake tracking, and boundary layer simulation in Ansys Fluent.</p>
+          </div>
+
+          <div class="overview-card">
+            <div class="overview-icon"><i data-lucide="box" size="28"></i></div>
+            <h3>Mechanical CAD</h3>
+            <p>Complex 3D mechanism modeling, kinematic linkages, and assembly design in SolidWorks.</p>
+          </div>
+
+          <div class="overview-card">
+            <div class="overview-icon"><i data-lucide="cpu" size="28"></i></div>
+            <h3>Robotics & Embedded</h3>
+            <p>Arduino C++ firmware, automated sensor integration, and electro-mechanical prototyping.</p>
+          </div>
+
+          <div class="overview-card">
+            <div class="overview-icon"><i data-lucide="code" size="28"></i></div>
+            <h3>Interactive Tools</h3>
+            <p>Web-based fluid mechanics simulators and real-time WebGL CAD inspectors.</p>
           </div>
         </div>
+      </section>
 
-        <div class="canvas-wrapper" style="height: 380px;">
-          <canvas id="flowCanvas"></canvas>
+      <!-- Projects Section -->
+      <section id="projects">
+        <div class="section-head">
+          <div class="section-sub">My Work</div>
+          <h2 class="section-title">Featured Projects.</h2>
         </div>
 
-        <div class="controls-panel">
-          <div class="control-group">
-            <div class="slider-row">
-              <div class="slider-label">
-                <span>Free-Stream Velocity ($U_\infty$)</span>
-                <span id="uVal">15.0 m/s</span>
+        <div class="projects-grid">
+          <!-- Project 1 -->
+          <div class="project-card">
+            <div class="project-img-wrapper">
+              <i data-lucide="activity" size="48" class="project-img-icon"></i>
+              <div class="project-links">
+                <a href="#" class="icon-btn" title="Live Demo"><i data-lucide="external-link" size="18"></i></a>
+                <a href="https://github.com/saqifshahriar007" class="icon-btn" title="GitHub Repo"><i data-lucide="github" size="18"></i></a>
               </div>
-              <input type="range" id="uInput" min="1" max="50" step="0.5" value="15.0">
             </div>
-
-            <div class="slider-row">
-              <div class="slider-label">
-                <span>Probe Station ($x$)</span>
-                <span id="xVal">0.45 m</span>
-              </div>
-              <input type="range" id="xInput" min="0.05" max="1.5" step="0.01" value="0.45">
-            </div>
-
-            <div class="slider-row">
-              <div class="slider-label">
-                <span>Kinematic Viscosity ($\nu$)</span>
-                <span id="nuVal">1.50e-5 m²/s (Air)</span>
-              </div>
-              <input type="range" id="nuInput" min="0.1" max="3.0" step="0.1" value="1.5">
-            </div>
-          </div>
-
-          <div class="metrics-grid">
-            <div class="metric-card">
-              <div class="metric-name">Reynolds Number ($Re_x$)</div>
-              <div class="metric-val" id="reNum">4.50 × 10⁵</div>
-            </div>
-            <div class="metric-card">
-              <div class="metric-name">BL Thickness ($\delta$)</div>
-              <div class="metric-val" id="deltaVal">3.35 mm</div>
-            </div>
-            <div class="metric-card">
-              <div class="metric-name">Skin Friction ($C_f$)</div>
-              <div class="metric-val" id="cfVal">0.00099</div>
-            </div>
-            <div class="metric-card">
-              <div class="metric-name">Wall Shear ($\tau_w$)</div>
-              <div class="metric-val" id="tauVal">0.136 Pa</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="cad-viewer">
-      <div class="section-header">
-        <span class="section-tag">02. 3D WebGL Inspector</span>
-        <h2 class="section-title">Interactive CAD &amp; CFD Pressure Heatmap</h2>
-      </div>
-
-      <div class="interactive-card">
-        <div class="interactive-header">
-          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-            <strong style="font-size: 0.95rem;">Rover Gripper Assembly</strong>
-            <div style="display: flex; align-items: center; gap: 8px; background: var(--tag-bg); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border);">
-              <span style="font-size: 0.78rem; font-family: var(--mono-font); color: var(--text-muted);">Explode:</span>
-              <input type="range" id="explodeSlider" min="0" max="1" step="0.005" value="0" style="width: 85px; cursor: pointer;">
-              <span id="explodeVal" style="font-size: 0.78rem; font-family: var(--mono-font); color: var(--accent); min-width: 32px;">0%</span>
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button id="cfdToggleBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem; border-color: var(--accent);">
-              CFD Heatmap: OFF
-            </button>
-            <button id="explodeAnimateBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;">
-              ▶ Play Explode
-            </button>
-            <button id="wireframeBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;">
-              Wireframe: OFF
-            </button>
-            <button id="autoRotateBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;">
-              Auto-Rotate: ON
-            </button>
-            <label class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem; cursor: pointer;">
-              📂 Load .STL
-              <input type="file" id="stlFileInput" accept=".stl" style="display: none;">
-            </label>
-            <button id="resetViewBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;">
-              Reset View
-            </button>
-          </div>
-        </div>
-
-        <div class="canvas-wrapper" style="height: 480px; position: relative;">
-          <div id="cadCanvasContainer" style="width: 100%; height: 100%;"></div>
-          
-          <div id="cfdLegend" style="display: none; position: absolute; top: 16px; right: 16px; background: rgba(13, 17, 23, 0.9); border: 1px solid var(--border); padding: 12px 14px; border-radius: 8px; backdrop-filter: blur(8px); font-family: var(--mono-font); font-size: 0.75rem; color: var(--text);">
-            <div style="margin-bottom: 6px; font-weight: 600; color: var(--text);">Surface $C_p$</div>
-            <div style="display: flex; gap: 8px; align-items: center;">
-              <div style="width: 14px; height: 110px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.15); background: linear-gradient(to bottom, #ff0000 0%, #ffff00 25%, #00ff00 50%, #00ffff 75%, #0000ff 100%);"></div>
-              <div style="display: flex; flex-direction: column; justify-content: space-between; height: 110px; font-size: 0.7rem; color: var(--text-muted);">
-                <span>+1.0 (Stag)</span>
-                <span>+0.25</span>
-                <span>-0.50</span>
-                <span>-1.25</span>
-                <span>-2.0 (Suction)</span>
+            <div class="project-body">
+              <h3>Boundary Layer Simulator</h3>
+              <p>Interactive web simulation calculating laminar/turbulent velocity profiles, Reynolds numbers, and skin friction with live streaklines.</p>
+              <div class="project-tags">
+                <span class="tag-pill tag-blue">#JavaScript</span>
+                <span class="tag-pill tag-green">#HTML5Canvas</span>
+                <span class="tag-pill tag-purple">#FluidMechanics</span>
               </div>
             </div>
           </div>
 
-          <div style="position: absolute; bottom: 16px; left: 16px; background: rgba(13, 17, 23, 0.85); border: 1px solid var(--border); backdrop-filter: blur(8px); padding: 8px 14px; border-radius: 6px; font-family: var(--mono-font); font-size: 0.75rem; color: var(--text-muted); pointer-events: none;">
-            <div>Triangles: <span id="polyCount" style="color: var(--text); font-weight: 600;">--</span></div>
-            <div>Dimensions: <span id="modelDims" style="color: var(--text); font-weight: 600;">--</span></div>
-            <div style="margin-top: 4px; color: var(--accent);">Orbit: Left Drag | Pan: Right Drag | Zoom: Scroll</div>
+          <!-- Project 2 -->
+          <div class="project-card">
+            <div class="project-img-wrapper">
+              <i data-lucide="bot" size="48" class="project-img-icon"></i>
+              <div class="project-links">
+                <a href="https://github.com/saqifshahriar007" class="icon-btn" title="GitHub Repo"><i data-lucide="github" size="18"></i></a>
+              </div>
+            </div>
+            <div class="project-body">
+              <h3>Rover Robotic Manipulator</h3>
+              <p>Multi-DOF planetary rover robotic arm with SolidWorks stress analysis, gear train design, and high-torque motor integration.</p>
+              <div class="project-tags">
+                <span class="tag-pill tag-orange">#SolidWorks</span>
+                <span class="tag-pill tag-blue">#Kinematics</span>
+                <span class="tag-pill tag-purple">#Robotics</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 3 -->
+          <div class="project-card">
+            <div class="project-img-wrapper">
+              <i data-lucide="droplet" size="48" class="project-img-icon"></i>
+              <div class="project-links">
+                <a href="https://github.com/saqifshahriar007" class="icon-btn" title="GitHub Repo"><i data-lucide="github" size="18"></i></a>
+              </div>
+            </div>
+            <div class="project-body">
+              <h3>Automated Irrigation System</h3>
+              <p>Closed-loop soil moisture sensor system with relay pumping control, isolated power buses, and LCD real-time telemetry.</p>
+              <div class="project-tags">
+                <span class="tag-pill tag-green">#Arduino</span>
+                <span class="tag-pill tag-blue">#C++</span>
+                <span class="tag-pill tag-orange">#Hardware</span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="projects">
-      <div class="section-header">
-        <span class="section-tag">03. Selected Work</span>
-        <h2 class="section-title">Projects &amp; Hardware</h2>
-      </div>
-
-      <div class="grid">
-        <article class="card">
-          <div>
-            <div class="card-meta">Hardware &amp; Robotics</div>
-            <h3 class="card-title">Planetary Rover Manipulator</h3>
-            <p class="card-desc">
-              Multi-degree-of-freedom robotic arm assembly designed for rover sample collection. SolidWorks kinematic assembly verification and stress analysis.
-            </p>
-            <div class="tags">
-              <span class="tag">SolidWorks</span>
-              <span class="tag">Kinematics</span>
-              <span class="tag">FEA</span>
-            </div>
-          </div>
-          <div class="card-links">
-            <a href="#cad-viewer">Inspect CAD →</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <div>
-            <div class="card-meta">Embedded Control</div>
-            <h3 class="card-title">Automated Irrigation Unit</h3>
-            <p class="card-desc">
-              Closed-loop soil moisture sensing controller with relay-driven pumping, isolated power buses, and live diagnostic feedback.
-            </p>
-            <div class="tags">
-              <span class="tag">Arduino</span>
-              <span class="tag">C++</span>
-              <span class="tag">Circuitry</span>
-            </div>
-          </div>
-          <div class="card-links">
-            <a href="#">Schematics →</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <div>
-            <div class="card-meta">Mechanism Design</div>
-            <h3 class="card-title">Motor-Driven Slider-Crank</h3>
-            <p class="card-desc">
-              Mechanical button-actuation unit engineered from metal stock and DC motor gearboxes for cyclic fatigue testing.
-            </p>
-            <div class="tags">
-              <span class="tag">Linkages</span>
-              <span class="tag">Machining</span>
-              <span class="tag">Prototyping</span>
-            </div>
-          </div>
-          <div class="card-links">
-            <a href="#">Build Log →</a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section id="research">
-      <div class="section-header">
-        <span class="section-tag">04. Academic Research</span>
-        <h2 class="section-title">Fluid Mechanics &amp; CFD</h2>
-      </div>
-
-      <div class="grid">
-        <article class="card">
-          <div>
-            <div class="card-meta">Bio-Hydrodynamics</div>
-            <h3 class="card-title">Biomimetic Flapping Hydrofoils</h3>
-            <p class="card-desc">
-              Computational fluid dynamics evaluation of thrust efficiency and vortex shedding dynamics in spanwise flexible penguin-inspired foils.
-            </p>
-            <div class="tags">
-              <span class="tag">Ansys Fluent</span>
-              <span class="tag">Vortex Dynamics</span>
-              <span class="tag">Unsteady Flow</span>
-            </div>
-          </div>
-          <div class="card-links">
-            <a href="#">Research Brief →</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <div>
-            <div class="card-meta">Aerodynamic Flow Control</div>
-            <h3 class="card-title">Tubercle-Modified Diffusers</h3>
-            <p class="card-desc">
-              Investigation into passive leading-edge vortex generation for stall delay and boundary layer separation mitigation in diffusers.
-            </p>
-            <div class="tags">
-              <span class="tag">Boundary Layer</span>
-              <span class="tag">Diffusers</span>
-              <span class="tag">Flow Separation</span>
-            </div>
-          </div>
-          <div class="card-links">
-            <a href="#">Methodology →</a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section id="skills">
-      <div class="section-header">
-        <span class="section-tag">05. Engineering Toolkit</span>
-        <h2 class="section-title">Technical Proficiency</h2>
-      </div>
-
-      <div class="skills-table">
-        <div class="skill-block">
-          <h4>CAD &amp; Modeling</h4>
-          <ul class="skill-list">
-            <li>SolidWorks (3D/Assemblies)</li>
-            <li>Parametric Mechanism Design</li>
-            <li>Geometric Tolerancing (GD&amp;T)</li>
-          </ul>
+      <!-- Academic Research -->
+      <section id="research">
+        <div class="section-head">
+          <div class="section-sub">Academic Focus</div>
+          <h2 class="section-title">Fluid Dynamics & CFD.</h2>
         </div>
-        <div class="skill-block">
-          <h4>CFD &amp; Simulation</h4>
-          <ul class="skill-list">
-            <li>Ansys Fluent / OpenFOAM</li>
-            <li>Mesh Independence Studies</li>
-            <li>Boundary Layer Resolution ($y^+$)</li>
-          </ul>
+
+        <div class="projects-grid">
+          <div class="project-card">
+            <div class="project-img-wrapper">
+              <i data-lucide="waves" size="48" class="project-img-icon"></i>
+            </div>
+            <div class="project-body">
+              <h3>Penguin-Inspired Flapping Hydrofoils</h3>
+              <p>Computational fluid dynamics evaluation of thrust generation and vortex shedding efficiency in spanwise flexible hydrofoils.</p>
+              <div class="project-tags">
+                <span class="tag-pill tag-blue">#AnsysFluent</span>
+                <span class="tag-pill tag-purple">#Hydrodynamics</span>
+                <span class="tag-pill tag-green">#VortexDynamics</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-img-wrapper">
+              <i data-lucide="wind" size="48" class="project-img-icon"></i>
+            </div>
+            <div class="project-body">
+              <h3>Tubercle Leading-Edge Diffusers</h3>
+              <p>Investigation into biomimetic tubercle diffusers for passive boundary layer separation control and stall mitigation.</p>
+              <div class="project-tags">
+                <span class="tag-pill tag-orange">#Aerodynamics</span>
+                <span class="tag-pill tag-blue">#FlowControl</span>
+                <span class="tag-pill tag-purple">#Diffusers</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="skill-block">
-          <h4>Code &amp; Hardware</h4>
-          <ul class="skill-list">
-            <li>C++ / Embedded Arduino</li>
-            <li>Python (NumPy, SciPy)</li>
-            <li>Three.js &amp; HTML5 Canvas</li>
-          </ul>
+      </section>
+
+      <!-- Skills Section -->
+      <section id="skills">
+        <div class="section-head">
+          <div class="section-sub">Capabilities</div>
+          <h2 class="section-title">Skills & Technologies.</h2>
         </div>
-      </div>
-    </section>
 
-    <section id="contact">
-      <div class="section-header">
-        <span class="section-tag">06. Next Steps</span>
-        <h2 class="section-title">Get in Touch</h2>
-      </div>
-      <p style="color: var(--text-muted); margin-bottom: 24px; max-width: 600px;">
-        Interested in discussing fluid dynamics research, mechanical design projects, or engineering collaborations?
-      </p>
-      <div class="hero-actions">
-        <a href="mailto:your.email@example.com" class="btn btn-primary">Send Email</a>
-        <a href="./resume.pdf" class="btn btn-secondary" download>Download CV (PDF)</a>
-        <a href="https://github.com" target="_blank" rel="noreferrer" class="btn btn-secondary">GitHub</a>
-        <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="btn btn-secondary">LinkedIn</a>
-      </div>
-    </section>
-  </main>
+        <div class="skills-wrapper">
+          <div class="skills-box">
+            <h3><i data-lucide="box"></i> 3D CAD & Design</h3>
+            <div class="skills-tags">
+              <span class="skill-badge">SolidWorks</span>
+              <span class="skill-badge">Parametric Modeling</span>
+              <span class="skill-badge">Mechanism Kinematics</span>
+              <span class="skill-badge">GD&T Tolerancing</span>
+              <span class="skill-badge">3D Printing / Prototyping</span>
+            </div>
+          </div>
 
-  <footer>
-    <div class="container footer-inner">
-      <span>Mechanical Engineering &amp; CFD Research Portfolio</span>
-      <span>Hosted globally on Vercel</span>
-    </div>
-  </footer>
+          <div class="skills-box">
+            <h3><i data-lucide="wind"></i> Simulation & CFD</h3>
+            <div class="skills-tags">
+              <span class="skill-badge">Ansys Fluent</span>
+              <span class="skill-badge">Boundary Layer Analysis</span>
+              <span class="skill-badge">Mesh Generation</span>
+              <span class="skill-badge">Vortex Wake Tracking</span>
+              <span class="skill-badge">OpenFOAM</span>
+            </div>
+          </div>
 
+          <div class="skills-box">
+            <h3><i data-lucide="terminal"></i> Hardware & Software</h3>
+            <div class="skills-tags">
+              <span class="skill-badge">C++ / Embedded</span>
+              <span class="skill-badge">Arduino IDE</span>
+              <span class="skill-badge">Python (NumPy / SciPy)</span>
+              <span class="skill-badge">JavaScript / HTML5</span>
+              <span class="skill-badge">Git & Vercel</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact">
+        <div class="contact-card">
+          <div class="contact-info">
+            <div class="section-sub">Get in touch</div>
+            <h2>Let's talk.</h2>
+            <p>
+              I'm open to engineering opportunities, fluid mechanics research collaborations, and technical design discussions.
+            </p>
+            <div class="contact-direct">
+              <div class="contact-row">
+                <i data-lucide="mail"></i>
+                <span>saqifshahriar007@gmail.com</span>
+              </div>
+              <div class="contact-row">
+                <i data-lucide="map-pin"></i>
+                <span>Available for Global / Remote Roles</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <a href="mailto:saqifshahriar007@gmail.com" class="btn btn-primary" style="justify-content: center;">
+              Send an Email <i data-lucide="send"></i>
+            </a>
+            <a href="https://github.com/saqifshahriar007" target="_blank" rel="noreferrer" class="btn btn-secondary" style="justify-content: center;">
+              View GitHub Profile <i data-lucide="github"></i>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="btn btn-secondary" style="justify-content: center;">
+              Connect on LinkedIn <i data-lucide="linkedin"></i>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2026 Saqif Shahriar • Built with modern web standards • Deployed on Vercel</p>
+    </footer>
+  </div>
+
+  <!-- Lucide Icons Rendering -->
   <script>
-    const canvas = document.getElementById('flowCanvas');
-    const ctx = canvas.getContext('2d');
-
-    const uInput = document.getElementById('uInput');
-    const xInput = document.getElementById('xInput');
-    const nuInput = document.getElementById('nuInput');
-
-    const uVal = document.getElementById('uVal');
-    const xVal = document.getElementById('xVal');
-    const nuVal = document.getElementById('nuVal');
-    const regimeBadge = document.getElementById('regimeBadge');
-    const reNum = document.getElementById('reNum');
-    const deltaVal = document.getElementById('deltaVal');
-    const cfVal = document.getElementById('cfVal');
-    const tauVal = document.getElementById('tauVal');
-
-    const PARTICLE_COUNT = 120;
-    const particles = [];
-
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      particles.push({
-        x: Math.random(),
-        y: Math.random(),
-        size: Math.random() * 1.5 + 1
-      });
-    }
-
-    function resizeCanvas() {
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * window.devicePixelRatio;
-      canvas.height = rect.height * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    }
-
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    function getPhysics() {
-      const U_inf = parseFloat(uInput.value);
-      const x_pos = parseFloat(xInput.value);
-      const nu = parseFloat(nuInput.value) * 1e-5;
-      const rho = 1.225;
-
-      const Re_x = (U_inf * x_pos) / nu;
-      const isTurbulent = Re_x >= 5e5;
-
-      let delta, Cf, tau_w;
-      if (!isTurbulent) {
-        delta = 5.0 * Math.sqrt((nu * x_pos) / U_inf);
-        Cf = 0.664 / Math.sqrt(Re_x);
-      } else {
-        delta = 0.37 * x_pos / Math.pow(Re_x, 0.2);
-        Cf = 0.0592 / Math.pow(Re_x, 0.2);
-      }
-      tau_w = 0.5 * rho * U_inf * U_inf * Cf;
-
-      return { U_inf, x_pos, nu, Re_x, isTurbulent, delta, Cf, tau_w };
-    }
-
-    function getVelocityRatio(eta, isTurbulent) {
-      if (eta >= 1.0) return 1.0;
-      if (eta <= 0.0) return 0.0;
-      return !isTurbulent
-        ? 1.5 * eta - 0.5 * Math.pow(eta, 3)
-        : Math.pow(eta, 1.0 / 7.0);
-    }
-
-    function drawSimulation() {
-      const rect = canvas.getBoundingClientRect();
-      const W = rect.width;
-      const H = rect.height;
-
-      ctx.clearRect(0, 0, W, H);
-
-      const p = getPhysics();
-
-      uVal.textContent = `${p.U_inf.toFixed(1)} m/s`;
-      xVal.textContent = `${p.x_pos.toFixed(2)} m`;
-      nuVal.textContent = `${(p.nu * 1e5).toFixed(2)}e-5 m²/s`;
-
-      if (p.isTurbulent) {
-        regimeBadge.textContent = 'TURBULENT REGIME';
-        regimeBadge.className = 'sim-status status-turbulent';
-      } else {
-        regimeBadge.textContent = 'LAMINAR REGIME';
-        regimeBadge.className = 'sim-status status-laminar';
-      }
-
-      const exp = Math.floor(Math.log10(p.Re_x));
-      const mantissa = (p.Re_x / Math.pow(10, exp)).toFixed(2);
-      reNum.textContent = `${mantissa} × 10⁵`;
-      deltaVal.textContent = `${(p.delta * 1000).toFixed(2)} mm`;
-      cfVal.textContent = p.Cf.toFixed(5);
-      tauVal.textContent = `${p.tau_w.toFixed(3)} Pa`;
-
-      const plateY = H - 36;
-      const plateStartX = 60;
-      const plateEndX = W - 30;
-      const plateLengthPx = plateEndX - plateStartX;
-      const maxPhysicalX = 1.5;
-      const scaleVisualDelta = 3500;
-
-      // Background Grid
-      ctx.strokeStyle = 'rgba(48, 54, 61, 0.35)';
-      ctx.lineWidth = 1;
-      for (let x = plateStartX; x <= plateEndX; x += 40) {
-        ctx.beginPath();
-        ctx.moveTo(x, 20);
-        ctx.lineTo(x, plateY);
-        ctx.stroke();
-      }
-
-      // Delta(x) Envelope Curve
-      ctx.beginPath();
-      ctx.strokeStyle = p.isTurbulent ? 'rgba(247, 129, 102, 0.85)' : 'rgba(88, 166, 255, 0.85)';
-      ctx.lineWidth = 2.5;
-
-      for (let px = 0; px <= plateLengthPx; px += 4) {
-        const x_m = Math.max(0.001, (px / plateLengthPx) * maxPhysicalX);
-        const Rex_local = (p.U_inf * x_m) / p.nu;
-        const d_local = (Rex_local < 5e5)
-          ? 5.0 * Math.sqrt((p.nu * x_m) / p.U_inf)
-          : 0.37 * x_m / Math.pow(Rex_local, 0.2);
-
-        const screenY = plateY - (d_local * scaleVisualDelta);
-        if (px === 0) ctx.moveTo(plateStartX + px, screenY);
-        else ctx.lineTo(plateStartX + px, screenY);
-      }
-      ctx.stroke();
-
-      ctx.lineTo(plateEndX, plateY);
-      ctx.lineTo(plateStartX, plateY);
-      ctx.closePath();
-      ctx.fillStyle = p.isTurbulent ? 'rgba(247, 129, 102, 0.08)' : 'rgba(88, 166, 255, 0.06)';
-      ctx.fill();
-
-      // Probe Velocity Profile Vectors
-      const probePxX = plateStartX + (p.x_pos / maxPhysicalX) * plateLengthPx;
-      const probeVisualDelta = p.delta * scaleVisualDelta;
-      const probeDeltaY = plateY - probeVisualDelta;
-
-      ctx.strokeStyle = '#8b949e';
-      ctx.setLineDash([4, 4]);
-      ctx.beginPath();
-      ctx.moveTo(probePxX, 20);
-      ctx.lineTo(probePxX, plateY);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      const maxVectorWidth = 110;
-      const numArrows = 14;
-      ctx.strokeStyle = p.isTurbulent ? 'rgba(247, 129, 102, 0.9)' : 'rgba(88, 166, 255, 0.9)';
-      ctx.fillStyle = ctx.strokeStyle;
-
-      for (let i = 1; i <= numArrows; i++) {
-        const yFrac = i / numArrows;
-        const currentYPx = plateY - (yFrac * probeVisualDelta * 1.25);
-        if (currentYPx < 25) continue;
-
-        const eta = (plateY - currentYPx) / probeVisualDelta;
-        const uRatio = getVelocityRatio(eta, p.isTurbulent);
-        const arrowLength = uRatio * maxVectorWidth;
-
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(probePxX, currentYPx);
-        ctx.lineTo(probePxX + arrowLength, currentYPx);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(probePxX + arrowLength, currentYPx);
-        ctx.lineTo(probePxX + arrowLength - 5, currentYPx - 3);
-        ctx.lineTo(probePxX + arrowLength - 5, currentYPx + 3);
-        ctx.closePath();
-        ctx.fill();
-      }
-
-      ctx.fillStyle = p.isTurbulent ? '#f78166' : '#58a6ff';
-      ctx.font = '11px Fira Code';
-      ctx.fillText(`δ = ${(p.delta * 1000).toFixed(2)}mm`, probePxX + 8, probeDeltaY - 6);
-
-      // Streaklines Particles
-      ctx.fillStyle = 'rgba(230, 237, 243, 0.65)';
-      particles.forEach(pt => {
-        const screenX = plateStartX + pt.x * plateLengthPx;
-        const screenY = plateY - pt.y * (H - 60);
-
-        const localX_m = Math.max(0.001, (pt.x) * maxPhysicalX);
-        const localRex = (p.U_inf * localX_m) / p.nu;
-        const localDelta_m = (localRex < 5e5)
-          ? 5.0 * Math.sqrt((p.nu * localX_m) / p.U_inf)
-          : 0.37 * localX_m / Math.pow(localRex, 0.2);
-
-        const localDeltaPx = localDelta_m * scaleVisualDelta;
-        const distFromWall = plateY - screenY;
-        const eta = distFromWall / localDeltaPx;
-        const uRatio = getVelocityRatio(eta, localRex >= 5e5);
-
-        const speed = (0.0008 + 0.0035 * uRatio) * (p.U_inf / 15.0);
-        pt.x += speed;
-        if (pt.x > 1.0) {
-          pt.x = 0;
-          pt.y = Math.random();
-        }
-
-        ctx.fillRect(screenX, screenY, pt.size, pt.size);
-      });
-
-      // Flat Plate Wall
-      ctx.fillStyle = '#30363d';
-      ctx.fillRect(plateStartX, plateY, plateLengthPx, 10);
-      ctx.fillStyle = '#8b949e';
-      ctx.font = '11px Fira Code';
-      ctx.fillText('x = 0 (Leading Edge)', plateStartX - 20, plateY + 24);
-      ctx.fillText(`x = ${p.x_pos.toFixed(2)}m (Probe)`, probePxX - 35, plateY + 24);
-
-      requestAnimationFrame(drawSimulation);
-    }
-
-    drawSimulation();
+    lucide.createIcons();
   </script>
 
-  <script type="module">
-    import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-    import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
-    import { STLLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/STLLoader.js';
+  <!-- Interactive 3D Starfield Animation Engine -->
+  <script>
+    const canvas = document.getElementById('starsCanvas');
+    const ctx = canvas.getContext('2d');
 
-    const container = document.getElementById('cadCanvasContainer');
-    const polyCountEl = document.getElementById('polyCount');
-    const modelDimsEl = document.getElementById('modelDims');
-    const explodeSlider = document.getElementById('explodeSlider');
-    const explodeVal = document.getElementById('explodeVal');
-    const explodeAnimateBtn = document.getElementById('explodeAnimateBtn');
-    const wireframeBtn = document.getElementById('wireframeBtn');
-    const autoRotateBtn = document.getElementById('autoRotateBtn');
-    const resetViewBtn = document.getElementById('resetViewBtn');
-    const cfdToggleBtn = document.getElementById('cfdToggleBtn');
-    const cfdLegend = document.getElementById('cfdLegend');
-    const stlFileInput = document.getElementById('stlFileInput');
+    let stars = [];
+    const STAR_COUNT = 150;
 
-    // 1. Scene & Camera Setup
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x090d13);
-
-    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(110, 80, 110);
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
-    container.appendChild(renderer.domElement);
-
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 1.2;
-
-    // 2. Engineering Studio Lighting
-    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-
-    const keyLight = new THREE.DirectionalLight(0x58a6ff, 2.2);
-    keyLight.position.set(80, 120, 80);
-    scene.add(keyLight);
-
-    const fillLight = new THREE.DirectionalLight(0xffeedd, 1.2);
-    fillLight.position.set(-80, 40, -80);
-    scene.add(fillLight);
-
-    const grid = new THREE.GridHelper(160, 16, 0x30363d, 0x1f242c);
-    grid.position.y = -25;
-    scene.add(grid);
-
-    // 3. Multi-Part Assembly Definition
-    const assemblyGroup = new THREE.Group();
-    scene.add(assemblyGroup);
-
-    const assemblyParts = [
-      { id: 'base', geo: new THREE.BoxGeometry(32, 8, 32), dir: new THREE.Vector3(0, -1, 0), dist: 25, color: 0x4a5568 },
-      { id: 'link', geo: new THREE.CylinderGeometry(8, 8, 22, 32), dir: new THREE.Vector3(0, 0.3, 0), dist: 12, color: 0x58a6ff },
-      { id: 'jawL', geo: new THREE.BoxGeometry(8, 26, 12).translate(-14, 14, 0), dir: new THREE.Vector3(-1, 0.5, 0).normalize(), dist: 35, color: 0x79c0ff },
-      { id: 'jawR', geo: new THREE.BoxGeometry(8, 26, 12).translate(14, 14, 0), dir: new THREE.Vector3(1, 0.5, 0).normalize(), dist: 35, color: 0x79c0ff },
-      { id: 'pinion', geo: new THREE.CylinderGeometry(5, 5, 14, 24).translate(0, 20, 0), dir: new THREE.Vector3(0, 1, 0.8).normalize(), dist: 45, color: 0xf0883e }
-    ];
-
-    const partMeshes = [];
-    let totalTriangles = 0;
-
-    // CFD Rainbow / Jet Colormap function
-    function getCfdColor(t) {
-      t = Math.max(0, Math.min(1, t));
-      let r = 0, g = 0, b = 0;
-      if (t < 0.25) { r = 0; g = 4 * t; b = 1; }
-      else if (t < 0.5) { r = 0; g = 1; b = 1 - 4 * (t - 0.25); }
-      else if (t < 0.75) { r = 4 * (t - 0.5); g = 1; b = 0; }
-      else { r = 1; g = 1 - 4 * (t - 0.75); b = 0; }
-      return { r, g, b };
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
 
-    // Apply CFD Vertex Colors
-    function applyCfdColors(geo) {
-      geo.computeBoundingBox();
-      const min = geo.boundingBox.min;
-      const max = geo.boundingBox.max;
-      const lenX = max.x - min.x || 1;
-      const lenY = max.y - min.y || 1;
+    window.addEventListener('resize', resize);
+    resize();
 
-      const pos = geo.attributes.position;
-      const count = pos.count;
-      const colors = new Float32Array(count * 3);
-
-      for (let i = 0; i < count; i++) {
-        const xNorm = (pos.getX(i) - min.x) / lenX;
-        const yNorm = (pos.getY(i) - min.y) / lenY;
-
-        let Cp;
-        if (xNorm < 0.1) Cp = 1.0 - (xNorm / 0.1) * 1.5;
-        else if (yNorm > 0.4) Cp = -2.0 * Math.exp(-3.5 * (xNorm - 0.15)) + 0.15 * xNorm;
-        else Cp = 0.6 * (1.0 - xNorm);
-
-        const t = (Cp - (-2.0)) / (1.0 - (-2.0));
-        const c = getCfdColor(t);
-
-        colors[i * 3] = c.r;
-        colors[i * 3 + 1] = c.g;
-        colors[i * 3 + 2] = c.b;
-      }
-
-      geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-      geo.attributes.color.needsUpdate = true;
-    }
-
-    assemblyParts.forEach(p => {
-      p.geo.computeVertexNormals();
-      applyCfdColors(p.geo);
-
-      const mat = new THREE.MeshStandardMaterial({
-        color: p.color,
-        metalness: 0.8,
-        roughness: 0.25,
-        wireframe: false
-      });
-      const mesh = new THREE.Mesh(p.geo, mat);
-      assemblyGroup.add(mesh);
-      partMeshes.push({ mesh, dir: p.dir, dist: p.dist, origin: mesh.position.clone(), mat, defaultColor: p.color });
-      totalTriangles += p.geo.attributes.position.count / 3;
-    });
-
-    polyCountEl.textContent = totalTriangles.toLocaleString();
-    modelDimsEl.textContent = "68.0 × 52.0 × 32.0 mm";
-
-    // 4. Exploded View Controls & Animation Loop
-    let targetExplode = 0;
-    let currentExplode = 0;
-    let isAutoExploding = false;
-    let animDir = 1;
-    let isCfdMode = false;
-
-    function applyExplosion(factor) {
-      partMeshes.forEach(p => {
-        const offset = p.dir.clone().multiplyScalar(factor * p.dist);
-        p.mesh.position.copy(p.origin).add(offset);
+    for (let i = 0; i < STAR_COUNT; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 1.8 + 0.2,
+        opacity: Math.random() * 0.7 + 0.3,
+        speed: Math.random() * 0.3 + 0.05
       });
     }
 
-    explodeSlider.addEventListener('input', (e) => {
-      isAutoExploding = false;
-      explodeAnimateBtn.textContent = '▶ Play Explode';
-      targetExplode = parseFloat(e.target.value);
-    });
+    function animateStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    explodeAnimateBtn.addEventListener('click', () => {
-      isAutoExploding = !isAutoExploding;
-      explodeAnimateBtn.textContent = isAutoExploding ? '⏸ Pause' : '▶ Play Explode';
-      explodeAnimateBtn.style.color = isAutoExploding ? 'var(--accent)' : 'var(--text)';
-    });
+      stars.forEach(star => {
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
 
-    cfdToggleBtn.addEventListener('click', () => {
-      isCfdMode = !isCfdMode;
-      cfdLegend.style.display = isCfdMode ? 'block' : 'none';
-      cfdToggleBtn.textContent = `CFD Heatmap: ${isCfdMode ? 'ON' : 'OFF'}`;
-      cfdToggleBtn.style.color = isCfdMode ? 'var(--accent)' : 'var(--text)';
-
-      partMeshes.forEach(p => {
-        if (isCfdMode) {
-          p.mat.vertexColors = true;
-          p.mat.metalness = 0.15;
-          p.mat.roughness = 0.35;
-        } else {
-          p.mat.vertexColors = false;
-          p.mat.color.setHex(p.defaultColor);
-          p.mat.metalness = 0.8;
-          p.mat.roughness = 0.25;
+        star.y -= star.speed;
+        if (star.y < 0) {
+          star.y = canvas.height;
+          star.x = Math.random() * canvas.width;
         }
-        p.mat.needsUpdate = true;
       });
-    });
 
-    wireframeBtn.addEventListener('click', () => {
-      const isWf = !partMeshes[0].mat.wireframe;
-      partMeshes.forEach(p => p.mat.wireframe = isWf);
-      wireframeBtn.textContent = `Wireframe: ${isWf ? 'ON' : 'OFF'}`;
-      wireframeBtn.style.color = isWf ? 'var(--accent)' : 'var(--text)';
-    });
-
-    autoRotateBtn.addEventListener('click', () => {
-      controls.autoRotate = !controls.autoRotate;
-      autoRotateBtn.textContent = `Auto-Rotate: ${controls.autoRotate ? 'ON' : 'OFF'}`;
-      autoRotateBtn.style.color = controls.autoRotate ? 'var(--accent)' : 'var(--text)';
-    });
-
-    resetViewBtn.addEventListener('click', () => {
-      controls.reset();
-      camera.position.set(110, 80, 110);
-    });
-
-    // Custom Local STL File Upload Handler
-    stlFileInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const loader = new STLLoader();
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const geometry = loader.parse(event.target.result);
-        geometry.computeVertexNormals();
-        geometry.center();
-        geometry.computeBoundingBox();
-        applyCfdColors(geometry);
-
-        const bbox = geometry.boundingBox;
-        const size = new THREE.Vector3();
-        bbox.getSize(size);
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 50 / (maxDim || 1);
-        geometry.scale(scale, scale, scale);
-
-        while (assemblyGroup.children.length > 0) {
-          assemblyGroup.remove(assemblyGroup.children[0]);
-        }
-        partMeshes.length = 0;
-
-        const mat = new THREE.MeshStandardMaterial({
-          color: 0x58a6ff,
-          metalness: isCfdMode ? 0.15 : 0.8,
-          roughness: isCfdMode ? 0.35 : 0.25,
-          vertexColors: isCfdMode
-        });
-        const mesh = new THREE.Mesh(geometry, mat);
-        assemblyGroup.add(mesh);
-        partMeshes.push({ mesh, dir: new THREE.Vector3(0,0,0), dist: 0, origin: mesh.position.clone(), mat, defaultColor: 0x58a6ff });
-
-        polyCountEl.textContent = (geometry.attributes.position.count / 3).toLocaleString();
-        modelDimsEl.textContent = `${size.x.toFixed(1)} × ${size.y.toFixed(1)} × ${size.z.toFixed(1)} mm`;
-      };
-      reader.readAsArrayBuffer(file);
-    });
-
-    window.addEventListener('resize', () => {
-      camera.aspect = container.clientWidth / container.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
-    });
-
-    function animate() {
-      requestAnimationFrame(animate);
-
-      if (isAutoExploding) {
-        targetExplode += 0.008 * animDir;
-        if (targetExplode >= 1.0) { targetExplode = 1.0; animDir = -1; }
-        else if (targetExplode <= 0.0) { targetExplode = 0.0; animDir = 1; }
-        explodeSlider.value = targetExplode.toFixed(3);
-      }
-
-      currentExplode += (targetExplode - currentExplode) * 0.15;
-      applyExplosion(currentExplode);
-      explodeVal.textContent = `${Math.round(currentExplode * 100)}%`;
-
-      controls.update();
-      renderer.render(scene, camera);
+      requestAnimationFrame(animateStars);
     }
 
-    animate();
+    animateStars();
   </script>
 
 </body>
