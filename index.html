@@ -23,7 +23,7 @@
             border: "rgba(255, 255, 255, 0.06)",
             pine: {
               accent: "#4d8f7a",
-              light: "#6fa996",
+              light: "#72a997",
               dark: "#142820",
               muted: "#2d5246",
             },
@@ -60,8 +60,8 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Fixed Full-Page Canvas */
-    #globalCanvas {
+    /* Fixed Full-Page Flow Simulation Canvas */
+    #flowSimCanvas {
       position: fixed;
       top: 0;
       left: 0;
@@ -71,15 +71,15 @@
       z-index: 0;
     }
 
-    /* Subtle Center Glow */
+    /* Center Ambient Glow */
     .ambient-glow {
       position: fixed;
-      top: -100px;
+      top: -120px;
       left: 50%;
       transform: translateX(-50%);
-      width: 800px;
-      height: 450px;
-      background: radial-gradient(circle, rgba(77, 143, 122, 0.04) 0%, transparent 70%);
+      width: 850px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(77, 143, 122, 0.05) 0%, transparent 70%);
       filter: blur(120px);
       pointer-events: none;
       z-index: 1;
@@ -93,14 +93,14 @@
     /* Modern Frosted Glass Card */
     .glow-card {
       background: rgba(7, 13, 10, 0.78);
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(18px);
       border: 1px solid rgba(255, 255, 255, 0.06);
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .glow-card:hover {
-      border-color: rgba(77, 143, 122, 0.28);
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.8);
+      border-color: rgba(77, 143, 122, 0.32);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.85);
       transform: translateY(-3px);
     }
 
@@ -112,7 +112,7 @@
     /* Animated Scroll Pill */
     @keyframes mouseBounce {
       0%, 100% { transform: translateY(0); opacity: 1; }
-      50% { transform: translateY(18px); opacity: 0.4; }
+      50% { transform: translateY(18px); opacity: 0.35; }
     }
     .animate-mouse-dot {
       animation: mouseBounce 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
@@ -121,8 +121,8 @@
 </head>
 <body class="selection:bg-pine-dark selection:text-white">
 
-  <!-- Fixed Full-Page Canvas (Persists along whole scroll) -->
-  <canvas id="globalCanvas"></canvas>
+  <!-- Fixed Full-Page Flow Simulation Canvas -->
+  <canvas id="flowSimCanvas"></canvas>
   <div class="ambient-glow"></div>
 
   <div class="wrapper">
@@ -328,7 +328,7 @@
       </div>
     </section>
 
-    <!-- Section 3: Engineering Projects (Clean Center Previews) -->
+    <!-- Section 3: Engineering Projects -->
     <section id="projects" class="py-20 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
       <div class="mb-14">
         <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[03 // FEATURED WORK]</p>
@@ -437,41 +437,39 @@
     </footer>
   </div>
 
-  <!-- SCRIPT: FULL-PAGE MARGIN-FOCUSED 3D DOTTED FLOW FIELD -->
+  <!-- SCRIPT: THREE.JS INTERACTIVE SIMULATION DOTTED FLOW FIELD -->
   <script>
-    const canvas = document.getElementById('globalCanvas');
+    const canvas = document.getElementById('flowSimCanvas');
     const scene = new THREE.Scene();
 
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0, 26);
+    camera.position.set(0, 0, 28);
 
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // --- 1. DOTTED PARAMETRIC STREAMLINES (Structured side-margin ribbons) ---
+    // --- 1. DOTTED PARAMETRIC STREAMLINES (Focused on lateral flanks) ---
     const waveGroup = new THREE.Group();
     scene.add(waveGroup);
 
     const wavePoints = [];
     const waveColors = [];
-    const cPineLight = new THREE.Color(0x6fa996);
+    const cPineLight = new THREE.Color(0x72a997);
     const cPineDark = new THREE.Color(0x142820);
 
-    // Left and Right Margin Ribbons (Leaves center empty)
-    const sides = [-1, 1]; // -1 for Left margin, 1 for Right margin
-    sides.forEach(side => {
-      for (let j = -5; j <= 5; j++) {
-        for (let i = -30; i <= 30; i += 0.35) {
+    const flanks = [-1, 1];
+    flanks.forEach(side => {
+      for (let j = -6; j <= 6; j++) {
+        for (let i = -36; i <= 36; i += 0.28) {
           const y = i;
-          // Curve concentrated on outer borders (|x| > 14)
-          const x = (side * 18) + Math.sin(y * 0.15 + j * 0.4) * 3.5;
-          const z = Math.cos(y * 0.12) * 3.0 - 4.0;
+          const x = (side * 17.5) + Math.sin(y * 0.14 + j * 0.35) * 3.8;
+          const z = Math.cos(y * 0.11) * 3.2 - 4.5;
 
           wavePoints.push(x, y, z);
 
-          const mix = (Math.sin(y * 0.1 + j) + 1) / 2;
-          const c = cPineDark.clone().lerp(cPineLight, mix * 0.5);
+          const mix = (Math.sin(y * 0.08 + j) + 1) / 2;
+          const c = cPineDark.clone().lerp(cPineLight, mix * 0.55);
           waveColors.push(c.r, c.g, c.b);
         }
       }
@@ -485,60 +483,71 @@
       size: 0.08,
       vertexColors: true,
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.38,
       blending: THREE.AdditiveBlending
     });
 
     const waveMesh = new THREE.Points(waveGeo, waveMat);
     waveGroup.add(waveMesh);
 
-    // --- 2. SIDE-MARGIN AMBIENT DOTTED PARTICLES (Open center corridor) ---
-    const PARTICLE_COUNT = 1800; // Controlled quantity to prevent distraction
-    const flowGeo = new THREE.BufferGeometry();
-    const positions = new Float32Array(PARTICLE_COUNT * 3);
-    const colors = new Float32Array(PARTICLE_COUNT * 3);
-    const velocities = new Float32Array(PARTICLE_COUNT * 3);
+    // --- 2. INTERACTIVE SIMULATION SWARM (Curled Vector Field + Mouse Deflection) ---
+    const SWARM_COUNT = 3200;
+    const swarmGeo = new THREE.BufferGeometry();
+    const positions = new Float32Array(SWARM_COUNT * 3);
+    const colors = new Float32Array(SWARM_COUNT * 3);
+    const velocities = new Float32Array(SWARM_COUNT * 3);
+    const origins = new Float32Array(SWARM_COUNT * 3);
 
-    const cMuted = new THREE.Color(0x4d8f7a);
-    const cDeepVoid = new THREE.Color(0x0e1c17);
+    const cAccent = new THREE.Color(0x4d8f7a);
+    const cDeep = new THREE.Color(0x0e1c17);
 
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      // Push particles to lateral flanks (|x| > 13)
-      const sideSign = Math.random() > 0.5 ? 1 : -1;
-      const x = sideSign * (13 + Math.random() * 12);
-      const y = (Math.random() - 0.5) * 60; // Spread through whole page height
-      const z = (Math.random() - 0.5) * 14;
+    for (let i = 0; i < SWARM_COUNT; i++) {
+      // Flank-biased distribution (|x| > 11) with a soft gradient into hero
+      const side = Math.random() > 0.5 ? 1 : -1;
+      const x = side * (11 + Math.random() * 15);
+      const y = (Math.random() - 0.5) * 75;
+      const z = (Math.random() - 0.5) * 16;
 
       positions[i * 3] = x;
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = z;
 
-      velocities[i * 3] = (Math.random() * 0.015 + 0.005) * sideSign;
-      velocities[i * 3 + 1] = (Math.random() * 0.02 + 0.01);
-      velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.01;
+      origins[i * 3] = x;
+      origins[i * 3 + 1] = y;
+      origins[i * 3 + 2] = z;
+
+      velocities[i * 3] = (Math.random() * 0.012 + 0.004) * side;
+      velocities[i * 3 + 1] = (Math.random() * 0.025 + 0.012);
+      velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.008;
 
       const mix = Math.random();
-      const c = cDeepVoid.clone().lerp(cMuted, mix);
+      const c = cDeep.clone().lerp(cAccent, mix * 0.85);
       colors[i * 3] = c.r;
       colors[i * 3 + 1] = c.g;
       colors[i * 3 + 2] = c.b;
     }
 
-    flowGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    flowGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    swarmGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    swarmGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-    const flowMat = new THREE.PointsMaterial({
+    const swarmMat = new THREE.PointsMaterial({
       size: 0.09,
       vertexColors: true,
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.68,
       blending: THREE.AdditiveBlending
     });
 
-    const flowMesh = new THREE.Points(flowGeo, flowMat);
-    scene.add(flowMesh);
+    const swarmMesh = new THREE.Points(swarmGeo, swarmMat);
+    scene.add(swarmMesh);
 
-    // --- Dynamic Scroll-Tracking Sync ---
+    // --- Interactive Mouse Deflection & Scroll Sync ---
+    let mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
+    window.addEventListener('mousemove', (e) => {
+      mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 20;
+      mouse.targetY = -(e.clientY / window.innerHeight - 0.5) * 20;
+    });
+
     let scrollY = 0;
     window.addEventListener('scroll', () => {
       scrollY = window.scrollY;
@@ -547,22 +556,42 @@
     function animate() {
       requestAnimationFrame(animate);
 
-      // Parallax scroll response
-      const targetCamY = -scrollY * 0.015;
+      // Smooth mouse interpolation
+      mouse.x += (mouse.targetX - mouse.x) * 0.04;
+      mouse.y += (mouse.targetY - mouse.y) * 0.04;
+
+      // Parallax scroll tracking
+      const targetCamY = -scrollY * 0.014;
       camera.position.y += (targetCamY - camera.position.y) * 0.05;
 
-      const posArr = flowGeo.attributes.position.array;
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        posArr[i * 3 + 1] -= velocities[i * 3 + 1]; // Drift downward
+      const pos = swarmGeo.attributes.position.array;
+      for (let i = 0; i < SWARM_COUNT; i++) {
+        // Streamwise downward drift
+        pos[i * 3 + 1] -= velocities[i * 3 + 1];
 
-        // Loop bounds
-        if (posArr[i * 3 + 1] < -35) {
-          posArr[i * 3 + 1] = 35;
+        // Harmonic fluid wave motion
+        pos[i * 3] += Math.sin(pos[i * 3 + 1] * 0.15) * 0.01;
+
+        // Subtle interactive mouse deflection
+        const dx = pos[i * 3] - mouse.x;
+        const dy = (pos[i * 3 + 1] - camera.position.y) - mouse.y;
+        const distSq = dx * dx + dy * dy;
+
+        if (distSq < 16) {
+          const force = (1 - distSq / 16) * 0.03;
+          pos[i * 3] += (dx > 0 ? 1 : -1) * force;
+        }
+
+        // Seamless vertical re-circulation
+        if (pos[i * 3 + 1] < camera.position.y - 40) {
+          pos[i * 3 + 1] = camera.position.y + 40;
+          pos[i * 3] = origins[i * 3];
         }
       }
-      flowGeo.attributes.position.needsUpdate = true;
+      swarmGeo.attributes.position.needsUpdate = true;
 
-      waveGroup.rotation.y = Math.sin(Date.now() * 0.0003) * 0.08;
+      // Ambient streamline rotation
+      waveGroup.rotation.y = Math.sin(Date.now() * 0.0003) * 0.06;
 
       renderer.render(scene, camera);
     }
@@ -574,7 +603,7 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // --- 3D Geometric Nodes in Cards ---
+    // --- 3D Geometric Nodes in Overview Cards ---
     document.querySelectorAll('.card-3d-node').forEach(el => {
       const shapeType = el.dataset.shape;
       const cScene = new THREE.Scene();
@@ -602,7 +631,7 @@
       const mesh = new THREE.Mesh(geo, mat);
       cScene.add(mesh);
 
-      const light1 = new THREE.DirectionalLight(0x6fa996, 3.0);
+      const light1 = new THREE.DirectionalLight(0x72a997, 3.0);
       light1.position.set(3, 3, 4);
       cScene.add(light1);
 
