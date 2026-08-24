@@ -20,15 +20,18 @@
             void: "#030605",
             surface: "#070d0a",
             "surface-subtle": "#0b1410",
-            border: "rgba(255, 255, 255, 0.07)",
-            "border-accent": "rgba(72, 139, 117, 0.22)",
+            border: "rgba(255, 255, 255, 0.06)",
             pine: {
               accent: "#4d8f7a",
               light: "#6fa996",
-              dark: "#1b382f",
-              muted: "#355e51",
+              dark: "#142820",
+              muted: "#2d5246",
             },
-            muted: "#7d9189",
+            text: {
+              primary: "#f1f5f9",   /* Softened Off-White */
+              secondary: "#94a3b8", /* Cool Slate Gray */
+              muted: "#64748b",     /* Neutral Zinc */
+            }
           },
           fontFamily: {
             sans: ["'Plus Jakarta Sans'", "sans-serif"],
@@ -41,7 +44,6 @@
 
   <!-- Three.js + Controls + Tilt + Icons -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -52,37 +54,53 @@
 
     body {
       background-color: #030605;
-      color: #f1f5f3;
+      color: #f1f5f9;
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Ambient Cool Desaturated Background Light */
-    .ambient-glow {
+    /* Fixed Full-Page Canvas */
+    #globalCanvas {
       position: fixed;
       top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 850px;
-      height: 450px;
-      background: radial-gradient(circle, rgba(77, 143, 122, 0.05) 0%, rgba(27, 56, 47, 0.02) 40%, transparent 70%);
-      filter: blur(100px);
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
       z-index: 0;
     }
 
-    /* Modern Frosted Card */
+    /* Subtle Center Glow */
+    .ambient-glow {
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(77, 143, 122, 0.04) 0%, transparent 70%);
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Modern Frosted Glass Card */
     .glow-card {
-      background: rgba(7, 13, 10, 0.72);
-      backdrop-filter: blur(20px);
+      background: rgba(7, 13, 10, 0.78);
+      backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.06);
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .glow-card:hover {
-      border-color: rgba(77, 143, 122, 0.3);
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+      border-color: rgba(77, 143, 122, 0.28);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.8);
       transform: translateY(-3px);
     }
 
@@ -103,366 +121,361 @@
 </head>
 <body class="selection:bg-pine-dark selection:text-white">
 
+  <!-- Fixed Full-Page Canvas (Persists along whole scroll) -->
+  <canvas id="globalCanvas"></canvas>
   <div class="ambient-glow"></div>
 
-  <!-- Header Navigation -->
-  <header class="fixed top-0 left-0 w-full z-50 bg-void/80 backdrop-blur-xl border-b border-white/5">
-    <div class="max-w-7xl mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
-      
-      <!-- Brand / Logo -->
-      <a href="#" class="flex items-center gap-3 group">
-        <div class="w-9 h-9 rounded-lg bg-pine-dark/40 border border-pine-muted/40 flex items-center justify-center font-mono font-bold text-pine-light text-sm group-hover:border-pine-accent transition">
-          <!-- Logo Placeholder -->
-          [L]
-        </div>
-        <span class="text-white font-bold text-base tracking-tight">[Your Name] <span class="text-muted font-normal text-sm hidden sm:inline">| [Your Specialization]</span></span>
-      </a>
-
-      <!-- Nav Links -->
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-        <a href="#about" class="text-muted hover:text-white transition">About</a>
-        <a href="#skills" class="text-muted hover:text-white transition">Expertise</a>
-        <a href="#projects" class="text-muted hover:text-white transition">Work</a>
-        <a href="#contact" class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-pine-accent/50 text-white font-mono text-xs hover:text-pine-light transition">
-          Get in Touch
+  <div class="wrapper">
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-void/80 backdrop-blur-xl border-b border-white/5">
+      <div class="max-w-7xl mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
+        
+        <!-- Brand / Logo Placeholder -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-9 h-9 rounded-lg bg-pine-dark/50 border border-pine-muted/40 flex items-center justify-center font-mono font-bold text-pine-light text-sm group-hover:border-pine-accent transition">
+            [L]
+          </div>
+          <span class="text-text-primary font-bold text-base tracking-tight">[Your Name] <span class="text-text-muted font-normal text-sm hidden sm:inline">| [Your Specialization]</span></span>
         </a>
-      </nav>
-    </div>
-  </header>
 
-  <!-- Hero Section with Dotted 3D Flow Field -->
-  <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center justify-between">
-    
-    <!-- Hero Content -->
-    <div class="absolute inset-0 top-[140px] max-w-7xl mx-auto px-6 sm:px-12 flex flex-row items-start gap-6 pointer-events-none z-20">
-      
-      <!-- Marker & Line -->
-      <div class="flex flex-col justify-center items-center mt-3">
-        <div class="w-4 h-4 rounded-full bg-pine-accent shadow-[0_0_14px_rgba(77,143,122,0.8)]"></div>
-        <div class="w-[2px] sm:h-72 h-40 gradient-line mt-1"></div>
+        <!-- Navigation Links -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+          <a href="#about" class="text-text-secondary hover:text-text-primary transition">About</a>
+          <a href="#skills" class="text-text-secondary hover:text-text-primary transition">Expertise</a>
+          <a href="#projects" class="text-text-secondary hover:text-text-primary transition">Work</a>
+          <a href="#contact" class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-pine-accent/50 text-text-primary font-mono text-xs hover:text-pine-light transition">
+            Get in Touch
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
+      <div class="max-w-7xl mx-auto px-6 sm:px-12 flex flex-row items-start gap-6 z-20 w-full">
+        
+        <!-- Indicator Dot & Vertical Line -->
+        <div class="flex flex-col justify-center items-center mt-3">
+          <div class="w-4 h-4 rounded-full bg-pine-accent shadow-[0_0_12px_rgba(77,143,122,0.7)]"></div>
+          <div class="w-[2px] sm:h-72 h-40 gradient-line mt-1"></div>
+        </div>
+
+        <!-- Headline & Bio -->
+        <div class="max-w-2xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pine-dark/40 border border-pine-muted/30 text-pine-light font-mono text-xs mb-4 backdrop-blur-sm">
+            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent animate-pulse"></span>
+            [AVAILABLE FOR COLLABORATIONS / ROLES]
+          </div>
+
+          <h1 class="font-extrabold text-text-primary text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.08] mb-4">
+            Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-pine-light via-pine-accent to-text-secondary">[Your Name]</span>
+          </h1>
+
+          <p class="text-text-secondary text-base sm:text-xl font-normal leading-relaxed mb-8 max-w-xl">
+            [Write a 1-2 sentence statement highlighting your primary engineering domain, technical approach, and design philosophy.]
+          </p>
+
+          <div class="flex gap-4">
+            <a href="#projects" class="px-6 py-3 rounded-xl bg-text-primary text-void font-bold text-sm hover:bg-slate-200 transition shadow-lg shadow-white/5 flex items-center gap-2">
+              Explore Work <i data-lucide="arrow-down" size="16"></i>
+            </a>
+            <a href="#contact" class="px-6 py-3 rounded-xl bg-surface border border-white/10 hover:border-pine-accent text-text-primary font-medium text-sm transition flex items-center gap-2">
+              Contact Me <i data-lucide="mail" size="16"></i>
+            </a>
+          </div>
+        </div>
       </div>
 
-      <!-- Headline -->
-      <div class="max-w-2xl">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pine-dark/30 border border-pine-muted/30 text-pine-light font-mono text-xs mb-4 backdrop-blur-sm">
-          <span class="w-1.5 h-1.5 rounded-full bg-pine-accent animate-pulse"></span>
-          [AVAILABLE FOR COLLABORATIONS / ROLES]
+      <!-- Mouse Scroll Down Indicator -->
+      <div class="absolute bottom-8 w-full flex justify-center items-center z-30 pointer-events-none">
+        <a href="#about" class="w-[30px] h-[52px] rounded-full border-2 border-white/15 flex justify-center items-start p-1.5 pointer-events-auto">
+          <div class="w-2 h-2 rounded-full bg-pine-accent animate-mouse-dot"></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Section 1: Overview & Focus Areas -->
+    <section id="about" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
+      <div class="mb-16">
+        <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[01 // OVERVIEW]</p>
+        <h2 class="text-text-primary font-extrabold text-3xl sm:text-5xl tracking-tight">Introduction.</h2>
+        <p class="mt-4 text-text-secondary text-base sm:text-lg max-w-3xl leading-relaxed">
+          [Add your background statement here. Describe your technical methodology, proficiency with simulation or prototyping tools, and ability to deliver production-ready systems.]
+        </p>
+      </div>
+
+      <!-- 4 Cards with Shaded 3D Faceted Nodes -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Card 1 -->
+        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
+          <div class="w-20 h-20 card-3d-node mx-auto" data-shape="icosahedron"></div>
+          <div>
+            <h3 class="text-text-primary font-bold text-lg text-center mt-4">[Core Focus 1]</h3>
+            <p class="text-text-secondary text-xs text-center mt-2 leading-relaxed">[Brief description of primary discipline / toolset]</p>
+          </div>
         </div>
 
-        <h1 class="font-extrabold text-white text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.08] mb-4">
-          Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-pine-light via-pine-accent to-muted">[Your Name]</span>
-        </h1>
+        <!-- Card 2 -->
+        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
+          <div class="w-20 h-20 card-3d-node mx-auto" data-shape="octahedron"></div>
+          <div>
+            <h3 class="text-text-primary font-bold text-lg text-center mt-4">[Core Focus 2]</h3>
+            <p class="text-text-secondary text-xs text-center mt-2 leading-relaxed">[Brief description of simulation / analysis capability]</p>
+          </div>
+        </div>
 
-        <p class="text-muted text-base sm:text-xl font-normal leading-relaxed mb-8 max-w-xl">
-          [Write a punchy 1-2 sentence statement highlighting your primary engineering domain, technical approach, and design philosophy.]
+        <!-- Card 3 -->
+        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
+          <div class="w-20 h-20 card-3d-node mx-auto" data-shape="torusknot"></div>
+          <div>
+            <h3 class="text-text-primary font-bold text-lg text-center mt-4">[Core Focus 3]</h3>
+            <p class="text-text-secondary text-xs text-center mt-2 leading-relaxed">[Brief description of prototyping / hardware methods]</p>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
+          <div class="w-20 h-20 card-3d-node mx-auto" data-shape="dodecahedron"></div>
+          <div>
+            <h3 class="text-text-primary font-bold text-lg text-center mt-4">[Core Focus 4]</h3>
+            <p class="text-text-secondary text-xs text-center mt-2 leading-relaxed">[Brief description of software / system integration]</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Technical Capabilities -->
+    <section id="skills" class="py-20 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
+      <div class="mb-14">
+        <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[02 // CAPABILITIES]</p>
+        <h2 class="text-text-primary font-extrabold text-3xl sm:text-5xl tracking-tight">Technical Matrix.</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Skill Group 1 -->
+        <div class="glow-card rounded-2xl p-6">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-lg bg-pine-dark/40 border border-pine-muted/30 flex items-center justify-center text-pine-light">
+              <i data-lucide="layers" size="20"></i>
+            </div>
+            <h3 class="text-text-primary font-bold text-lg">[Discipline 1]</h3>
+          </div>
+          <ul class="space-y-3 text-sm text-text-secondary">
+            <li class="flex items-center gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+              [Tool / Method 1]
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+              [Tool / Method 2]
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+              [Tool / Method 3]
+            </li>
+          </ul>
+        </div>
+
+        <!-- Skill Group 2 -->
+        <div class="glow-card rounded-2xl p-6">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-lg bg-pine-dark/40 border border-pine-muted/30 flex items-center justify-center text-pine-light">
+              <i data-lucide="activity" size="20"></i>
+            </div>
+            <h3 class="text-text-primary font-bold text-lg">[Discipline 2]</h3>
+          </div>
+          <ul class="space-y-3 text-sm text-text-secondary">
+            <li class="flex items-center gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+              [Tool / Method 1]
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+              [Tool / Method 2]
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+              [Tool / Method 3]
+            </li>
+          </ul>
+        </div>
+
+        <!-- Skill Group 3 -->
+        <div class="glow-card rounded-2xl p-6">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-lg bg-pine-dark/40 border border-pine-muted/30 flex items-center justify-center text-pine-light">
+              <i data-lucide="cpu" size="20"></i>
+            </div>
+            <h3 class="text-text-primary font-bold text-lg">[Discipline 3]</h3>
+          </div>
+          <ul class="space-y-3 text-sm text-text-secondary">
+            <li class="flex items-center gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+              [Tool / Method 1]
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+              [Tool / Method 2]
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
+              [Tool / Method 3]
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Engineering Projects (Clean Center Previews) -->
+    <section id="projects" class="py-20 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
+      <div class="mb-14">
+        <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[03 // FEATURED WORK]</p>
+        <h2 class="text-text-primary font-extrabold text-3xl sm:text-5xl tracking-tight">Engineering Projects.</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Project 1 -->
+        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="w-full h-44 bg-surface-subtle border border-white/5 rounded-xl flex items-center justify-center font-mono text-xs text-text-muted mb-6">
+              [Project Asset / CAD Render]
+            </div>
+            <h3 class="text-text-primary font-bold text-xl mb-2">[Project Title 1]</h3>
+            <p class="text-text-secondary text-sm leading-relaxed mb-6">
+              [2-3 sentence overview of this project, problem solved, technical parameters, and outcomes.]
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light">
+            <span class="px-2.5 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#[Tag 1]</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-text-muted">#[Tag 2]</span>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="w-full h-44 bg-surface-subtle border border-white/5 rounded-xl flex items-center justify-center font-mono text-xs text-text-muted mb-6">
+              [Project Asset / CAD Render]
+            </div>
+            <h3 class="text-text-primary font-bold text-xl mb-2">[Project Title 2]</h3>
+            <p class="text-text-secondary text-sm leading-relaxed mb-6">
+              [2-3 sentence overview of this project, problem solved, technical parameters, and outcomes.]
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light">
+            <span class="px-2.5 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#[Tag 1]</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-text-muted">#[Tag 2]</span>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="w-full h-44 bg-surface-subtle border border-white/5 rounded-xl flex items-center justify-center font-mono text-xs text-text-muted mb-6">
+              [Project Asset / CAD Render]
+            </div>
+            <h3 class="text-text-primary font-bold text-xl mb-2">[Project Title 3]</h3>
+            <p class="text-text-secondary text-sm leading-relaxed mb-6">
+              [2-3 sentence overview of this project, problem solved, technical parameters, and outcomes.]
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light">
+            <span class="px-2.5 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#[Tag 1]</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-text-muted">#[Tag 2]</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Direct Contact -->
+    <section id="contact" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
+      <div class="glow-card rounded-3xl p-8 sm:p-14 max-w-3xl mx-auto">
+        <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[04 // COMMUNICATION]</p>
+        <h2 class="text-text-primary font-black text-3xl sm:text-5xl tracking-tight mb-4">Let's Connect.</h2>
+        <p class="text-text-secondary text-base mb-8">
+          [Open to engineering inquiries, research collaborations, and technical discussions.]
         </p>
 
-        <div class="flex gap-4 pointer-events-auto">
-          <a href="#projects" class="px-6 py-3 rounded-xl bg-white text-void font-bold text-sm hover:bg-slate-200 transition shadow-lg shadow-white/5 flex items-center gap-2">
-            Explore Work <i data-lucide="arrow-down" size="16"></i>
+        <div class="flex flex-col gap-4 font-mono text-sm">
+          
+          <!-- Email -->
+          <a href="mailto:[your.email@example.com]" class="p-4 rounded-xl bg-void/70 border border-white/10 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
+            <div class="flex items-center gap-3">
+              <span class="text-lg">📧</span>
+              <span>[your.email@example.com]</span>
+            </div>
+            <span class="text-pine-light group-hover:translate-x-1 transition">→</span>
           </a>
-          <a href="#contact" class="px-6 py-3 rounded-xl bg-surface border border-white/10 hover:border-pine-accent text-white font-medium text-sm transition flex items-center gap-2">
-            Contact Me <i data-lucide="mail" size="16"></i>
+
+          <!-- GitHub -->
+          <a href="https://github.com/[yourusername]" target="_blank" rel="noopener noreferrer" class="p-4 rounded-xl bg-void/70 border border-white/10 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
+            <div class="flex items-center gap-3">
+              <span class="text-lg">💻</span>
+              <span>github.com/[yourusername]</span>
+            </div>
+            <span class="text-pine-light group-hover:translate-x-1 transition">→</span>
+          </a>
+
+          <!-- LinkedIn -->
+          <a href="https://linkedin.com/in/[yourusername]" target="_blank" rel="noopener noreferrer" class="p-4 rounded-xl bg-void/70 border border-white/10 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
+            <div class="flex items-center gap-3">
+              <span class="text-lg">🔗</span>
+              <span>linkedin.com/in/[yourusername]</span>
+            </div>
+            <span class="text-pine-light group-hover:translate-x-1 transition">→</span>
           </a>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Interactive Dotted Flow 3D Canvas -->
-    <div id="heroCanvasContainer" class="w-full h-full cursor-grab active:cursor-grabbing relative z-10"></div>
+    <!-- Footer -->
+    <footer class="text-center py-8 text-text-muted text-xs border-t border-white/5 font-mono">
+      © 2026 [Your Name] • High-Precision Dark Pine &amp; Obsidian Studio
+    </footer>
+  </div>
 
-    <!-- Mouse Scroll Down Indicator -->
-    <div class="absolute bottom-8 w-full flex justify-center items-center z-30 pointer-events-none">
-      <a href="#about" class="w-[30px] h-[52px] rounded-full border-2 border-white/15 flex justify-center items-start p-1.5 pointer-events-auto">
-        <div class="w-2 h-2 rounded-full bg-pine-accent animate-mouse-dot"></div>
-      </a>
-    </div>
-  </section>
-
-  <!-- Overview / Focus Areas -->
-  <section id="about" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
-    <div class="mb-16">
-      <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[01 // OVERVIEW]</p>
-      <h2 class="text-white font-extrabold text-3xl sm:text-5xl tracking-tight">Introduction.</h2>
-      <p class="mt-4 text-muted text-base sm:text-lg max-w-3xl leading-relaxed">
-        [Add your comprehensive background statement here. Describe your technical methodology, proficiency with simulation or prototyping tools, and ability to deliver production-ready systems.]
-      </p>
-    </div>
-
-    <!-- 4 Modern Tilt Cards with 3D Rendered Elements -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      
-      <!-- Card 1 -->
-      <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
-        <div class="w-20 h-20 card-3d-node mx-auto" data-shape="icosahedron"></div>
-        <div>
-          <h3 class="text-white font-bold text-lg text-center mt-4">[Core Focus 1]</h3>
-          <p class="text-muted text-xs text-center mt-2 leading-relaxed">[Brief description of primary discipline / toolset]</p>
-        </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
-        <div class="w-20 h-20 card-3d-node mx-auto" data-shape="octahedron"></div>
-        <div>
-          <h3 class="text-white font-bold text-lg text-center mt-4">[Core Focus 2]</h3>
-          <p class="text-muted text-xs text-center mt-2 leading-relaxed">[Brief description of simulation / analysis capability]</p>
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
-        <div class="w-20 h-20 card-3d-node mx-auto" data-shape="torusknot"></div>
-        <div>
-          <h3 class="text-white font-bold text-lg text-center mt-4">[Core Focus 3]</h3>
-          <p class="text-muted text-xs text-center mt-2 leading-relaxed">[Brief description of prototyping / hardware methods]</p>
-        </div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="glow-card rounded-2xl p-6 flex flex-col justify-between min-h-[300px] tilt-card" data-tilt data-tilt-max="15">
-        <div class="w-20 h-20 card-3d-node mx-auto" data-shape="dodecahedron"></div>
-        <div>
-          <h3 class="text-white font-bold text-lg text-center mt-4">[Core Focus 4]</h3>
-          <p class="text-muted text-xs text-center mt-2 leading-relaxed">[Brief description of software / system integration]</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Expertise / Capabilities Matrix -->
-  <section id="skills" class="py-20 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
-    <div class="mb-14">
-      <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[02 // CAPABILITIES]</p>
-      <h2 class="text-white font-extrabold text-3xl sm:text-5xl tracking-tight">Technical Matrix.</h2>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      
-      <!-- Skill Group 1 -->
-      <div class="glow-card rounded-2xl p-6">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-10 h-10 rounded-lg bg-pine-dark/30 border border-pine-muted/30 flex items-center justify-center text-pine-light">
-            <i data-lucide="layers" size="20"></i>
-          </div>
-          <h3 class="text-white font-bold text-lg">[Discipline 1]</h3>
-        </div>
-        <ul class="space-y-3 text-sm text-muted">
-          <li class="flex items-center gap-2.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-            [Tool / Method 1]
-          </li>
-          <li class="flex items-center gap-2.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-            [Tool / Method 2]
-          </li>
-          <li class="flex items-center gap-2.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-            [Tool / Method 3]
-          </li>
-        </ul>
-      </div>
-
-      <!-- Skill Group 2 -->
-      <div class="glow-card rounded-2xl p-6">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-10 h-10 rounded-lg bg-pine-dark/30 border border-pine-muted/30 flex items-center justify-center text-pine-light">
-            <i data-lucide="activity" size="20"></i>
-          </div>
-          <h3 class="text-white font-bold text-lg">[Discipline 2]</h3>
-        </div>
-        <ul class="space-y-3 text-sm text-muted">
-          <li class="flex items-center gap-2.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-            [Tool / Method 1]
-          </li>
-          <li class="flex items-center gap-2.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-            [Tool / Method 2]
-          </li>
-          <li class="flex items-center gap-2.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-            [Tool / Method 3]
-          </li>
-        </ul>
-      </div>
-
-      <!-- Skill Group 3 -->
-      <div class="glow-card rounded-2xl p-6">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-10 h-10 rounded-lg bg-pine-dark/30 border border-pine-muted/30 flex items-center justify-center text-pine-light">
-            <i data-lucide="cpu" size="20"></i>
-          </div>
-          <h3 class="text-white font-bold text-lg">[Discipline 3]</h3>
-        </div>
-        <ul class="space-y-3 text-sm text-muted">
-          <li class="flex items-center gap-2.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-            [Tool / Method 1]
-          </li>
-          <li class="flex items-center gap-2.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-            [Tool / Method 2]
-          </li>
-          <li class="flex items-center gap-2.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-pine-accent"></span>
-            [Tool / Method 3]
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- Featured Projects -->
-  <section id="projects" class="py-20 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
-    <div class="mb-14">
-      <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[03 // FEATURED WORK]</p>
-      <h2 class="text-white font-extrabold text-3xl sm:text-5xl tracking-tight">Engineering Projects.</h2>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      
-      <!-- Project 1 -->
-      <div class="glow-card rounded-2xl p-6 flex flex-col justify-between">
-        <div>
-          <div class="w-full h-44 bg-surface-subtle border border-white/5 rounded-xl flex items-center justify-center font-mono text-xs text-muted mb-6">
-            [Project Asset / CAD Render]
-          </div>
-          <h3 class="text-white font-bold text-xl mb-2">[Project Title 1]</h3>
-          <p class="text-muted text-sm leading-relaxed mb-6">
-            [2-3 sentence overview of this project, problem solved, technical parameters, and outcomes.]
-          </p>
-        </div>
-        <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light">
-          <span class="px-2.5 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#[Tag 1]</span>
-          <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-muted">#[Tag 2]</span>
-        </div>
-      </div>
-
-      <!-- Project 2 -->
-      <div class="glow-card rounded-2xl p-6 flex flex-col justify-between">
-        <div>
-          <div class="w-full h-44 bg-surface-subtle border border-white/5 rounded-xl flex items-center justify-center font-mono text-xs text-muted mb-6">
-            [Project Asset / CAD Render]
-          </div>
-          <h3 class="text-white font-bold text-xl mb-2">[Project Title 2]</h3>
-          <p class="text-muted text-sm leading-relaxed mb-6">
-            [2-3 sentence overview of this project, problem solved, technical parameters, and outcomes.]
-          </p>
-        </div>
-        <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light">
-          <span class="px-2.5 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#[Tag 1]</span>
-          <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-muted">#[Tag 2]</span>
-        </div>
-      </div>
-
-      <!-- Project 3 -->
-      <div class="glow-card rounded-2xl p-6 flex flex-col justify-between">
-        <div>
-          <div class="w-full h-44 bg-surface-subtle border border-white/5 rounded-xl flex items-center justify-center font-mono text-xs text-muted mb-6">
-            [Project Asset / CAD Render]
-          </div>
-          <h3 class="text-white font-bold text-xl mb-2">[Project Title 3]</h3>
-          <p class="text-muted text-sm leading-relaxed mb-6">
-            [2-3 sentence overview of this project, problem solved, technical parameters, and outcomes.]
-          </p>
-        </div>
-        <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light">
-          <span class="px-2.5 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#[Tag 1]</span>
-          <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10 text-muted">#[Tag 2]</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Direct Contact Suite -->
-  <section id="contact" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
-    <div class="glow-card rounded-3xl p-8 sm:p-14 max-w-3xl mx-auto">
-      <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[04 // COMMUNICATION]</p>
-      <h2 class="text-white font-black text-3xl sm:text-5xl tracking-tight mb-4">Let's Connect.</h2>
-      <p class="text-muted text-base mb-8">
-        [Open to engineering inquiries, research collaborations, and technical discussions.]
-      </p>
-
-      <div class="flex flex-col gap-4 font-mono text-sm">
-        
-        <!-- Email -->
-        <a href="mailto:[your.email@example.com]" class="p-4 rounded-xl bg-void/70 border border-white/10 hover:border-pine-accent text-white flex items-center justify-between transition group">
-          <div class="flex items-center gap-3">
-            <span class="text-lg">📧</span>
-            <span>[your.email@example.com]</span>
-          </div>
-          <span class="text-pine-light group-hover:translate-x-1 transition">→</span>
-        </a>
-
-        <!-- GitHub -->
-        <a href="https://github.com/[yourusername]" target="_blank" rel="noopener noreferrer" class="p-4 rounded-xl bg-void/70 border border-white/10 hover:border-pine-accent text-white flex items-center justify-between transition group">
-          <div class="flex items-center gap-3">
-            <span class="text-lg">💻</span>
-            <span>github.com/[yourusername]</span>
-          </div>
-          <span class="text-pine-light group-hover:translate-x-1 transition">→</span>
-        </a>
-
-        <!-- LinkedIn / Profile -->
-        <a href="https://linkedin.com/in/[yourusername]" target="_blank" rel="noopener noreferrer" class="p-4 rounded-xl bg-void/70 border border-white/10 hover:border-pine-accent text-white flex items-center justify-between transition group">
-          <div class="flex items-center gap-3">
-            <span class="text-lg">🔗</span>
-            <span>linkedin.com/in/[yourusername]</span>
-          </div>
-          <span class="text-pine-light group-hover:translate-x-1 transition">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="text-center py-8 text-muted text-xs border-t border-white/5 font-mono">
-    © 2026 [Your Name] • High-Precision Dark Pine &amp; Obsidian Studio
-  </footer>
-
-  <!-- SCRIPT: THREE.JS 3D DOTTED FLOW FIELD & CARD NODES -->
+  <!-- SCRIPT: FULL-PAGE MARGIN-FOCUSED 3D DOTTED FLOW FIELD -->
   <script>
-    const container = document.getElementById('heroCanvasContainer');
+    const canvas = document.getElementById('globalCanvas');
     const scene = new THREE.Scene();
 
-    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(0, 5, 24);
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 26);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(renderer.domElement);
 
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.9;
-    controls.enableZoom = false;
-
-    // --- 1. DOTTED PARAMETRIC FLOW STREAMLINES (Wave Dotted Lines) ---
-    const dottedWaveGroup = new THREE.Group();
-    scene.add(dottedWaveGroup);
+    // --- 1. DOTTED PARAMETRIC STREAMLINES (Structured side-margin ribbons) ---
+    const waveGroup = new THREE.Group();
+    scene.add(waveGroup);
 
     const wavePoints = [];
     const waveColors = [];
     const cPineLight = new THREE.Color(0x6fa996);
-    const cPineDark = new THREE.Color(0x1b382f);
+    const cPineDark = new THREE.Color(0x142820);
 
-    for (let j = -9; j <= 9; j++) {
-      for (let i = -26; i <= 26; i += 0.22) { // Dense dotted spacing
-        const x = i;
-        const y = Math.sin(i * 0.18 + j * 0.38) * 3.5 + (j * 1.35);
-        const z = Math.cos(i * 0.14) * 4.2 - 5.0;
+    // Left and Right Margin Ribbons (Leaves center empty)
+    const sides = [-1, 1]; // -1 for Left margin, 1 for Right margin
+    sides.forEach(side => {
+      for (let j = -5; j <= 5; j++) {
+        for (let i = -30; i <= 30; i += 0.35) {
+          const y = i;
+          // Curve concentrated on outer borders (|x| > 14)
+          const x = (side * 18) + Math.sin(y * 0.15 + j * 0.4) * 3.5;
+          const z = Math.cos(y * 0.12) * 3.0 - 4.0;
 
-        wavePoints.push(x, y, z);
+          wavePoints.push(x, y, z);
 
-        const mixRatio = (Math.sin(i * 0.1 + j) + 1) / 2;
-        const c = cPineDark.clone().lerp(cPineLight, mixRatio * 0.7);
-        waveColors.push(c.r, c.g, c.b);
+          const mix = (Math.sin(y * 0.1 + j) + 1) / 2;
+          const c = cPineDark.clone().lerp(cPineLight, mix * 0.5);
+          waveColors.push(c.r, c.g, c.b);
+        }
       }
-    }
+    });
 
     const waveGeo = new THREE.BufferGeometry();
     waveGeo.setAttribute('position', new THREE.Float32BufferAttribute(wavePoints, 3));
@@ -472,35 +485,37 @@
       size: 0.08,
       vertexColors: true,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.35,
       blending: THREE.AdditiveBlending
     });
 
-    const dottedWaveMesh = new THREE.Points(waveGeo, waveMat);
-    dottedWaveGroup.add(dottedWaveMesh);
+    const waveMesh = new THREE.Points(waveGeo, waveMat);
+    waveGroup.add(waveMesh);
 
-    // --- 2. DYNAMIC PARTICLES FLOW FIELD (Discrete Dot Cloud) ---
-    const PARTICLE_COUNT = 9000;
+    // --- 2. SIDE-MARGIN AMBIENT DOTTED PARTICLES (Open center corridor) ---
+    const PARTICLE_COUNT = 1800; // Controlled quantity to prevent distraction
     const flowGeo = new THREE.BufferGeometry();
     const positions = new Float32Array(PARTICLE_COUNT * 3);
     const colors = new Float32Array(PARTICLE_COUNT * 3);
     const velocities = new Float32Array(PARTICLE_COUNT * 3);
 
     const cMuted = new THREE.Color(0x4d8f7a);
-    const cDeepVoid = new THREE.Color(0x132a22);
+    const cDeepVoid = new THREE.Color(0x0e1c17);
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
-      const u = (Math.random() - 0.5) * 30;
-      const v = (Math.random() - 0.5) * 16;
-      const w = (Math.random() - 0.5) * 18;
+      // Push particles to lateral flanks (|x| > 13)
+      const sideSign = Math.random() > 0.5 ? 1 : -1;
+      const x = sideSign * (13 + Math.random() * 12);
+      const y = (Math.random() - 0.5) * 60; // Spread through whole page height
+      const z = (Math.random() - 0.5) * 14;
 
-      positions[i * 3] = u;
-      positions[i * 3 + 1] = v;
-      positions[i * 3 + 2] = w;
+      positions[i * 3] = x;
+      positions[i * 3 + 1] = y;
+      positions[i * 3 + 2] = z;
 
-      velocities[i * 3] = (Math.random() * 0.035 + 0.015);
-      velocities[i * 3 + 1] = Math.sin(u * 0.25) * 0.015;
-      velocities[i * 3 + 2] = Math.cos(u * 0.2) * 0.015;
+      velocities[i * 3] = (Math.random() * 0.015 + 0.005) * sideSign;
+      velocities[i * 3 + 1] = (Math.random() * 0.02 + 0.01);
+      velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.01;
 
       const mix = Math.random();
       const c = cDeepVoid.clone().lerp(cMuted, mix);
@@ -513,45 +528,53 @@
     flowGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const flowMat = new THREE.PointsMaterial({
-      size: 0.1,
+      size: 0.09,
       vertexColors: true,
       transparent: true,
-      opacity: 0.75,
+      opacity: 0.6,
       blending: THREE.AdditiveBlending
     });
 
     const flowMesh = new THREE.Points(flowGeo, flowMat);
     scene.add(flowMesh);
 
+    // --- Dynamic Scroll-Tracking Sync ---
+    let scrollY = 0;
+    window.addEventListener('scroll', () => {
+      scrollY = window.scrollY;
+    });
+
     function animate() {
       requestAnimationFrame(animate);
 
+      // Parallax scroll response
+      const targetCamY = -scrollY * 0.015;
+      camera.position.y += (targetCamY - camera.position.y) * 0.05;
+
       const posArr = flowGeo.attributes.position.array;
       for (let i = 0; i < PARTICLE_COUNT; i++) {
-        posArr[i * 3] += velocities[i * 3];
-        posArr[i * 3 + 1] += Math.sin(posArr[i * 3] * 0.2) * 0.008;
+        posArr[i * 3 + 1] -= velocities[i * 3 + 1]; // Drift downward
 
-        if (posArr[i * 3] > 15) {
-          posArr[i * 3] = -15;
-          posArr[i * 3 + 1] = (Math.random() - 0.5) * 16;
-          posArr[i * 3 + 2] = (Math.random() - 0.5) * 18;
+        // Loop bounds
+        if (posArr[i * 3 + 1] < -35) {
+          posArr[i * 3 + 1] = 35;
         }
       }
       flowGeo.attributes.position.needsUpdate = true;
 
-      controls.update();
-      dottedWaveGroup.rotation.y += 0.0005;
+      waveGroup.rotation.y = Math.sin(Date.now() * 0.0003) * 0.08;
+
       renderer.render(scene, camera);
     }
     animate();
 
     window.addEventListener('resize', () => {
-      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // --- 3D Geometric Nodes in Cards (Cool Muted Pine Shading) ---
+    // --- 3D Geometric Nodes in Cards ---
     document.querySelectorAll('.card-3d-node').forEach(el => {
       const shapeType = el.dataset.shape;
       const cScene = new THREE.Scene();
@@ -572,7 +595,7 @@
       const mat = new THREE.MeshStandardMaterial({
         color: 0x4d8f7a,
         metalness: 0.85,
-        roughness: 0.22,
+        roughness: 0.24,
         flatShading: true
       });
 
@@ -583,11 +606,11 @@
       light1.position.set(3, 3, 4);
       cScene.add(light1);
 
-      const light2 = new THREE.DirectionalLight(0x132a22, 2.0);
+      const light2 = new THREE.DirectionalLight(0x142820, 2.0);
       light2.position.set(-3, -3, -2);
       cScene.add(light2);
 
-      cScene.add(new THREE.AmbientLight(0xffffff, 0.5));
+      cScene.add(new THREE.AmbientLight(0xffffff, 0.45));
 
       function animNode() {
         requestAnimationFrame(animNode);
@@ -598,12 +621,12 @@
       animNode();
     });
 
-    // Initialize Card Tilt
+    // Card Tilt Initiation
     VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
-      max: 15,
+      max: 14,
       speed: 400,
       glare: true,
-      "max-glare": 0.18,
+      "max-glare": 0.15,
     });
 
     lucide.createIcons();
