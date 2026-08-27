@@ -45,13 +45,13 @@
   "workspace": {
     "CAD": {
       "logos": [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/SolidWorks_Logo.png/800px-SolidWorks_Logo.png",
-        "https://upload.wikimedia.org/wikipedia/commons/e/e0/Autodesk_Fusion_360_Logo.svg"
+        "assets/logos/SolidWorks-Logo.png",
+        "assets/logos/autodesk-fusion60-logo-vector-png.png"
       ],
       "description": "Parametric modeling in SolidWorks & Autodesk Fusion",
       "subfolders": {
         "SolidWorks": {
-          "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/SolidWorks_Logo.png/800px-SolidWorks_Logo.png",
+          "logo": "assets/logos/SolidWorks-Logo.png"",
           "files": [
             {
               "title": "Adaptive Tread Tire",
@@ -70,7 +70,7 @@
           ]
         },
         "Fusion 360": {
-          "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Autodesk_Fusion_360_Logo.svg",
+          "logo": "assets/logos/autodesk-fusion60-logo-vector-png.png",
           "files": [
             {
               "title": "Sensor Enclosure",
@@ -85,7 +85,7 @@
     },
     "Ansys": {
       "logos": [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Ansys_logo.svg/512px-Ansys_logo.svg.png"
+        "assets/logos/images.png"
       ],
       "description": "FEA Structural & Fluent CFD Simulations",
       "subfolders": {
@@ -112,7 +112,7 @@
     },
     "Comsol": {
       "logos": [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/COMSOL_Inc._logo.svg/512px-COMSOL_Inc._logo.svg.png"
+        "assets/logos/comsol-seeklogo.png"
       ],
       "description": "Multiphysics Heat Transfer & Fluid Flow",
       "subfolders": {
