@@ -51,7 +51,7 @@
       "description": "Parametric modeling in SolidWorks & Autodesk Fusion",
       "subfolders": {
         "SolidWorks": {
-          "logo": "assets/logos/SolidWorks-Logo.png"",
+          "logo": "assets/logos/SolidWorks-Logo.png",
           "files": [
             {
               "title": "Adaptive Tread Tire",
@@ -88,47 +88,37 @@
         "assets/logos/images.png"
       ],
       "description": "FEA Structural & Fluent CFD Simulations",
-      "subfolders": {
-        "Simulations": {
-          "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Ansys_logo.svg/512px-Ansys_logo.svg.png",
-          "files": [
-            {
-              "title": "Penguin-Inspired Hydrofoil",
-              "description": "Transient CFD research evaluating thrust generation.",
-              "fileName": "hydrofoil_cfd.pdf",
-              "fileUrl": "assets/simulations/hydrofoil_cfd.pdf",
-              "tags": ["Fluent", "Hydrodynamics"]
-            },
-            {
-              "title": "Tubercle Diffuser Optimization",
-              "description": "Flow field characterization of bio-inspired diffusers for drag reduction and stall delay.",
-              "fileName": "tubercle_diffuser.pdf",
-              "fileUrl": "assets/simulations/tubercle_diffuser.pdf",
-              "tags": ["Fluent", "Aerodynamics"]
-            }
-          ]
+      "files": [
+        {
+          "title": "Penguin-Inspired Hydrofoil",
+          "description": "Transient CFD research evaluating thrust generation.",
+          "fileName": "hydrofoil_cfd.pdf",
+          "fileUrl": "assets/simulations/hydrofoil_cfd.pdf",
+          "tags": ["Fluent", "Hydrodynamics"]
+        },
+        {
+          "title": "Tubercle Diffuser Optimization",
+          "description": "Flow field characterization of bio-inspired diffusers for drag reduction and stall delay.",
+          "fileName": "tubercle_diffuser.pdf",
+          "fileUrl": "assets/simulations/tubercle_diffuser.pdf",
+          "tags": ["Fluent", "Aerodynamics"]
         }
-      }
+      ]
     },
     "Comsol": {
       "logos": [
         "assets/logos/comsol-seeklogo.png"
       ],
       "description": "Multiphysics Heat Transfer & Fluid Flow",
-      "subfolders": {
-        "Simulations": {
-          "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/COMSOL_Inc._logo.svg/512px-COMSOL_Inc._logo.svg.png",
-          "files": [
-            {
-              "title": "Thermal Heat Exchanger",
-              "description": "Coupled thermodynamic and fluid flow analysis.",
-              "fileName": "thermal_flow.pdf",
-              "fileUrl": "assets/simulations/thermal_flow.pdf",
-              "tags": ["Multiphysics", "Thermodynamics"]
-            }
-          ]
+      "files": [
+        {
+          "title": "Thermal Heat Exchanger",
+          "description": "Coupled thermodynamic and fluid flow analysis.",
+          "fileName": "thermal_flow.pdf",
+          "fileUrl": "assets/simulations/thermal_flow.pdf",
+          "tags": ["Multiphysics", "Thermodynamics"]
         }
-      }
+      ]
     }
   }
 }
