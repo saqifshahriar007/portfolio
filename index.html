@@ -170,21 +170,25 @@
 
     async function loadData() {
       try {
-        // ULTIMATE CACHE-BUSTER: Forces browser to pull fresh JSON every time.
         const response = await fetch('./data.json?v=' + new Date().getTime());
         const data = await response.json();
 
+        // 1. BULLETPROOF NAME SLICER
+        // Takes "Saqif Shahriar" and cuts it into ["Saqif", "Shahriar"], then grabs the first piece.
+        const fullName = data.profile.name || "Saqif Shahriar";
+        const firstName = fullName.split(' ')[0];
+
         // Populate Profile
-        document.getElementById('doc-title').textContent = data.profile.name + " — Portfolio";
-        document.getElementById('nav-initial').textContent = data.profile.name.charAt(0);
-        document.getElementById('nav-name').textContent = data.profile.name;
+        document.getElementById('doc-title').textContent = fullName + " — Portfolio";
+        document.getElementById('nav-initial').textContent = fullName.charAt(0);
+        document.getElementById('nav-name').textContent = fullName; // Navbar gets full name
+        document.getElementById('footer-name').textContent = fullName; // Footer gets full name
         
-        // Will correctly fall back to name if heroName isn't in your data.json yet
-        document.getElementById('hero-name').textContent = data.profile.heroName || data.profile.name;
+        // Hero Section is FORCED to only use the First Name (Saqif)
+        document.getElementById('hero-name').textContent = firstName;
         
         document.getElementById('hero-bio').textContent = data.profile.heroBio;
         document.getElementById('about-text').textContent = data.profile.aboutText;
-        document.getElementById('footer-name').textContent = data.profile.name;
         document.getElementById('footer-year').textContent = new Date().getFullYear();
 
         document.getElementById('contact-email-link').href = "mailto:" + data.profile.contact.email;
