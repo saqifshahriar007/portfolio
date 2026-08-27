@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="doc-title">Portfolio</title>
   
-  <!-- Professional Fonts: Inter for clean UI, JetBrains Mono for data/tech elements -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -40,24 +39,19 @@
     * { scroll-behavior: smooth; }
     body { background-color: #030605; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
     
-    /* Background Glows */
     .ambient-glow { position: absolute; top: -80px; right: 0; width: 650px; height: 480px; background: radial-gradient(circle, rgba(77, 143, 122, 0.06) 0%, transparent 70%); filter: blur(120px); pointer-events: none; z-index: 1; }
     .gradient-line { background: linear-gradient(to bottom, #4d8f7a 0%, rgba(77, 143, 122, 0) 100%); }
     
-    /* Elegant Professional Cards */
     .pro-card { background: rgba(10, 18, 14, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; transition: all 0.3s ease; }
-    .pro-card:hover { border-color: rgba(77, 143, 122, 0.4); background: rgba(15, 26, 20, 0.8); transform: translateY(-2px); }
+    .pro-card:hover { border-color: rgba(77, 143, 122, 0.4); box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.85); transform: translateY(-2px); }
     
-    /* Interactive Folder Cards */
     .folder-card { cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; }
     .folder-card img { height: 64px; width: auto; max-width: 100%; object-fit: contain; margin-bottom: 1.5rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); transition: transform 0.3s ease;}
     .folder-card:hover img { transform: scale(1.05); }
 
-    /* Certificates Images */
     .cert-image-wrapper { width: 100%; height: 220px; border-radius: 8px; overflow: hidden; background: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; border: 1px solid rgba(255,255,255,0.1); }
-    .cert-image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+    .cert-image-wrapper img { width: 100%; height: 100%; object-fit: contain; padding: 1rem; }
 
-    /* Clean Section Headers */
     .section-header { border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 1rem; margin-bottom: 3rem; }
     .section-header h2 { font-weight: 300; letter-spacing: -0.02em; font-size: 2.25rem; color: #f8fafc; }
     
@@ -78,12 +72,12 @@
         <a href="#about" class="hover:text-text-primary transition">Overview</a>
         <a href="#certificates" class="hover:text-text-primary transition">Certificates</a>
         <a href="#workspace" class="hover:text-text-primary transition">Workspace</a>
-        <a href="#contact" class="hover:text-text-primary transition">Contact</a>
+        <a href="#contact" class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-pine-accent/50 text-text-primary font-mono text-xs hover:text-pine-light transition">Contact</a>
       </nav>
     </div>
   </header>
 
-  <!-- 1. HERO (Kept Original 3D Flow Design) -->
+  <!-- 1. HERO -->
   <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
     <div class="ambient-glow"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 flex flex-row items-start gap-6 z-20 w-full">
@@ -113,18 +107,17 @@
     </div>
   </section>
 
-  <!-- 2. OVERVIEW (Professional Typography) -->
+  <!-- 2. OVERVIEW -->
   <section id="about" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="section-header">
       <h2>Professional Overview</h2>
     </div>
     <p id="about-text" class="text-text-secondary text-lg font-light leading-relaxed max-w-4xl mb-12"></p>
     
-    <!-- 3-Column Engineering Node Grid -->
     <div id="focus-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </section>
 
-  <!-- 3. CERTIFICATES (Image First Display) -->
+  <!-- 3. CERTIFICATES -->
   <section id="certificates" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="section-header">
       <h2>Certifications & Credentials</h2>
@@ -132,18 +125,12 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="certificates-container"></div>
   </section>
 
-  <!-- 4. DYNAMIC FOLDER WORKSPACE (Interactive) -->
+  <!-- 4. DYNAMIC FOLDER WORKSPACE -->
   <section id="workspace" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="section-header flex justify-between items-end">
       <h2>Engineering Workspace</h2>
-      
-      <!-- Interactive Breadcrumbs -->
-      <div id="breadcrumb-container" class="hidden sm:flex items-center gap-2 font-mono text-sm text-text-secondary">
-        <!-- Generated by JS -->
-      </div>
+      <div id="breadcrumb-container" class="hidden sm:flex items-center gap-2 font-mono text-sm text-text-secondary"></div>
     </div>
-
-    <!-- Container for dynamic UI updates -->
     <div id="workspace-ui-container" class="min-h-[400px]"></div>
   </section>
 
@@ -179,7 +166,7 @@
   <!-- SCRIPT 0: DATA LOADER & FOLDER LOGIC -->
   <script>
     let workspaceData = {};
-    let currentPath = []; // [] = Root, ['CAD'] = Level 1, ['CAD', 'SolidWorks'] = Level 2
+    let currentPath = [];
 
     async function loadData() {
       try {
@@ -212,7 +199,7 @@
           </div>
         `).join('');
 
-        // Populate Certificates (Image First)
+        // Populate Certificates
         document.getElementById('certificates-container').innerHTML = data.certificates.map(cert => `
           <div class="pro-card p-5 flex flex-col justify-between">
             <div>
@@ -223,7 +210,7 @@
               <p class="text-pine-light font-mono text-xs uppercase tracking-wider mb-6">${cert.issuer}</p>
             </div>
             <a href="${cert.pdfUrl}" target="_blank" class="w-full py-3 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary font-mono text-xs flex justify-center items-center gap-2 transition">
-              <i data-lucide="file-text" size="14"></i> View Document
+              <i data-lucide="download" size="14"></i> Download PDF
             </a>
           </div>
         `).join('');
@@ -252,19 +239,12 @@
       const container = document.getElementById('workspace-ui-container');
       const breadcrumbs = document.getElementById('breadcrumb-container');
       
-      // Build Breadcrumbs
       let breadHtml = `<button onclick="navigateWorkspace()" class="hover:text-text-primary transition">Root</button>`;
-      if (currentPath.length > 0) {
-        breadHtml += ` <span class="opacity-50">/</span> <button onclick="navigateWorkspace('${currentPath[0]}')" class="hover:text-text-primary transition">${currentPath[0]}</button>`;
-      }
-      if (currentPath.length > 1) {
-        breadHtml += ` <span class="opacity-50">/</span> <span class="text-text-primary">${currentPath[1]}</span>`;
-      }
+      if (currentPath.length > 0) breadHtml += ` <span class="opacity-50">/</span> <button onclick="navigateWorkspace('${currentPath[0]}')" class="hover:text-text-primary transition">${currentPath[0]}</button>`;
+      if (currentPath.length > 1) breadHtml += ` <span class="opacity-50">/</span> <span class="text-text-primary">${currentPath[1]}</span>`;
       breadcrumbs.innerHTML = breadHtml;
 
-      // Render based on depth
       if (currentPath.length === 0) {
-        // Show Root Folders (CAD, Ansys, Comsol)
         const keys = Object.keys(workspaceData);
         container.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">` + keys.map(key => `
           <div onclick="navigateWorkspace('${key}')" class="pro-card folder-card">
@@ -273,12 +253,9 @@
             <p class="text-text-secondary font-light text-sm">${workspaceData[key].description}</p>
           </div>
         `).join('') + `</div>`;
-
       } else if (currentPath.length === 1) {
-        // Show Sub Folders (SolidWorks, Fusion, etc)
         const mainCat = workspaceData[currentPath[0]];
         const subKeys = Object.keys(mainCat.subfolders);
-        
         container.innerHTML = `
           <button onclick="navigateWorkspace()" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
             <i data-lucide="arrow-left" size="16"></i> Back to Main Folders
@@ -291,11 +268,8 @@
             <p class="text-text-secondary font-mono text-xs opacity-70">${mainCat.subfolders[subKey].files.length} Files Inside</p>
           </div>
         `).join('') + `</div>`;
-
       } else if (currentPath.length === 2) {
-        // Show Actual Files
         const files = workspaceData[currentPath[0]].subfolders[currentPath[1]].files;
-        
         container.innerHTML = `
           <button onclick="navigateWorkspace('${currentPath[0]}')" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
             <i data-lucide="arrow-left" size="16"></i> Back to ${currentPath[0]}
@@ -399,39 +373,51 @@
     window.addEventListener('resize', () => { heroCamera.aspect = heroContainer.clientWidth / heroContainer.clientHeight; heroCamera.updateProjectionMatrix(); heroRenderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight); });
   </script>
 
-  <!-- SCRIPT 2: NEW PROFESSIONAL ENGINEERING 3D SHAPES -->
+  <!-- SCRIPT 2: RESTORED PREMIUM METALLIC 3D SHAPES -->
   <script>
     function init3DNodes() {
       document.querySelectorAll('.card-3d-node').forEach(el => {
         if(el.hasChildNodes()) return; 
         const shapeType = el.dataset.shape;
         const cScene = new THREE.Scene();
-        const cCam = new THREE.PerspectiveCamera(50, 1, 0.1, 100); cCam.position.z = 3.8;
+        const cCam = new THREE.PerspectiveCamera(50, 1, 0.1, 100); cCam.position.z = 3.5;
         const cRend = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         cRend.setSize(96, 96); cRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         el.appendChild(cRend.domElement);
 
         let geo;
-        // High-precision mechanical bearing (CAD)
-        if (shapeType === 'bearing') geo = new THREE.TorusGeometry(0.9, 0.35, 16, 64);
-        // High-density structural node mesh (FEA)
-        else if (shapeType === 'feamesh') geo = new THREE.OctahedronGeometry(1.2, 3);
-        // Complex turbulent fluid dynamic knot (CFD)
-        else geo = new THREE.TorusKnotGeometry(0.7, 0.2, 128, 16);
+        let useFlatShading = false;
+        
+        // Solid Machined Bearing for CAD
+        if (shapeType === 'cad') {
+            geo = new THREE.TorusGeometry(0.8, 0.4, 16, 50);
+        }
+        // Triangulated Solid Mesh for FEA
+        else if (shapeType === 'fea') {
+            geo = new THREE.IcosahedronGeometry(1.2, 1);
+            useFlatShading = true; // Creates the faceted element look
+        }
+        // Smooth Solid Streamline for CFD
+        else {
+            geo = new THREE.TorusKnotGeometry(0.75, 0.25, 100, 16);
+        }
 
-        // Professional Matte Material with subtle Wireframe
-        const mat = new THREE.MeshStandardMaterial({ color: 0x142820, metalness: 0.5, roughness: 0.8 });
-        const wireMat = new THREE.MeshBasicMaterial({ color: 0x4d8f7a, wireframe: true, transparent: true, opacity: 0.4 });
+        // Restored Original Premium Metallic Material
+        const mat = new THREE.MeshStandardMaterial({ 
+            color: 0x4d8f7a, 
+            metalness: 0.85, 
+            roughness: 0.24, 
+            flatShading: useFlatShading 
+        });
         
         const mesh = new THREE.Mesh(geo, mat);
-        const wireMesh = new THREE.Mesh(geo, wireMat);
-        mesh.add(wireMesh);
         cScene.add(mesh);
 
-        const light1 = new THREE.DirectionalLight(0x72a997, 4.0); light1.position.set(3, 3, 4); cScene.add(light1);
-        cScene.add(new THREE.AmbientLight(0xffffff, 0.6));
+        const light1 = new THREE.DirectionalLight(0x72a997, 3.0); light1.position.set(3, 3, 4); cScene.add(light1);
+        const light2 = new THREE.DirectionalLight(0x142820, 2.0); light2.position.set(-3, -3, -2); cScene.add(light2);
+        cScene.add(new THREE.AmbientLight(0xffffff, 0.45));
 
-        function animNode() { requestAnimationFrame(animNode); mesh.rotation.x += 0.005; mesh.rotation.y += 0.01; cRend.render(cScene, cCam); }
+        function animNode() { requestAnimationFrame(animNode); mesh.rotation.x += 0.008; mesh.rotation.y += 0.012; cRend.render(cScene, cCam); }
         animNode();
       });
     }
