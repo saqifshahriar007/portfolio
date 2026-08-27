@@ -53,11 +53,12 @@
         "SolidWorks": {
           "logo": "assets/logos/SolidWorks-Logo.png",
           "files": [
-           {
+          {
   "title": "Ketley Component",
   "description": "Parametric part model built in SolidWorks and viewed in interactive 3D.",
   "fileName": "ketley.STL",
   "fileUrl": "assets/cad/solidworks/ketley.STL",
+  "previewImage": "assets/previews/image.png",
   "tags": ["SolidWorks", "STL", "3D Preview"]
 },
             {
