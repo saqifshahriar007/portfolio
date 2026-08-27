@@ -77,7 +77,7 @@
     </div>
   </header>
 
-  <!-- 1. HERO (3D Flow Field) -->
+  <!-- 1. HERO -->
   <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
     <div class="ambient-glow"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 flex flex-row items-start gap-6 z-20 w-full">
@@ -107,7 +107,7 @@
     </div>
   </section>
 
-  <!-- 2. OVERVIEW (Dotted 3D Shapes) -->
+  <!-- 2. OVERVIEW -->
   <section id="about" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="section-header">
       <h2>Professional Overview</h2>
@@ -117,7 +117,7 @@
     <div id="focus-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </section>
 
-  <!-- 3. CERTIFICATES (Image Viewer) -->
+  <!-- 3. CERTIFICATES -->
   <section id="certificates" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="section-header">
       <h2>Certifications & Credentials</h2>
@@ -177,7 +177,10 @@
         document.getElementById('doc-title').textContent = data.profile.name + " — Portfolio";
         document.getElementById('nav-initial').textContent = data.profile.name.charAt(0);
         document.getElementById('nav-name').textContent = data.profile.name;
-        document.getElementById('hero-name').textContent = data.profile.name;
+        
+        // This targets the new separate heroName variable from data.json
+        document.getElementById('hero-name').textContent = data.profile.heroName || data.profile.name;
+        
         document.getElementById('hero-bio').textContent = data.profile.heroBio;
         document.getElementById('about-text').textContent = data.profile.aboutText;
         document.getElementById('footer-name').textContent = data.profile.name;
@@ -385,25 +388,18 @@
         cCam.position.z = 3.8;
         
         const cRend = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        // Scale appropriately for the card
         cRend.setSize(120, 120); 
         cRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         el.appendChild(cRend.domElement);
 
         let geo;
         
-        // 1. CAD: High-Density Dotted Bearing
         if (shapeType === 'cad') {
             geo = new THREE.TorusGeometry(0.8, 0.35, 24, 70);
-        }
-        // 2. FEA: Point Cloud Node Mesh Sphere
-        else if (shapeType === 'fea') {
+        } else if (shapeType === 'fea') {
             geo = new THREE.IcosahedronGeometry(1.1, 4); 
-        }
-        // 3. CFD Flow: Aerodynamic Flow Streamlines (Custom Dotted Math)
-        else {
+        } else {
             const flowPts = [];
-            // Create overlapping sine waves representing aerodynamic flow
             for (let j = -4; j <= 4; j++) { 
               for (let i = -1.5; i <= 1.5; i += 0.04) {
                 const x = i;
@@ -416,10 +412,9 @@
             geo.setAttribute('position', new THREE.Float32BufferAttribute(flowPts, 3));
         }
 
-        // The "Dot Dots Buildup" Material
         const mat = new THREE.PointsMaterial({ 
             color: 0x4d8f7a, 
-            size: 0.045, // Fine, precise dots
+            size: 0.045, 
             transparent: true, 
             opacity: 0.85
         });
@@ -429,16 +424,13 @@
 
         function animNode() { 
             requestAnimationFrame(animNode); 
-            
-            // CFD gets a special swirling flow rotation
             if(shapeType === 'cfd') {
                 mesh.rotation.y += 0.015;
-                mesh.rotation.x = 0.2; // Slight tilt
+                mesh.rotation.x = 0.2;
             } else {
                 mesh.rotation.x += 0.008; 
                 mesh.rotation.y += 0.012; 
             }
-            
             cRend.render(cScene, cCam); 
         }
         animNode();
