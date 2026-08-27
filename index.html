@@ -10,17 +10,10 @@
   <meta name="theme-color" content="#030605">
   <meta name="color-scheme" content="dark">
 
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Saqif Shahriar — Mechanical Engineering Portfolio">
-  <meta property="og:description" content="Parametric CAD, structural FEA, and CFD simulation work.">
-  <meta property="og:image" content="./assets/og-image.png">
-  <meta name="twitter:card" content="summary_large_image">
-
   <link rel="icon" id="dynamic-favicon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a120e'/%3E%3Crect x='1' y='1' width='62' height='62' rx='13' fill='none' stroke='%234d8f7a' stroke-width='2'/%3E%3C/svg%3E">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -103,8 +96,6 @@
     }
 
     .folder-card { cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; }
-    .folder-card img { height: 60px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); transition: transform 0.3s ease;}
-    .folder-card:hover img, .folder-card:focus-visible img { transform: scale(1.05); }
 
     .cert-image-wrapper { width: 100%; height: 220px; border-radius: 8px; overflow: hidden; background: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; border: 1px solid rgba(255,255,255,0.1); }
     .cert-image-wrapper img { width: 100%; height: 100%; object-fit: contain; padding: 1rem; }
@@ -138,18 +129,16 @@
 
   <a href="#main-content" class="skip-link">Skip to content</a>
 
-  <!-- LOADING / ERROR OVERLAYS -->
   <div id="loading-screen" class="fixed inset-0 z-[200] bg-void flex flex-col items-center justify-center gap-4 transition-opacity duration-500">
     <div class="w-9 h-9 rounded-full border-2 border-pine-muted border-t-pine-accent loader-spin" aria-hidden="true"></div>
     <p class="font-mono text-[10px] text-text-muted tracking-[0.2em] uppercase">Loading Portfolio</p>
   </div>
   <div id="error-screen" class="fixed inset-0 z-[200] bg-void hidden flex-col items-center justify-center gap-4 px-6 text-center">
     <i data-lucide="alert-triangle" class="text-pine-light" size="32" aria-hidden="true"></i>
-    <p class="font-mono text-sm text-text-secondary max-w-sm">Couldn't load portfolio content. Check your connection and try again.</p>
+    <p class="font-mono text-sm text-text-secondary max-w-sm">Couldn't load portfolio content. Check your connection or JSON syntax and try again.</p>
     <button id="retry-btn" type="button" class="px-5 py-2 rounded bg-white/5 border border-white/10 hover:border-pine-accent text-text-primary font-mono text-xs transition">Retry</button>
   </div>
 
-  <!-- Header -->
   <header class="fixed top-0 left-0 w-full z-50 bg-void/85 backdrop-blur-md border-b border-white/5">
     <div class="max-w-7xl mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
       <a href="#" class="flex items-center gap-4 group">
@@ -187,7 +176,6 @@
 
   <main id="main-content">
 
-  <!-- 1. HERO -->
   <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
     <div class="ambient-glow"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 flex flex-row items-start gap-6 z-20 w-full">
@@ -218,7 +206,6 @@
     </div>
   </section>
 
-  <!-- 2. OVERVIEW -->
   <section id="about" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6">
       <div class="absolute left-0 top-1 w-1.5 h-12 bg-gradient-to-b from-pine-accent to-pine-dark rounded-full"></div>
@@ -231,7 +218,6 @@
     <div id="focus-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </section>
 
-  <!-- 3. CERTIFICATES -->
   <section id="certificates" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6">
       <div class="absolute left-0 top-1 w-1.5 h-12 bg-gradient-to-b from-pine-accent to-pine-dark rounded-full"></div>
@@ -243,7 +229,6 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="certificates-container"></div>
   </section>
 
-  <!-- 4. DYNAMIC FOLDER WORKSPACE -->
   <section id="workspace" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6 flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
       <div>
@@ -258,7 +243,6 @@
     <div id="workspace-ui-container" class="min-h-[400px]" aria-live="polite"></div>
   </section>
 
-  <!-- 5. CONTACT -->
   <section id="contact" class="py-28 relative overflow-hidden flex flex-col items-center justify-center border-t border-white/5">
     <div id="contactCanvasContainer" class="w-full h-full absolute inset-0 z-10 pointer-events-none" aria-hidden="true"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 w-full relative z-20">
@@ -293,7 +277,6 @@
     <p class="mt-1">© <span id="footer-year"></span> <span id="footer-name"></span> • Mechanical Engineering Portfolio</p>
   </footer>
 
-  <!-- FULL SCREEN CERTIFICATE MODAL -->
   <div id="cert-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-void/95 backdrop-blur-md opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
     <div class="absolute inset-0 cursor-pointer" data-modal-close></div>
     <div class="relative z-10 w-full max-w-4xl p-6 flex flex-col items-center">
@@ -313,7 +296,6 @@
     </div>
   </div>
 
-  <!-- SCRIPT UTILS: motion-safe render loop + scroll reveal helpers -->
   <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -348,7 +330,6 @@
     const BRACKET_HTML = `<span class="bracket-corner bracket-tl" aria-hidden="true"></span><span class="bracket-corner bracket-tr" aria-hidden="true"></span><span class="bracket-corner bracket-bl" aria-hidden="true"></span><span class="bracket-corner bracket-br" aria-hidden="true"></span>`;
   </script>
 
-  <!-- SCRIPT 0: DATA LOADER & LOGIC -->
   <script>
     let workspaceData = {};
     let globalCertificates = [];
@@ -356,8 +337,9 @@
     let lastFocusedBeforeModal = null;
 
     function showLoading() {
-      document.getElementById('error-screen').classList.add('hidden');
-      document.getElementById('error-screen').classList.remove('flex');
+      const err = document.getElementById('error-screen');
+      err.classList.add('hidden');
+      err.classList.remove('flex');
       const loader = document.getElementById('loading-screen');
       loader.classList.remove('hidden');
       loader.style.opacity = '1';
@@ -406,7 +388,7 @@
 
         setFavicon(initial);
 
-        // Overview cards (with 3D point-cloud visualizer mounts)
+        // Overview cards
         document.getElementById('focus-grid').innerHTML = data.overview.map(item => `
           <div class="reveal pro-card p-8 flex flex-col justify-between h-full">
             ${BRACKET_HTML}
@@ -419,8 +401,8 @@
         `).join('');
 
         // Certificates
-        globalCertificates = data.certificates;
-        document.getElementById('certificates-container').innerHTML = data.certificates.map((cert, index) => `
+        globalCertificates = data.certificates || [];
+        document.getElementById('certificates-container').innerHTML = globalCertificates.map((cert, index) => `
           <div class="reveal pro-card p-5 flex flex-col justify-between cursor-pointer group" role="button" tabindex="0" aria-label="Preview certificate: ${cert.title}" data-cert-index="${index}">
             ${BRACKET_HTML}
             <div class="cert-image-wrapper relative group-hover:border-pine-accent/50 transition-colors">
@@ -429,14 +411,14 @@
                   <i data-lucide="zoom-in" size="20" aria-hidden="true"></i>
                 </div>
               </div>
-              <img src="${cert.image}" alt="${cert.title}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlMGUwZTAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4='">
+              <img src="${cert.image}" alt="${cert.title}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlMGUwZTAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlIE5vdCBGb3VuZDwvdGV4dD4='">
             </div>
             <h3 class="text-text-primary font-medium text-lg mb-1 leading-tight group-hover:text-pine-light transition-colors">${cert.title}</h3>
             <p class="text-text-muted font-mono text-xs uppercase tracking-wider">${cert.issuer}</p>
           </div>
         `).join('');
 
-        workspaceData = data.workspace;
+        workspaceData = data.workspace || {};
         renderWorkspace();
         init3DNodes();
         lucide.createIcons();
@@ -536,6 +518,9 @@
     });
 
     function renderFileCards(files) {
+      if (!files || files.length === 0) {
+        return `<p class="text-text-muted font-mono text-sm col-span-full py-8 text-center">No files in this category yet.</p>`;
+      }
       return files.map(file => `
         <div class="reveal pro-card p-6 flex flex-col justify-between">
           ${BRACKET_HTML}
@@ -549,7 +534,7 @@
           </div>
           <div>
             <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light mb-4">
-              ${file.tags.map(tag => `<span class="px-2 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#${tag}</span>`).join('')}
+              ${(file.tags || []).map(tag => `<span class="px-2 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#${tag}</span>`).join('')}
             </div>
             <a href="${file.fileUrl}" target="_blank" rel="noopener noreferrer" download class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent">
               <i data-lucide="download" size="14" aria-hidden="true"></i> Download File
@@ -559,7 +544,7 @@
       `).join('');
     }
 
-    // --- NESTED WORKSPACE LOGIC (Supports direct files or subfolder breakdown) ---
+    // --- NESTED WORKSPACE LOGIC ---
     function renderWorkspace() {
       const container = document.getElementById('workspace-ui-container');
       const breadcrumbs = document.getElementById('breadcrumb-container');
@@ -573,7 +558,7 @@
       }
       breadcrumbs.innerHTML = breadHtml;
 
-     if (currentPath.length === 0) {
+      if (currentPath.length === 0) {
         const keys = Object.keys(workspaceData);
         container.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">` + keys.map(key => {
           const item = workspaceData[key];
@@ -583,7 +568,7 @@
             <div class="flex items-center justify-center gap-3 mb-6 min-h-[64px] w-full">
               ${logos.map(src => `
                 <div class="h-14 min-w-[70px] max-w-[120px] px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
-                  <img src="${src}" alt="${key} logo" loading="lazy" decoding="async" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.style.display='none'">
+                  <img src="${src}" alt="${key} logo" loading="lazy" decoding="async" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InRyYW5zcGFyZW50Ii8+PC9zdmc+'">
                 </div>
               `).join('')}
             </div>
@@ -599,21 +584,10 @@
           `;
         }).join('') + `</div>`;
 
-          return `
-            <div class="reveal pro-card folder-card group" role="button" tabindex="0" aria-label="Open ${key} folder" data-workspace-nav="${key}">
-              ${BRACKET_HTML}
-              ${logoHtml}
-              <h3 class="text-text-primary font-medium text-xl mb-2 group-hover:text-pine-light transition">${key}</h3>
-              <p class="text-text-secondary font-light text-sm">${item.description}</p>
-            </div>
-          `;
-        }).join('') + `</div>`;
-
       } else if (currentPath.length === 1) {
         const category = workspaceData[currentPath[0]];
 
         if (category.files && category.files.length > 0) {
-          // Direct file list for Ansys / Comsol
           container.innerHTML = `
             <button data-workspace-nav="" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
               <i data-lucide="arrow-left" size="16" aria-hidden="true"></i> Back to Main Folders
@@ -623,7 +597,6 @@
             </div>
           `;
         } else if (category.subfolders) {
-          // Subfolder drill-down for CAD
           const subKeys = Object.keys(category.subfolders);
           container.innerHTML = `
             <button data-workspace-nav="" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
@@ -633,8 +606,8 @@
           ` + subKeys.map(subKey => `
             <div class="reveal pro-card folder-card group" role="button" tabindex="0" aria-label="Open ${subKey} folder" data-workspace-nav="${currentPath[0]},${subKey}">
               ${BRACKET_HTML}
-              <div class="flex items-center justify-center mb-6 h-16">
-                <img src="${category.subfolders[subKey].logo}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="max-h-14 max-w-[110px] object-contain">
+              <div class="h-16 px-4 py-2 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+                <img src="${category.subfolders[subKey].logo}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="max-h-full max-w-[120px] object-contain">
               </div>
               <h3 class="text-text-primary font-medium text-xl mb-2 group-hover:text-pine-light transition">${subKey}</h3>
               <p class="text-text-secondary font-mono text-xs opacity-70">${category.subfolders[subKey].files.length} Files Inside</p>
@@ -681,7 +654,7 @@
       });
       document.querySelectorAll('.mobile-nav-link').forEach(link => link.addEventListener('click', closeMobileMenu));
 
-      // Scroll-spy active nav link
+      // Scroll-spy
       const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
       const spySections = document.querySelectorAll('main section[id]');
       const spyObserver = new IntersectionObserver((entries) => {
@@ -696,7 +669,7 @@
       }, { rootMargin: '-45% 0px -50% 0px' });
       spySections.forEach(s => spyObserver.observe(s));
 
-      // Flowing dot stream in the footer
+      // Footer flow
       const flowStrip = document.getElementById('footer-flow');
       if (flowStrip) {
         const dotColors = ['#4d8f7a', '#72a997', '#2d5246'];
@@ -725,7 +698,6 @@
     });
   </script>
 
-  <!-- SCRIPT 1: HERO TOP 3D FLOW -->
   <script>
     const heroContainer = document.getElementById('heroCanvasContainer');
     const heroScene = new THREE.Scene();
@@ -794,7 +766,6 @@
     manageRenderLoop(heroContainer, heroTick, heroRender);
   </script>
 
-  <!-- SCRIPT 2: HIGH-TECH DOTTED POINT CLOUD SHAPES -->
   <script>
     function init3DNodes() {
       document.querySelectorAll('.card-3d-node').forEach(el => {
@@ -843,7 +814,6 @@
     }
   </script>
 
-  <!-- SCRIPT 3: BOTTOM CONTACT 3D FLOW ENGINE -->
   <script>
     const contactContainer = document.getElementById('contactCanvasContainer');
     const contactScene = new THREE.Scene();
