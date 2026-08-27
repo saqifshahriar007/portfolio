@@ -219,17 +219,6 @@
     </div>
     <div id="heroCanvasContainer" class="w-full h-full absolute inset-0 z-10" aria-hidden="true"></div>
 
-    <!-- Static CAD-viewport frame: a nod to the corner ticks of a technical drawing sheet -->
-    <div class="hidden sm:block absolute inset-6 sm:inset-10 z-20 pointer-events-none" aria-hidden="true">
-      <span class="absolute top-0 left-0 w-6 h-6 border-t border-l border-pine-light/25"></span>
-      <span class="absolute top-0 right-0 w-6 h-6 border-t border-r border-pine-light/25"></span>
-      <span class="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-pine-light/25"></span>
-      <span class="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-pine-light/25"></span>
-    </div>
-    <div class="hidden lg:flex absolute bottom-12 left-12 z-20 items-center gap-2 font-mono text-[10px] text-pine-light/40 tracking-widest uppercase pointer-events-none" aria-hidden="true">
-      <span class="w-6 h-px bg-pine-light/30"></span> Fig. 01 — Portfolio
-    </div>
-
     <div class="absolute bottom-8 w-full flex justify-center items-center z-30 pointer-events-none">
       <a href="#about" class="w-[30px] h-[52px] rounded-full border border-white/20 flex justify-center items-start p-1.5 pointer-events-auto" aria-label="Scroll to overview">
         <div class="w-2 h-2 rounded-full bg-pine-accent animate-mouse-dot"></div>
@@ -563,8 +552,8 @@
       const container = document.getElementById('workspace-ui-container');
       const breadcrumbs = document.getElementById('breadcrumb-container');
 
-      let breadHtml = `<button data-workspace-nav="" class="hover:text-text-primary transition">Root</button>`;
-      if (currentPath.length > 0) breadHtml += ` <span class="opacity-50">/</span> <button data-workspace-nav="${currentPath[0]}" class="hover:text-text-primary transition">${currentPath[0]}</button>`;
+      let breadHtml = '';
+      if (currentPath.length > 0) breadHtml += `<button data-workspace-nav="" class="hover:text-text-primary transition">Root</button> <span class="opacity-50">/</span> <button data-workspace-nav="${currentPath[0]}" class="hover:text-text-primary transition">${currentPath[0]}</button>`;
       if (currentPath.length > 1) breadHtml += ` <span class="opacity-50">/</span> <span class="text-text-primary">${currentPath[1]}</span>`;
       breadcrumbs.innerHTML = breadHtml;
 
