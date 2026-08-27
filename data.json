@@ -44,8 +44,11 @@
   ],
   "workspace": {
     "CAD": {
-      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/SolidWorks_Logo.png/800px-SolidWorks_Logo.png",
-      "description": "3D Modeling, Kinematics, and Assemblies",
+      "logos": [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/SolidWorks_Logo.png/800px-SolidWorks_Logo.png",
+        "https://upload.wikimedia.org/wikipedia/commons/e/e0/Autodesk_Fusion_360_Logo.svg"
+      ],
+      "description": "Parametric modeling in SolidWorks & Autodesk Fusion",
       "subfolders": {
         "SolidWorks": {
           "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/SolidWorks_Logo.png/800px-SolidWorks_Logo.png",
@@ -56,15 +59,64 @@
               "fileName": "adaptive_tire.step",
               "fileUrl": "assets/cad/adaptive_tire.step",
               "tags": ["Kinematics", "Assemblies"]
-            },
-            {
-              "title": "Slider-Crank Actuator",
-              "description": "Motor-driven slider-crank linkages for precision mechanical actuation.",
-              "fileName": "slider_crank.sldasm",
-              "fileUrl": "assets/cad/slider_crank.sldasm",
-              "tags": ["Machine Design", "Linkages"]
             }
           ]
+        },
+        "Fusion 360": {
+          "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Autodesk_Fusion_360_Logo.svg",
+          "files": [
+            {
+              "title": "Sensor Enclosure",
+              "description": "Precision modeled casing optimized for 3D printing.",
+              "fileName": "sensor_case.f3d",
+              "fileUrl": "assets/cad/sensor_case.f3d",
+              "tags": ["Surface Modeling", "3D Printing"]
+            }
+          ]
+        }
+      }
+    },
+    "Ansys": {
+      "logos": [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Ansys_logo.svg/512px-Ansys_logo.svg.png"
+      ],
+      "description": "FEA Structural & Fluent CFD Simulations",
+      "subfolders": {
+        "Simulations": {
+          "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Ansys_logo.svg/512px-Ansys_logo.svg.png",
+          "files": [
+            {
+              "title": "Penguin-Inspired Hydrofoil",
+              "description": "Transient CFD research evaluating thrust generation.",
+              "fileName": "hydrofoil_cfd.pdf",
+              "fileUrl": "assets/simulations/hydrofoil_cfd.pdf",
+              "tags": ["Fluent", "Hydrodynamics"]
+            }
+          ]
+        }
+      }
+    },
+    "Comsol": {
+      "logos": [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/COMSOL_Inc._logo.svg/512px-COMSOL_Inc._logo.svg.png"
+      ],
+      "description": "Multiphysics Heat Transfer & Fluid Flow",
+      "subfolders": {
+        "Simulations": {
+          "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/COMSOL_Inc._logo.svg/512px-COMSOL_Inc._logo.svg.png",
+          "files": [
+            {
+              "title": "Thermal Heat Exchanger",
+              "description": "Coupled thermodynamic and fluid flow analysis.",
+              "fileName": "thermal_flow.pdf",
+              "fileUrl": "assets/simulations/thermal_flow.pdf",
+              "tags": ["Multiphysics", "Thermodynamics"]
+            }
+          ]
+        }
+      }
+    }
+  }
         },
         "Fusion 360": {
           "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Autodesk_Fusion_360_Logo.svg",
