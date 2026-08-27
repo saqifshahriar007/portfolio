@@ -1,75 +1,104 @@
 {
   "profile": {
     "name": "Saqif Shahriar",
-    "title": "Mechanical Engineer",
-    "heroBio": "Specializing in parametric CAD modeling, finite element analysis (FEA), and computational fluid dynamics (CFD) using SolidWorks, Fusion 360, and Ansys.",
-    "aboutText": "Mechanical engineer combining high-precision 3D modeling with numerical physics simulations to design, analyze, and optimize mechanical components and fluid systems.",
+    "title": "Mechanical Engineer & Researcher",
+    "heroBio": "Specializing in parametric CAD modeling, advanced computational fluid dynamics (CFD), and finite element analysis (FEA).",
+    "aboutText": "Mechanical engineering researcher combining high-precision 3D modeling with numerical physics simulations to design, analyze, and optimize complex mechanical components and fluid systems.",
     "contact": {
       "email": "saqifshahriar007@gmail.com",
       "github": "https://github.com/saqifshahriar007",
       "linkedin": "https://linkedin.com/in/saqifshahriar007"
     }
   },
-  "focusAreas": [
+  "overview": [
     {
-      "title": "Parametric CAD & Design",
-      "desc": "Advanced multi-body part creation and assemblies in SolidWorks and Fusion 360.",
-      "shape": "icosahedron"
+      "title": "Parametric CAD",
+      "desc": "Advanced multi-body part creation and kinematic assemblies.",
+      "shape": "torusknot"
     },
     {
       "title": "Structural FEA",
-      "desc": "Static structural and stress distribution simulations using Ansys Mechanical.",
+      "desc": "Static structural and stress distribution analysis.",
       "shape": "octahedron"
     },
     {
       "title": "CFD & Flow",
-      "desc": "Fluid dynamics and velocity flow field simulations using Ansys Fluent.",
-      "shape": "torusknot"
-    },
-    {
-      "title": "CAM & Prototyping",
-      "desc": "Toolpath generation in Fusion 360 and physical design validation.",
-      "shape": "dodecahedron"
+      "desc": "Fluid dynamics, boundary layers, and velocity flow fields.",
+      "shape": "icosahedron"
     }
   ],
-  "capabilities": [
+  "certificates": [
     {
-      "title": "3D CAD & Modeling",
-      "icon": "layers",
-      "skills": ["SolidWorks (Assemblies)", "Fusion 360 Modeling", "Engineering Drawings"]
+      "id": "01",
+      "title": "SolidWorks Professional (CSWP)",
+      "issuer": "Dassault Systèmes",
+      "desc": "Advanced mechanical design and parametric assembly certification.",
+      "fileUrl": "assets/certificates/cswp.pdf"
     },
     {
-      "title": "Simulation & Physics",
-      "icon": "activity",
-      "skills": ["Ansys Mechanical (FEA)", "Ansys Fluent (CFD)", "Mesh Generation"]
-    },
-    {
-      "title": "Prototyping",
-      "icon": "cpu",
-      "skills": ["Fusion 360 CAM", "3D Printing (STL/STEP)", "Physical Testing"]
+      "id": "02",
+      "title": "Computational Fluid Dynamics",
+      "issuer": "Ansys Academy",
+      "desc": "Specialization in turbulence modeling and boundary layer physics.",
+      "fileUrl": "assets/certificates/cfd_ansys.pdf"
     }
   ],
-  "projects": [
-    {
-      "title": "Structural Chassis Stress",
-      "description": "SolidWorks parametric geometry imported into Ansys Mechanical for static stress concentration mapping.",
-      "tags": ["SolidWorks", "Ansys FEA"],
-      "fileName": "chassis_model.step",
-      "fileUrl": "assets/cad/chassis_model.step"
+  "folders": {
+    "CAD": {
+      "SolidWorks": [
+        {
+          "title": "Adaptive Tread Tire",
+          "description": "Kinematic assembly featuring active tread-block adjustment while maintaining constant circular wheel geometry.",
+          "fileName": "adaptive_tire.step",
+          "fileUrl": "assets/cad/adaptive_tire.step",
+          "tags": ["Kinematics", "Assemblies"]
+        },
+        {
+          "title": "Slider-Crank Actuator",
+          "description": "Motor-driven slider-crank linkages for precision mechanical actuation.",
+          "fileName": "slider_crank.sldasm",
+          "fileUrl": "assets/cad/slider_crank.sldasm",
+          "tags": ["Machine Design", "Linkages"]
+        }
+      ],
+      "Fusion 360": [
+        {
+          "title": "Sensor Enclosure",
+          "description": "Precision modeled casing optimized for 3D printing and waterproofing.",
+          "fileName": "sensor_case.f3d",
+          "fileUrl": "assets/cad/sensor_case.f3d",
+          "tags": ["Surface Modeling", "3D Printing"]
+        }
+      ]
     },
-    {
-      "title": "Internal Flow Simulation",
-      "description": "Transient flow field simulation modeled in Fusion 360 and solved in Ansys Fluent to analyze pressure drop.",
-      "tags": ["Ansys Fluent", "CFD"],
-      "fileName": "cfd_report.pdf",
-      "fileUrl": "assets/simulations/cfd_report.pdf"
+    "Ansys": {
+      "Simulations": [
+        {
+          "title": "Penguin-Inspired Hydrofoil",
+          "description": "Transient CFD research evaluating thrust generation, vortex shedding, and propulsive efficiency of flexible foils.",
+          "fileName": "hydrofoil_cfd.pdf",
+          "fileUrl": "assets/simulations/hydrofoil_cfd.pdf",
+          "tags": ["Fluent", "Hydrodynamics"]
+        },
+        {
+          "title": "Tubercle Diffuser Optimization",
+          "description": "Flow field characterization of bio-inspired diffusers for drag reduction and stall delay.",
+          "fileName": "tubercle_diffuser.pdf",
+          "fileUrl": "assets/simulations/tubercle_diffuser.pdf",
+          "tags": ["Fluent", "Aerodynamics"]
+        }
+      ]
     },
-    {
-      "title": "CNC Enclosure Toolpaths",
-      "description": "Complex mechanical enclosure designed in Fusion 360 featuring integrated CAM setup and optimized toolpath strategies.",
-      "tags": ["Fusion 360", "CAM"],
-      "fileName": "enclosure.f3d",
-      "fileUrl": "assets/cad/enclosure.f3d"
+    "Comsol": {
+      "Simulations": [
+        {
+          "title": "Multiphysics Thermal Flow",
+          "description": "Heat transfer and fluid flow coupled analysis for heat exchanger geometry.",
+          "fileName": "thermal_flow.pdf",
+          "fileUrl": "assets/simulations/thermal_flow.pdf",
+          "tags": ["Multiphysics", "Thermal"]
+        }
+      ]
     }
-  ]
+  }
 }
