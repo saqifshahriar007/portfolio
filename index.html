@@ -3,12 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title id="doc-title">Portfolio</title>
-  
+  <title id="doc-title">Saqif Shahriar — Mechanical Engineering Portfolio</title>
+
+  <meta name="description" content="Mechanical engineering portfolio specializing in parametric CAD modeling, Finite Element Analysis (FEA), and Computational Fluid Dynamics (CFD) simulation work.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#030605">
+  <meta name="color-scheme" content="dark">
+
+  <!-- Open Graph / social preview. Point og:image at a real 1200x630 asset in /assets when available. -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Saqif Shahriar — Mechanical Engineering Portfolio">
+  <meta property="og:description" content="Parametric CAD, structural FEA, and CFD simulation work.">
+  <meta property="og:image" content="./assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" id="dynamic-favicon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a120e'/%3E%3Crect x='1' y='1' width='62' height='62' rx='13' fill='none' stroke='%234d8f7a' stroke-width='2'/%3E%3C/svg%3E">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -22,9 +37,9 @@
             pine: { accent: "#4d8f7a", light: "#72a997", dark: "#142820", muted: "#2d5246" },
             text: { primary: "#f8fafc", secondary: "#94a3b8", muted: "#64748b" }
           },
-          fontFamily: { 
-            sans: ["'Inter'", "sans-serif"], 
-            mono: ["'JetBrains Mono'", "monospace"] 
+          fontFamily: {
+            sans: ["'Inter'", "sans-serif"],
+            mono: ["'JetBrains Mono'", "monospace"]
           }
         }
       }
@@ -32,33 +47,78 @@
   </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@1.34.0"></script>
 
   <style>
-    * { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; }
     body { background-color: #030605; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-    
+
+    /* Fixed header is h-20 (80px); give anchored sections breathing room so jumps don't tuck under it */
+    section[id] { scroll-margin-top: 88px; }
+
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: #030605; }
+    ::-webkit-scrollbar-thumb { background: #2d5246; border-radius: 999px; border: 2px solid #030605; }
+    ::-webkit-scrollbar-thumb:hover { background: #4d8f7a; }
+    html { scrollbar-color: #2d5246 #030605; scrollbar-width: thin; }
+
+    a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+      outline: 2px solid #4d8f7a; outline-offset: 3px; border-radius: 4px;
+    }
+
     .ambient-glow { position: absolute; top: -80px; right: 0; width: 650px; height: 480px; background: radial-gradient(circle, rgba(77, 143, 122, 0.06) 0%, transparent 70%); filter: blur(120px); pointer-events: none; z-index: 1; }
     .gradient-line { background: linear-gradient(to bottom, #4d8f7a 0%, rgba(77, 143, 122, 0) 100%); }
-    
-    .pro-card { background: rgba(10, 18, 14, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; transition: all 0.3s ease; }
+
+    .pro-card { background: rgba(10, 18, 14, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; }
     .pro-card:hover { border-color: rgba(77, 143, 122, 0.4); box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.85); transform: translateY(-2px); }
-    
+
     .folder-card { cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; }
     .folder-card img { height: 64px; width: auto; max-width: 100%; object-fit: contain; margin-bottom: 1.5rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); transition: transform 0.3s ease;}
-    .folder-card:hover img { transform: scale(1.05); }
+    .folder-card:hover img, .folder-card:focus-visible img { transform: scale(1.05); }
 
     .cert-image-wrapper { width: 100%; height: 220px; border-radius: 8px; overflow: hidden; background: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; border: 1px solid rgba(255,255,255,0.1); }
     .cert-image-wrapper img { width: 100%; height: 100%; object-fit: contain; padding: 1rem; }
 
     .section-header { border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 1rem; margin-bottom: 3rem; }
-    
+
+    .nav-link[aria-current="true"] { color: #f8fafc; }
+
+    /* Scroll reveal, disabled entirely under reduced motion below */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+    .skip-link { position: absolute; left: -9999px; top: 0; background: #4d8f7a; color: #030605; padding: 0.75rem 1.25rem; z-index: 200; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 600; border-radius: 0 0 8px 0; }
+    .skip-link:focus { left: 0; }
+
     @keyframes mouseBounce { 0%, 100% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(18px); opacity: 0.35; } }
     .animate-mouse-dot { animation: mouseBounce 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-spin { animation: spin 0.9s linear infinite; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .animate-mouse-dot { animation: none; }
+      .loader-spin { animation: none; }
+      * { scroll-behavior: auto !important; }
+    }
   </style>
 </head>
 <body class="selection:bg-pine-dark selection:text-white relative">
+
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- LOADING / ERROR OVERLAYS -->
+  <div id="loading-screen" class="fixed inset-0 z-[200] bg-void flex flex-col items-center justify-center gap-4 transition-opacity duration-500">
+    <div class="w-9 h-9 rounded-full border-2 border-pine-muted border-t-pine-accent loader-spin" aria-hidden="true"></div>
+    <p class="font-mono text-[10px] text-text-muted tracking-[0.2em] uppercase">Loading Portfolio</p>
+  </div>
+  <div id="error-screen" class="fixed inset-0 z-[200] bg-void hidden flex-col items-center justify-center gap-4 px-6 text-center">
+    <i data-lucide="alert-triangle" class="text-pine-light" size="32" aria-hidden="true"></i>
+    <p class="font-mono text-sm text-text-secondary max-w-sm">Couldn't load portfolio content. Check your connection and try again.</p>
+    <button id="retry-btn" type="button" class="px-5 py-2 rounded bg-white/5 border border-white/10 hover:border-pine-accent text-text-primary font-mono text-xs transition">Retry</button>
+  </div>
 
   <!-- Header -->
   <header class="fixed top-0 left-0 w-full z-50 bg-void/85 backdrop-blur-md border-b border-white/5">
@@ -74,14 +134,29 @@
           <span class="hidden sm:inline-flex items-center px-3 py-1 rounded-md bg-pine-accent/20 border border-pine-accent/30 text-white font-sans text-xs font-semibold tracking-wide shadow-[0_0_12px_rgba(77,143,122,0.15)]" id="nav-title"></span>
         </div>
       </a>
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-text-secondary">
-        <a href="#about" class="hover:text-text-primary transition">Overview</a>
-        <a href="#certificates" class="hover:text-text-primary transition">Certificates</a>
-        <a href="#workspace" class="hover:text-text-primary transition">Workspace</a>
-        <a href="#contact" class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-pine-accent/50 text-text-primary font-mono text-xs hover:text-pine-light transition">Contact</a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-text-secondary" aria-label="Primary">
+        <a href="#about" class="nav-link hover:text-text-primary transition">Overview</a>
+        <a href="#certificates" class="nav-link hover:text-text-primary transition">Certificates</a>
+        <a href="#workspace" class="nav-link hover:text-text-primary transition">Workspace</a>
+        <a href="#contact" class="nav-link px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-pine-accent/50 text-text-primary font-mono text-xs hover:text-pine-light transition">Contact</a>
       </nav>
+
+      <button id="mobile-menu-btn" type="button" class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg border border-white/10 text-text-secondary hover:text-text-primary hover:border-pine-accent/50 transition" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle navigation menu">
+        <i data-lucide="menu" size="20" id="menu-icon-open"></i>
+        <i data-lucide="x" size="20" id="menu-icon-close" class="hidden"></i>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="md:hidden hidden flex-col gap-1 px-6 pb-6 pt-2 bg-void/95 backdrop-blur-md border-b border-white/5">
+      <a href="#about" class="mobile-nav-link py-3 px-2 rounded text-text-secondary hover:text-text-primary hover:bg-white/5 transition text-sm font-medium">Overview</a>
+      <a href="#certificates" class="mobile-nav-link py-3 px-2 rounded text-text-secondary hover:text-text-primary hover:bg-white/5 transition text-sm font-medium">Certificates</a>
+      <a href="#workspace" class="mobile-nav-link py-3 px-2 rounded text-text-secondary hover:text-text-primary hover:bg-white/5 transition text-sm font-medium">Workspace</a>
+      <a href="#contact" class="mobile-nav-link py-3 px-2 rounded bg-white/5 border border-white/10 text-text-primary font-mono text-xs mt-2 text-center">Contact</a>
     </div>
   </header>
+
+  <main id="main-content">
 
   <!-- 1. HERO -->
   <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
@@ -100,14 +175,14 @@
         </h1>
         <p id="hero-bio" class="text-text-secondary text-lg sm:text-xl font-light leading-relaxed mb-10 max-w-xl"></p>
         <div class="flex gap-4">
-          <a href="#workspace" class="px-6 py-3 rounded bg-text-primary text-void font-semibold text-sm hover:bg-slate-200 transition shadow-lg shadow-white/5 flex items-center gap-2">View Workspace <i data-lucide="arrow-down" size="16"></i></a>
-          <a href="#contact" class="px-6 py-3 rounded bg-surface border border-white/10 hover:border-pine-accent text-text-primary font-medium text-sm transition flex items-center gap-2">Contact Me <i data-lucide="mail" size="16"></i></a>
+          <a href="#workspace" class="px-6 py-3 rounded bg-text-primary text-void font-semibold text-sm hover:bg-slate-200 transition shadow-lg shadow-white/5 flex items-center gap-2">View Workspace <i data-lucide="arrow-down" size="16" aria-hidden="true"></i></a>
+          <a href="#contact" class="px-6 py-3 rounded bg-surface border border-white/10 hover:border-pine-accent text-text-primary font-medium text-sm transition flex items-center gap-2">Contact Me <i data-lucide="mail" size="16" aria-hidden="true"></i></a>
         </div>
       </div>
     </div>
-    <div id="heroCanvasContainer" class="w-full h-full cursor-grab active:cursor-grabbing absolute inset-0 z-10"></div>
+    <div id="heroCanvasContainer" class="w-full h-full absolute inset-0 z-10" aria-hidden="true"></div>
     <div class="absolute bottom-8 w-full flex justify-center items-center z-30 pointer-events-none">
-      <a href="#about" class="w-[30px] h-[52px] rounded-full border border-white/20 flex justify-center items-start p-1.5 pointer-events-auto">
+      <a href="#about" class="w-[30px] h-[52px] rounded-full border border-white/20 flex justify-center items-start p-1.5 pointer-events-auto" aria-label="Scroll to overview">
         <div class="w-2 h-2 rounded-full bg-pine-accent animate-mouse-dot"></div>
       </a>
     </div>
@@ -115,24 +190,22 @@
 
   <!-- 2. OVERVIEW -->
   <section id="about" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
-    <div class="relative mb-14 pl-6">
+    <div class="reveal relative mb-14 pl-6">
       <div class="absolute left-0 top-1 w-1.5 h-12 bg-gradient-to-b from-pine-accent to-pine-dark rounded-full"></div>
       <p class="text-pine-light font-mono text-[10px] sm:text-xs font-semibold tracking-widest uppercase mb-1.5">01 // Expertise</p>
-      <!-- FORCED INLINE-BLOCK GRADIENT FIX -->
       <h2 class="inline-block text-3xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-600 tracking-tight pb-2">
         Professional Overview<span class="text-pine-accent">.</span>
       </h2>
     </div>
-    <p id="about-text" class="text-text-secondary text-lg font-light leading-relaxed max-w-4xl mb-12 ml-6"></p>
+    <p id="about-text" class="reveal text-text-secondary text-lg font-light leading-relaxed max-w-4xl mb-12 ml-6"></p>
     <div id="focus-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </section>
 
   <!-- 3. CERTIFICATES -->
   <section id="certificates" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
-    <div class="relative mb-14 pl-6">
+    <div class="reveal relative mb-14 pl-6">
       <div class="absolute left-0 top-1 w-1.5 h-12 bg-gradient-to-b from-pine-accent to-pine-dark rounded-full"></div>
       <p class="text-pine-light font-mono text-[10px] sm:text-xs font-semibold tracking-widest uppercase mb-1.5">02 // Credentials</p>
-      <!-- FORCED INLINE-BLOCK GRADIENT FIX -->
       <h2 class="inline-block text-3xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-600 tracking-tight pb-2">
         Certifications<span class="text-pine-accent">.</span>
       </h2>
@@ -142,94 +215,154 @@
 
   <!-- 4. DYNAMIC FOLDER WORKSPACE -->
   <section id="workspace" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
-    <div class="relative mb-14 pl-6 flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
+    <div class="reveal relative mb-14 pl-6 flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
       <div>
         <div class="absolute left-0 top-1 w-1.5 h-12 bg-gradient-to-b from-pine-accent to-pine-dark rounded-full"></div>
         <p class="text-pine-light font-mono text-[10px] sm:text-xs font-semibold tracking-widest uppercase mb-1.5">03 // Portfolio</p>
-        <!-- FORCED INLINE-BLOCK GRADIENT FIX -->
         <h2 class="inline-block text-3xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-600 tracking-tight pb-2">
           Engineering Workspace<span class="text-pine-accent">.</span>
         </h2>
       </div>
-      <div id="breadcrumb-container" class="hidden sm:flex items-center gap-2 font-mono text-sm text-text-secondary pb-1"></div>
+      <div id="breadcrumb-container" class="flex items-center gap-2 font-mono text-sm text-text-secondary pb-1 flex-wrap" aria-label="Workspace breadcrumb"></div>
     </div>
-    <div id="workspace-ui-container" class="min-h-[400px]"></div>
+    <div id="workspace-ui-container" class="min-h-[400px]" aria-live="polite"></div>
   </section>
 
   <!-- 5. CONTACT -->
   <section id="contact" class="py-28 relative overflow-hidden flex flex-col items-center justify-center border-t border-white/5">
-    <div id="contactCanvasContainer" class="w-full h-full absolute inset-0 z-10 pointer-events-none"></div>
+    <div id="contactCanvasContainer" class="w-full h-full absolute inset-0 z-10 pointer-events-none" aria-hidden="true"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 w-full relative z-20">
-      <div class="pro-card p-10 sm:p-14 max-w-3xl mx-auto text-center">
-        <!-- FORCED INLINE-BLOCK GRADIENT FIX -->
+      <div class="reveal pro-card p-10 sm:p-14 max-w-3xl mx-auto text-center">
         <h2 class="inline-block text-3xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-600 tracking-tight mb-4 pb-2">
           Let's Connect<span class="text-pine-accent">.</span>
         </h2>
         <p class="text-text-secondary font-light text-base mb-10">Available for engineering inquiries, research collaborations, and technical discussions.</p>
         <div class="flex flex-col gap-4 font-mono text-sm text-left">
           <a href="#" id="contact-email-link" class="p-4 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
-            <div class="flex items-center gap-3"><i data-lucide="mail" size="18" class="text-pine-light"></i><span id="contact-email"></span></div>
-            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition"></i>
+            <div class="flex items-center gap-3"><i data-lucide="mail" size="18" class="text-pine-light" aria-hidden="true"></i><span id="contact-email"></span></div>
+            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition" aria-hidden="true"></i>
           </a>
-          <a href="#" id="contact-github-link" target="_blank" class="p-4 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
-            <div class="flex items-center gap-3"><i data-lucide="github" size="18" class="text-pine-light"></i><span>GitHub Profile</span></div>
-            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition"></i>
+          <a href="#" id="contact-github-link" target="_blank" rel="noopener noreferrer" class="p-4 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
+            <div class="flex items-center gap-3"><i data-lucide="github" size="18" class="text-pine-light" aria-hidden="true"></i><span>GitHub Profile</span></div>
+            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition" aria-hidden="true"></i>
           </a>
-          <a href="#" id="contact-linkedin-link" target="_blank" class="p-4 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
-            <div class="flex items-center gap-3"><i data-lucide="linkedin" size="18" class="text-pine-light"></i><span>LinkedIn Profile</span></div>
-            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition"></i>
+          <a href="#" id="contact-linkedin-link" target="_blank" rel="noopener noreferrer" class="p-4 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
+            <div class="flex items-center gap-3"><i data-lucide="linkedin" size="18" class="text-pine-light" aria-hidden="true"></i><span>LinkedIn Profile</span></div>
+            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition" aria-hidden="true"></i>
           </a>
         </div>
       </div>
     </div>
   </section>
 
+  </main>
+
   <footer class="text-center py-8 text-text-muted text-xs border-t border-white/5 font-mono relative z-20">
     © <span id="footer-year"></span> <span id="footer-name"></span> • Mechanical Engineering Portfolio
   </footer>
 
   <!-- FULL SCREEN CERTIFICATE MODAL -->
-  <div id="cert-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-void/95 backdrop-blur-md opacity-0 transition-opacity duration-300">
-    <div class="absolute inset-0 cursor-pointer" onclick="closeModal()"></div>
+  <div id="cert-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-void/95 backdrop-blur-md opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="absolute inset-0 cursor-pointer" data-modal-close></div>
     <div class="relative z-10 w-full max-w-4xl p-6 flex flex-col items-center">
-      <button onclick="closeModal()" class="absolute -top-12 right-6 sm:right-0 text-white/50 hover:text-white transition"><i data-lucide="x" size="32"></i></button>
-      
-      <img id="modal-image" src="" class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-2xl mb-6 bg-white/5 border border-white/10 p-2">
-      
+      <button id="modal-close-btn" type="button" data-modal-close class="absolute -top-12 right-6 sm:right-0 text-white/50 hover:text-white transition" aria-label="Close certificate preview"><i data-lucide="x" size="32" aria-hidden="true"></i></button>
+
+      <img id="modal-image" src="" alt="" decoding="async" referrerpolicy="no-referrer" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlMGUwZTAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4='" class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-2xl mb-6 bg-white/5 border border-white/10 p-2">
+
       <div class="flex items-center justify-between w-full max-w-2xl bg-surface-subtle border border-white/10 p-5 rounded-xl shadow-xl">
         <div>
           <h3 id="modal-title" class="text-text-primary font-semibold text-lg leading-tight"></h3>
           <p id="modal-issuer" class="text-pine-light font-mono text-xs uppercase tracking-wider mt-1"></p>
         </div>
-        <a id="modal-download" href="" target="_blank" download class="p-3 rounded-lg bg-pine-dark/40 border border-pine-muted/30 text-pine-light hover:text-white hover:border-pine-accent hover:bg-pine-dark transition" title="Download Official PDF">
-          <i data-lucide="download" size="20"></i>
+        <a id="modal-download" href="" target="_blank" rel="noopener noreferrer" download class="p-3 rounded-lg bg-pine-dark/40 border border-pine-muted/30 text-pine-light hover:text-white hover:border-pine-accent hover:bg-pine-dark transition" title="Download official certificate" aria-label="Download official certificate">
+          <i data-lucide="download" size="20" aria-hidden="true"></i>
         </a>
       </div>
     </div>
   </div>
+
+  <!-- SCRIPT UTILS: shared motion-safe render loop + scroll reveal helpers -->
+  <script>
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Wraps a Three.js render loop so it only runs while its container is on screen,
+    // and never starts at all if the visitor prefers reduced motion (renders one static frame instead).
+    function manageRenderLoop(container, tick, render) {
+      let rafId = null;
+      function frame() { rafId = requestAnimationFrame(frame); tick(); render(); }
+      function start() { if (!rafId && !prefersReducedMotion) frame(); }
+      function stop() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
+
+      if (prefersReducedMotion) { tick(); render(); return { start(){}, stop(){} }; }
+
+      const observer = new IntersectionObserver(([entry]) => {
+        entry.isIntersecting ? start() : stop();
+      }, { threshold: 0.01 });
+      observer.observe(container);
+      return { start, stop };
+    }
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    function observeReveals(root = document) {
+      root.querySelectorAll('.reveal:not(.revealed)').forEach(el => revealObserver.observe(el));
+    }
+  </script>
 
   <!-- SCRIPT 0: DATA LOADER & LOGIC -->
   <script>
     let workspaceData = {};
     let globalCertificates = [];
     let currentPath = [];
+    let lastFocusedBeforeModal = null;
+
+    function showLoading() {
+      document.getElementById('error-screen').classList.add('hidden');
+      document.getElementById('error-screen').classList.remove('flex');
+      const loader = document.getElementById('loading-screen');
+      loader.classList.remove('hidden');
+      loader.style.opacity = '1';
+    }
+
+    function hideLoading() {
+      const loader = document.getElementById('loading-screen');
+      loader.style.opacity = '0';
+      setTimeout(() => loader.classList.add('hidden'), 500);
+    }
+
+    function showError() {
+      document.getElementById('loading-screen').classList.add('hidden');
+      const err = document.getElementById('error-screen');
+      err.classList.remove('hidden');
+      err.classList.add('flex');
+      lucide.createIcons();
+    }
 
     async function loadData() {
+      showLoading();
       try {
-        const response = await fetch('./data.json?v=' + new Date().getTime());
+        const response = await fetch('./data.json?v=' + Date.now());
+        if (!response.ok) throw new Error('HTTP ' + response.status);
         const data = await response.json();
 
-        // Process Name and Titles
-        const fullName = data.profile.name || "Saqif Shahriar";
+        const fullName = data.profile.name || "Portfolio";
         const firstName = fullName.split(' ')[0];
         const fullTitle = data.profile.title || "Mechanical Engineer";
         const mainTitle = fullTitle.split('&')[0].trim();
+        const initial = fullName.charAt(0).toUpperCase();
 
         document.getElementById('doc-title').textContent = fullName + " — Portfolio";
-        document.getElementById('nav-initial').textContent = fullName.charAt(0);
+        document.getElementById('nav-initial').textContent = initial;
         document.getElementById('nav-name').textContent = fullName;
-        document.getElementById('nav-title').textContent = mainTitle; 
-        document.getElementById('hero-name').textContent = firstName; 
+        document.getElementById('nav-title').textContent = mainTitle;
+        document.getElementById('hero-name').textContent = firstName;
         document.getElementById('hero-bio').textContent = data.profile.heroBio;
         document.getElementById('about-text').textContent = data.profile.aboutText;
         document.getElementById('footer-name').textContent = fullName;
@@ -239,9 +372,11 @@
         document.getElementById('contact-github-link').href = data.profile.contact.github;
         document.getElementById('contact-linkedin-link').href = data.profile.contact.linkedin;
 
-        // Populate Overview 3D Cards
+        setFavicon(initial);
+
+        // Overview cards (with 3D point-cloud visualizer mounts)
         document.getElementById('focus-grid').innerHTML = data.overview.map(item => `
-          <div class="pro-card p-8 flex flex-col justify-between h-full">
+          <div class="reveal pro-card p-8 flex flex-col justify-between h-full">
             <div class="w-full h-32 card-3d-node mx-auto flex justify-center items-center" data-shape="${item.shape}"></div>
             <div>
               <h3 class="text-text-primary font-medium text-xl text-center mt-6">${item.title}</h3>
@@ -250,17 +385,17 @@
           </div>
         `).join('');
 
-        // Populate Certificates (Clickable to open modal)
+        // Certificates
         globalCertificates = data.certificates;
         document.getElementById('certificates-container').innerHTML = data.certificates.map((cert, index) => `
-          <div onclick="openModal(${index})" class="pro-card p-5 flex flex-col justify-between cursor-pointer group">
+          <div class="reveal pro-card p-5 flex flex-col justify-between cursor-pointer group" role="button" tabindex="0" aria-label="Preview certificate: ${cert.title}" data-cert-index="${index}">
             <div class="cert-image-wrapper relative group-hover:border-pine-accent/50 transition-colors">
               <div class="absolute inset-0 bg-void/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex items-center justify-center">
                 <div class="w-12 h-12 rounded-full bg-pine-dark/80 border border-pine-accent/50 flex items-center justify-center text-pine-light transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                  <i data-lucide="zoom-in" size="20"></i>
+                  <i data-lucide="zoom-in" size="20" aria-hidden="true"></i>
                 </div>
               </div>
-              <img src="${cert.image}" alt="${cert.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlMGUwZTAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4='">
+              <img src="${cert.image}" alt="${cert.title}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlMGUwZTAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4='">
             </div>
             <h3 class="text-text-primary font-medium text-lg mb-1 leading-tight group-hover:text-pine-light transition-colors">${cert.title}</h3>
             <p class="text-text-muted font-mono text-xs uppercase tracking-wider">${cert.issuer}</p>
@@ -269,29 +404,40 @@
 
         workspaceData = data.workspace;
         renderWorkspace();
-        
         init3DNodes();
         lucide.createIcons();
+        observeReveals();
+        hideLoading();
 
-      } catch(err) {
+      } catch (err) {
         console.error("Data load failed:", err);
+        showError();
       }
     }
 
-    // Modal Control Functions
+    document.getElementById('retry-btn').addEventListener('click', loadData);
+
+    // --- CERTIFICATE MODAL ---
     function openModal(index) {
       const cert = globalCertificates[index];
+      if (!cert) return;
+      lastFocusedBeforeModal = document.activeElement;
+
       document.getElementById('modal-image').src = cert.image;
+      document.getElementById('modal-image').alt = cert.title;
       document.getElementById('modal-title').textContent = cert.title;
       document.getElementById('modal-issuer').textContent = cert.issuer;
       document.getElementById('modal-download').href = cert.pdfUrl;
-      
+
       const modal = document.getElementById('cert-modal');
       modal.classList.remove('hidden');
       modal.classList.add('flex');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
       setTimeout(() => {
         modal.classList.remove('opacity-0');
         modal.classList.add('opacity-100');
+        document.getElementById('modal-close-btn').focus();
       }, 10);
     }
 
@@ -299,35 +445,78 @@
       const modal = document.getElementById('cert-modal');
       modal.classList.remove('opacity-100');
       modal.classList.add('opacity-0');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
       setTimeout(() => {
         modal.classList.remove('flex');
         modal.classList.add('hidden');
-        document.getElementById('modal-image').src = ""; // Clear image to prevent flicker on next open
+        document.getElementById('modal-image').src = "";
       }, 300);
+      if (lastFocusedBeforeModal) lastFocusedBeforeModal.focus();
     }
 
-    // --- NESTED WORKSPACE LOGIC ---
-    function navigateWorkspace(level1, level2) {
-      currentPath = [];
-      if (level1) currentPath.push(level1);
-      if (level2) currentPath.push(level2);
-      renderWorkspace();
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('[data-modal-close]')) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('cert-modal');
+      const isOpen = !modal.classList.contains('hidden');
+      if (e.key === 'Escape' && isOpen) { closeModal(); return; }
+      // Simple focus trap while the modal is open
+      if (isOpen && e.key === 'Tab') {
+        const focusables = modal.querySelectorAll('button, a[href]');
+        if (!focusables.length) return;
+        const first = focusables[0], last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    function setFavicon(letter) {
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>` +
+        `<rect width='64' height='64' rx='14' fill='%230a120e'/>` +
+        `<rect x='1' y='1' width='62' height='62' rx='13' fill='none' stroke='%234d8f7a' stroke-width='2'/>` +
+        `<text x='32' y='43' font-family='Inter, sans-serif' font-weight='700' font-size='28' fill='%23f8fafc' text-anchor='middle'>${letter}</text></svg>`;
+      document.getElementById('dynamic-favicon').href = 'data:image/svg+xml,' + svg;
     }
+
+    // --- NESTED WORKSPACE LOGIC (path encoded as comma-joined string in data-workspace-nav) ---
+    function navigateTo(pathStr) {
+      currentPath = pathStr ? pathStr.split(',') : [];
+      renderWorkspace();
+      document.getElementById('workspace-ui-container').scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
+    }
+
+    document.addEventListener('click', (e) => {
+      const navEl = e.target.closest('[data-workspace-nav]');
+      if (navEl) { navigateTo(navEl.dataset.workspaceNav); return; }
+      const certEl = e.target.closest('[data-cert-index]');
+      if (certEl) { openModal(Number(certEl.dataset.certIndex)); return; }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const el = e.target.closest('[data-workspace-nav], [data-cert-index]');
+      if (!el) return;
+      e.preventDefault();
+      el.click();
+    });
 
     function renderWorkspace() {
       const container = document.getElementById('workspace-ui-container');
       const breadcrumbs = document.getElementById('breadcrumb-container');
-      
-      let breadHtml = `<button onclick="navigateWorkspace()" class="hover:text-text-primary transition">Root</button>`;
-      if (currentPath.length > 0) breadHtml += ` <span class="opacity-50">/</span> <button onclick="navigateWorkspace('${currentPath[0]}')" class="hover:text-text-primary transition">${currentPath[0]}</button>`;
+
+      let breadHtml = `<button data-workspace-nav="" class="hover:text-text-primary transition">Root</button>`;
+      if (currentPath.length > 0) breadHtml += ` <span class="opacity-50">/</span> <button data-workspace-nav="${currentPath[0]}" class="hover:text-text-primary transition">${currentPath[0]}</button>`;
       if (currentPath.length > 1) breadHtml += ` <span class="opacity-50">/</span> <span class="text-text-primary">${currentPath[1]}</span>`;
       breadcrumbs.innerHTML = breadHtml;
 
       if (currentPath.length === 0) {
         const keys = Object.keys(workspaceData);
         container.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">` + keys.map(key => `
-          <div onclick="navigateWorkspace('${key}')" class="pro-card folder-card group">
-            <img src="${workspaceData[key].logo}" alt="${key} Logo">
+          <div class="reveal pro-card folder-card group" role="button" tabindex="0" aria-label="Open ${key} folder" data-workspace-nav="${key}">
+            <img src="${workspaceData[key].logo}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">
             <h3 class="text-text-primary font-medium text-xl mb-2 group-hover:text-pine-light transition">${key}</h3>
             <p class="text-text-secondary font-light text-sm">${workspaceData[key].description}</p>
           </div>
@@ -336,13 +525,13 @@
         const mainCat = workspaceData[currentPath[0]];
         const subKeys = Object.keys(mainCat.subfolders);
         container.innerHTML = `
-          <button onclick="navigateWorkspace()" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
-            <i data-lucide="arrow-left" size="16"></i> Back to Main Folders
+          <button data-workspace-nav="" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
+            <i data-lucide="arrow-left" size="16" aria-hidden="true"></i> Back to Main Folders
           </button>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         ` + subKeys.map(subKey => `
-          <div onclick="navigateWorkspace('${currentPath[0]}', '${subKey}')" class="pro-card folder-card group">
-            <img src="${mainCat.subfolders[subKey].logo}" alt="${subKey} Logo">
+          <div class="reveal pro-card folder-card group" role="button" tabindex="0" aria-label="Open ${subKey} folder" data-workspace-nav="${currentPath[0]},${subKey}">
+            <img src="${mainCat.subfolders[subKey].logo}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">
             <h3 class="text-text-primary font-medium text-xl mb-2 group-hover:text-pine-light transition">${subKey}</h3>
             <p class="text-text-secondary font-mono text-xs opacity-70">${mainCat.subfolders[subKey].files.length} Files Inside</p>
           </div>
@@ -350,15 +539,15 @@
       } else if (currentPath.length === 2) {
         const files = workspaceData[currentPath[0]].subfolders[currentPath[1]].files;
         container.innerHTML = `
-          <button onclick="navigateWorkspace('${currentPath[0]}')" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
-            <i data-lucide="arrow-left" size="16"></i> Back to ${currentPath[0]}
+          <button data-workspace-nav="${currentPath[0]}" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
+            <i data-lucide="arrow-left" size="16" aria-hidden="true"></i> Back to ${currentPath[0]}
           </button>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         ` + files.map(file => `
-          <div class="pro-card p-6 flex flex-col justify-between">
+          <div class="reveal pro-card p-6 flex flex-col justify-between">
             <div>
               <div class="w-full h-32 bg-surface-subtle rounded flex flex-col items-center justify-center text-pine-muted mb-6 text-center border border-white/5">
-                <i data-lucide="file-code" size="32" class="mb-2"></i>
+                <i data-lucide="file-code" size="32" class="mb-2" aria-hidden="true"></i>
                 <span class="font-mono text-xs">${file.fileName}</span>
               </div>
               <h3 class="text-text-primary font-medium text-lg mb-2">${file.title}</h3>
@@ -368,17 +557,57 @@
               <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light mb-4">
                 ${file.tags.map(tag => `<span class="px-2 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#${tag}</span>`).join('')}
               </div>
-              <a href="${file.fileUrl}" target="_blank" download class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent">
-                <i data-lucide="download" size="14"></i> Download File
+              <a href="${file.fileUrl}" target="_blank" rel="noopener noreferrer" download class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent">
+                <i data-lucide="download" size="14" aria-hidden="true"></i> Download File
               </a>
             </div>
           </div>
         `).join('') + `</div>`;
       }
       lucide.createIcons();
+      observeReveals(container);
     }
 
-    document.addEventListener('DOMContentLoaded', loadData);
+    document.addEventListener('DOMContentLoaded', () => {
+      loadData();
+
+      // Mobile nav menu
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const iconOpen = document.getElementById('menu-icon-open');
+      const iconClose = document.getElementById('menu-icon-close');
+
+      function closeMobileMenu() {
+        mobileMenu.classList.add('hidden'); mobileMenu.classList.remove('flex');
+        iconOpen.classList.remove('hidden'); iconClose.classList.add('hidden');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      }
+      menuBtn.addEventListener('click', () => {
+        const isOpen = !mobileMenu.classList.contains('hidden');
+        if (isOpen) { closeMobileMenu(); return; }
+        mobileMenu.classList.remove('hidden'); mobileMenu.classList.add('flex');
+        iconOpen.classList.add('hidden'); iconClose.classList.remove('hidden');
+        menuBtn.setAttribute('aria-expanded', 'true');
+      });
+      document.querySelectorAll('.mobile-nav-link').forEach(link => link.addEventListener('click', closeMobileMenu));
+
+      // Scroll-spy active nav link
+      const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+      const spySections = document.querySelectorAll('main section[id]');
+      const spyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            navLinks.forEach(link => {
+              link.removeAttribute('aria-current');
+              if (link.getAttribute('href') === '#' + entry.target.id) link.setAttribute('aria-current', 'true');
+            });
+          }
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      spySections.forEach(s => spyObserver.observe(s));
+
+      observeReveals();
+    });
   </script>
 
   <!-- SCRIPT 1: HERO TOP 3D FLOW -->
@@ -414,7 +643,7 @@
     const heroWaveMat = new THREE.PointsMaterial({ size: 0.08, vertexColors: true, transparent: true, opacity: 0.42, blending: THREE.AdditiveBlending });
     heroWaveGroup.add(new THREE.Points(heroWaveGeo, heroWaveMat));
 
-    const HERO_COUNT = 2200;
+    const HERO_COUNT = window.innerWidth < 768 ? 1100 : 2200;
     const heroSwarmGeo = new THREE.BufferGeometry();
     const heroPositions = new Float32Array(HERO_COUNT * 3);
     const heroColors = new Float32Array(HERO_COUNT * 3);
@@ -436,8 +665,17 @@
     const heroSwarmMesh = new THREE.Points(heroSwarmGeo, heroSwarmMat);
     heroScene.add(heroSwarmMesh);
 
-    function animateHero() {
-      requestAnimationFrame(animateHero);
+    // Genuine interactivity: the wave subtly parallaxes toward the cursor instead of the
+    // unused OrbitControls import that shipped before but was never wired up.
+    let heroMouseX = 0, heroMouseY = 0;
+    heroContainer.addEventListener('mousemove', (e) => {
+      const rect = heroContainer.getBoundingClientRect();
+      heroMouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      heroMouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    });
+    heroContainer.addEventListener('mouseleave', () => { heroMouseX = 0; heroMouseY = 0; });
+
+    function heroTick() {
       const pos = heroSwarmGeo.attributes.position.array;
       for (let i = 0; i < HERO_COUNT; i++) {
         pos[i * 3] += heroVelocities[i * 3];
@@ -445,71 +683,59 @@
         if (pos[i * 3] > 19) { pos[i * 3] = 3.5; pos[i * 3 + 1] = (Math.random() - 0.5) * 22; }
       }
       heroSwarmGeo.attributes.position.needsUpdate = true;
-      heroWaveGroup.rotation.y += 0.0006;
-      heroRenderer.render(heroScene, heroCamera);
+      heroWaveGroup.rotation.y += 0.0006 + heroMouseX * 0.0005;
+      heroCamera.position.x += (heroMouseX * 1.4 - heroCamera.position.x) * 0.03;
+      heroCamera.position.y += (-heroMouseY * 1.0 - heroCamera.position.y) * 0.03;
     }
-    animateHero();
-    window.addEventListener('resize', () => { heroCamera.aspect = heroContainer.clientWidth / heroContainer.clientHeight; heroCamera.updateProjectionMatrix(); heroRenderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight); });
+    function heroRender() { heroRenderer.render(heroScene, heroCamera); }
+    manageRenderLoop(heroContainer, heroTick, heroRender);
   </script>
 
   <!-- SCRIPT 2: HIGH-TECH DOTTED POINT CLOUD SHAPES -->
   <script>
     function init3DNodes() {
       document.querySelectorAll('.card-3d-node').forEach(el => {
-        if(el.hasChildNodes()) return; 
+        if (el.hasChildNodes()) return;
         const shapeType = el.dataset.shape;
-        
+
         const cScene = new THREE.Scene();
-        const cCam = new THREE.PerspectiveCamera(45, 1, 0.1, 100); 
+        const cCam = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
         cCam.position.z = 3.8;
-        
+
         const cRend = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        cRend.setSize(120, 120); 
+        cRend.setSize(120, 120);
         cRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         el.appendChild(cRend.domElement);
 
         let geo;
-        
         if (shapeType === 'cad') {
-            geo = new THREE.TorusGeometry(0.8, 0.35, 24, 70);
+          geo = new THREE.TorusGeometry(0.8, 0.35, 24, 70);
         } else if (shapeType === 'fea') {
-            geo = new THREE.IcosahedronGeometry(1.1, 4); 
+          geo = new THREE.IcosahedronGeometry(1.1, 4);
         } else {
-            const flowPts = [];
-            for (let j = -4; j <= 4; j++) { 
-              for (let i = -1.5; i <= 1.5; i += 0.04) {
-                const x = i;
-                const y = Math.sin(i * 2 + j * 0.5) * 0.4 + (j * 0.15);
-                const z = Math.cos(i * 2) * 0.3;
-                flowPts.push(x, y, z);
-              }
+          const flowPts = [];
+          for (let j = -4; j <= 4; j++) {
+            for (let i = -1.5; i <= 1.5; i += 0.04) {
+              const x = i;
+              const y = Math.sin(i * 2 + j * 0.5) * 0.4 + (j * 0.15);
+              const z = Math.cos(i * 2) * 0.3;
+              flowPts.push(x, y, z);
             }
-            geo = new THREE.BufferGeometry();
-            geo.setAttribute('position', new THREE.Float32BufferAttribute(flowPts, 3));
+          }
+          geo = new THREE.BufferGeometry();
+          geo.setAttribute('position', new THREE.Float32BufferAttribute(flowPts, 3));
         }
 
-        const mat = new THREE.PointsMaterial({ 
-            color: 0x4d8f7a, 
-            size: 0.045, 
-            transparent: true, 
-            opacity: 0.85
-        });
-        
+        const mat = new THREE.PointsMaterial({ color: 0x4d8f7a, size: 0.045, transparent: true, opacity: 0.85 });
         const mesh = new THREE.Points(geo, mat);
         cScene.add(mesh);
 
-        function animNode() { 
-            requestAnimationFrame(animNode); 
-            if(shapeType === 'cfd') {
-                mesh.rotation.y += 0.015;
-                mesh.rotation.x = 0.2;
-            } else {
-                mesh.rotation.x += 0.008; 
-                mesh.rotation.y += 0.012; 
-            }
-            cRend.render(cScene, cCam); 
+        function nodeTick() {
+          if (shapeType === 'cfd') { mesh.rotation.y += 0.015; mesh.rotation.x = 0.2; }
+          else { mesh.rotation.x += 0.008; mesh.rotation.y += 0.012; }
         }
-        animNode();
+        function nodeRender() { cRend.render(cScene, cCam); }
+        manageRenderLoop(el, nodeTick, nodeRender);
       });
     }
   </script>
@@ -545,13 +771,24 @@
     contactScene.add(bottomMesh);
 
     let contactTime = 0;
-    function animateContact() {
-      requestAnimationFrame(animateContact); contactTime += 0.008;
-      bottomMesh.rotation.y = Math.sin(contactTime * 0.4) * 0.06;
-      contactRenderer.render(contactScene, contactCamera);
+    function contactTick() { contactTime += 0.008; bottomMesh.rotation.y = Math.sin(contactTime * 0.4) * 0.06; }
+    function contactRender() { contactRenderer.render(contactScene, contactCamera); }
+    manageRenderLoop(contactContainer, contactTick, contactRender);
+
+    // Single debounced resize handler for both full-width canvases
+    let resizeRAF;
+    function resizeCanvas(camera, renderer, container) {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
     }
-    animateContact();
-    window.addEventListener('resize', () => { contactCamera.aspect = contactContainer.clientWidth / contactContainer.clientHeight; contactCamera.updateProjectionMatrix(); contactRenderer.setSize(contactContainer.clientWidth, contactContainer.clientHeight); });
+    window.addEventListener('resize', () => {
+      if (resizeRAF) cancelAnimationFrame(resizeRAF);
+      resizeRAF = requestAnimationFrame(() => {
+        resizeCanvas(heroCamera, heroRenderer, heroContainer);
+        resizeCanvas(contactCamera, contactRenderer, contactContainer);
+      });
+    });
   </script>
 </body>
 </html>
