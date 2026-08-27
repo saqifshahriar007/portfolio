@@ -10,7 +10,6 @@
   <meta name="theme-color" content="#030605">
   <meta name="color-scheme" content="dark">
 
-  <!-- Open Graph / social preview. Point og:image at a real 1200x630 asset in /assets when available. -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Saqif Shahriar — Mechanical Engineering Portfolio">
   <meta property="og:description" content="Parametric CAD, structural FEA, and CFD simulation work.">
@@ -53,7 +52,6 @@
     html { scroll-behavior: smooth; }
     body { background-color: #030605; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    /* Fixed header is h-20 (80px); give anchored sections breathing room so jumps don't tuck under it */
     section[id] { scroll-margin-top: 88px; }
 
     ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -69,8 +67,6 @@
     .ambient-glow { position: absolute; top: -80px; right: 0; width: 650px; height: 480px; background: radial-gradient(circle, rgba(77, 143, 122, 0.06) 0%, transparent 70%); filter: blur(120px); pointer-events: none; z-index: 1; }
     .gradient-line { background: linear-gradient(to bottom, #4d8f7a 0%, rgba(77, 143, 122, 0) 100%); }
 
-    /* Faint CAD-grid texture behind the page, fading out below the hero so it reads as
-       an ambient drafting-sheet backdrop rather than noise competing with content. */
     body::before {
       content: "";
       position: fixed;
@@ -88,7 +84,6 @@
     .pro-card { position: relative; background: rgba(10, 18, 14, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; }
     .pro-card:hover { border-color: rgba(77, 143, 122, 0.4); box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.85); transform: translateY(-2px); }
 
-    /* Viewport-select brackets — a nod to the corner handles in CAD/FEA viewports, revealed on hover/focus */
     .bracket-corner { position: absolute; width: 14px; height: 14px; border-color: #72a997; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; }
     .bracket-tl { top: 9px; left: 9px; border-top: 1.5px solid; border-left: 1.5px solid; transform: translate(4px, 4px); }
     .bracket-tr { top: 9px; right: 9px; border-top: 1.5px solid; border-right: 1.5px solid; transform: translate(-4px, 4px); }
@@ -98,7 +93,6 @@
       opacity: 1; transform: translate(0, 0);
     }
 
-    /* Flowing dot stream — reuses the "dotted streamline" language from the CFD visualizer, at the foot of the page */
     .flow-dot-strip { position: relative; width: 100%; height: 56px; overflow: hidden; }
     .flow-dot { position: absolute; border-radius: 50%; animation-name: dotDrift; animation-timing-function: linear; animation-iteration-count: infinite; will-change: left, opacity; }
     @keyframes dotDrift {
@@ -109,17 +103,15 @@
     }
 
     .folder-card { cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; }
-    .folder-card img { height: 64px; width: auto; max-width: 100%; object-fit: contain; margin-bottom: 1.5rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); transition: transform 0.3s ease;}
+    .folder-card img { height: 60px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); transition: transform 0.3s ease;}
     .folder-card:hover img, .folder-card:focus-visible img { transform: scale(1.05); }
 
     .cert-image-wrapper { width: 100%; height: 220px; border-radius: 8px; overflow: hidden; background: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; border: 1px solid rgba(255,255,255,0.1); }
     .cert-image-wrapper img { width: 100%; height: 100%; object-fit: contain; padding: 1rem; }
 
     .section-header { border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 1rem; margin-bottom: 3rem; }
-
     .nav-link[aria-current="true"] { color: #f8fafc; }
 
-    /* Scroll reveal, disabled entirely under reduced motion below */
     .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.revealed { opacity: 1; transform: translateY(0); }
 
@@ -146,7 +138,6 @@
 
   <a href="#main-content" class="skip-link">Skip to content</a>
 
-  <!-- LOADING / ERROR OVERLAYS -->
   <div id="loading-screen" class="fixed inset-0 z-[200] bg-void flex flex-col items-center justify-center gap-4 transition-opacity duration-500">
     <div class="w-9 h-9 rounded-full border-2 border-pine-muted border-t-pine-accent loader-spin" aria-hidden="true"></div>
     <p class="font-mono text-[10px] text-text-muted tracking-[0.2em] uppercase">Loading Portfolio</p>
@@ -157,7 +148,6 @@
     <button id="retry-btn" type="button" class="px-5 py-2 rounded bg-white/5 border border-white/10 hover:border-pine-accent text-text-primary font-mono text-xs transition">Retry</button>
   </div>
 
-  <!-- Header -->
   <header class="fixed top-0 left-0 w-full z-50 bg-void/85 backdrop-blur-md border-b border-white/5">
     <div class="max-w-7xl mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
       <a href="#" class="flex items-center gap-4 group">
@@ -195,7 +185,6 @@
 
   <main id="main-content">
 
-  <!-- 1. HERO -->
   <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
     <div class="ambient-glow"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 flex flex-row items-start gap-6 z-20 w-full">
@@ -226,7 +215,6 @@
     </div>
   </section>
 
-  <!-- 2. OVERVIEW -->
   <section id="about" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6">
       <div class="absolute left-0 top-1 w-1.5 h-12 bg-gradient-to-b from-pine-accent to-pine-dark rounded-full"></div>
@@ -239,7 +227,6 @@
     <div id="focus-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </section>
 
-  <!-- 3. CERTIFICATES -->
   <section id="certificates" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6">
       <div class="absolute left-0 top-1 w-1.5 h-12 bg-gradient-to-b from-pine-accent to-pine-dark rounded-full"></div>
@@ -251,7 +238,6 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="certificates-container"></div>
   </section>
 
-  <!-- 4. DYNAMIC FOLDER WORKSPACE -->
   <section id="workspace" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6 flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
       <div>
@@ -266,7 +252,6 @@
     <div id="workspace-ui-container" class="min-h-[400px]" aria-live="polite"></div>
   </section>
 
-  <!-- 5. CONTACT -->
   <section id="contact" class="py-28 relative overflow-hidden flex flex-col items-center justify-center border-t border-white/5">
     <div id="contactCanvasContainer" class="w-full h-full absolute inset-0 z-10 pointer-events-none" aria-hidden="true"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 w-full relative z-20">
@@ -301,7 +286,6 @@
     <p class="mt-1">© <span id="footer-year"></span> <span id="footer-name"></span> • Mechanical Engineering Portfolio</p>
   </footer>
 
-  <!-- FULL SCREEN CERTIFICATE MODAL -->
   <div id="cert-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-void/95 backdrop-blur-md opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
     <div class="absolute inset-0 cursor-pointer" data-modal-close></div>
     <div class="relative z-10 w-full max-w-4xl p-6 flex flex-col items-center">
@@ -321,12 +305,9 @@
     </div>
   </div>
 
-  <!-- SCRIPT UTILS: shared motion-safe render loop + scroll reveal helpers -->
   <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Wraps a Three.js render loop so it only runs while its container is on screen,
-    // and never starts at all if the visitor prefers reduced motion (renders one static frame instead).
     function manageRenderLoop(container, tick, render) {
       let rafId = null;
       function frame() { rafId = requestAnimationFrame(frame); tick(); render(); }
@@ -355,11 +336,9 @@
       root.querySelectorAll('.reveal:not(.revealed)').forEach(el => revealObserver.observe(el));
     }
 
-    // Viewport-select corner brackets, echoing CAD/FEA software selection handles.
     const BRACKET_HTML = `<span class="bracket-corner bracket-tl" aria-hidden="true"></span><span class="bracket-corner bracket-tr" aria-hidden="true"></span><span class="bracket-corner bracket-bl" aria-hidden="true"></span><span class="bracket-corner bracket-br" aria-hidden="true"></span>`;
   </script>
 
-  <!-- SCRIPT 0: DATA LOADER & LOGIC -->
   <script>
     let workspaceData = {};
     let globalCertificates = [];
@@ -396,7 +375,7 @@
         const data = await response.json();
 
         const fullName = data.profile.name || "Portfolio";
-        const firstName = fullName.split(' ')[0];
+        const firstName = data.profile.heroName || fullName.split(' ')[0];
         const fullTitle = data.profile.title || "Mechanical Engineer";
         const mainTitle = fullTitle.split('&')[0].trim();
         const initial = fullName.charAt(0).toUpperCase();
@@ -508,7 +487,6 @@
       const modal = document.getElementById('cert-modal');
       const isOpen = !modal.classList.contains('hidden');
       if (e.key === 'Escape' && isOpen) { closeModal(); return; }
-      // Simple focus trap while the modal is open
       if (isOpen && e.key === 'Tab') {
         const focusables = modal.querySelectorAll('button, a[href]');
         if (!focusables.length) return;
@@ -526,7 +504,6 @@
       document.getElementById('dynamic-favicon').href = 'data:image/svg+xml,' + svg;
     }
 
-    // --- NESTED WORKSPACE LOGIC (path encoded as comma-joined string in data-workspace-nav) ---
     function navigateTo(pathStr) {
       currentPath = pathStr ? pathStr.split(',') : [];
       renderWorkspace();
@@ -548,6 +525,7 @@
       el.click();
     });
 
+    // --- NESTED WORKSPACE LOGIC (Supports single logo or multiple side-by-side logos) ---
     function renderWorkspace() {
       const container = document.getElementById('workspace-ui-container');
       const breadcrumbs = document.getElementById('breadcrumb-container');
@@ -559,14 +537,23 @@
 
       if (currentPath.length === 0) {
         const keys = Object.keys(workspaceData);
-        container.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">` + keys.map(key => `
-          <div class="reveal pro-card folder-card group" role="button" tabindex="0" aria-label="Open ${key} folder" data-workspace-nav="${key}">
-            ${BRACKET_HTML}
-            <img src="${workspaceData[key].logo}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-            <h3 class="text-text-primary font-medium text-xl mb-2 group-hover:text-pine-light transition">${key}</h3>
-            <p class="text-text-secondary font-light text-sm">${workspaceData[key].description}</p>
-          </div>
-        `).join('') + `</div>`;
+        container.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">` + keys.map(key => {
+          const item = workspaceData[key];
+          const logos = item.logos || (item.logo ? [item.logo] : []);
+          
+          const logoHtml = `<div class="flex items-center justify-center gap-4 mb-6 h-16">` + 
+            logos.map(src => `<img src="${src}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="max-h-14 max-w-[110px] object-contain filter drop-shadow">`).join('') + 
+          `</div>`;
+
+          return `
+            <div class="reveal pro-card folder-card group" role="button" tabindex="0" aria-label="Open ${key} folder" data-workspace-nav="${key}">
+              ${BRACKET_HTML}
+              ${logoHtml}
+              <h3 class="text-text-primary font-medium text-xl mb-2 group-hover:text-pine-light transition">${key}</h3>
+              <p class="text-text-secondary font-light text-sm">${item.description}</p>
+            </div>
+          `;
+        }).join('') + `</div>`;
       } else if (currentPath.length === 1) {
         const mainCat = workspaceData[currentPath[0]];
         const subKeys = Object.keys(mainCat.subfolders);
@@ -578,7 +565,9 @@
         ` + subKeys.map(subKey => `
           <div class="reveal pro-card folder-card group" role="button" tabindex="0" aria-label="Open ${subKey} folder" data-workspace-nav="${currentPath[0]},${subKey}">
             ${BRACKET_HTML}
-            <img src="${mainCat.subfolders[subKey].logo}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+            <div class="flex items-center justify-center mb-6 h-16">
+              <img src="${mainCat.subfolders[subKey].logo}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="max-h-14 max-w-[110px] object-contain">
+            </div>
             <h3 class="text-text-primary font-medium text-xl mb-2 group-hover:text-pine-light transition">${subKey}</h3>
             <p class="text-text-secondary font-mono text-xs opacity-70">${mainCat.subfolders[subKey].files.length} Files Inside</p>
           </div>
@@ -654,7 +643,7 @@
       }, { rootMargin: '-45% 0px -50% 0px' });
       spySections.forEach(s => spyObserver.observe(s));
 
-      // Flowing dot stream in the footer — echoes the dotted-streamline motif used in the CFD visualizer
+      // Flowing dot stream in the footer
       const flowStrip = document.getElementById('footer-flow');
       if (flowStrip) {
         const dotColors = ['#4d8f7a', '#72a997', '#2d5246'];
@@ -683,7 +672,6 @@
     });
   </script>
 
-  <!-- SCRIPT 1: HERO TOP 3D FLOW -->
   <script>
     const heroContainer = document.getElementById('heroCanvasContainer');
     const heroScene = new THREE.Scene();
@@ -752,7 +740,6 @@
     manageRenderLoop(heroContainer, heroTick, heroRender);
   </script>
 
-  <!-- SCRIPT 2: HIGH-TECH DOTTED POINT CLOUD SHAPES -->
   <script>
     function init3DNodes() {
       document.querySelectorAll('.card-3d-node').forEach(el => {
@@ -801,7 +788,6 @@
     }
   </script>
 
-  <!-- SCRIPT 3: BOTTOM CONTACT 3D FLOW ENGINE -->
   <script>
     const contactContainer = document.getElementById('contactCanvasContainer');
     const contactScene = new THREE.Scene();
@@ -836,7 +822,6 @@
     function contactRender() { contactRenderer.render(contactScene, contactCamera); }
     manageRenderLoop(contactContainer, contactTick, contactRender);
 
-    // Single debounced resize handler for both full-width canvases
     let resizeRAF;
     function resizeCanvas(camera, renderer, container) {
       camera.aspect = container.clientWidth / container.clientHeight;
