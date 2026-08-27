@@ -2,11 +2,11 @@
   "profile": {
     "name": "Saqif Shahriar",
     "heroName": "Saqif",
-    "title": "Mechanical Engineer",
-    "heroBio": "Specializing in parametric CAD modeling, Computational Fluid Dynamics (CFD) and Finite Element Analysis (FEA).",
-    "aboutText": "Mechanical engineer combining high precision 3D modeling with numerical physics simulations to design, analyze, and optimize complex mechanical components and fluid systems.",
+    "title": "Mechanical Engineer & CFD Researcher",
+    "heroBio": "Specializing in parametric CAD modeling, advanced computational fluid dynamics (CFD), and finite element analysis (FEA).",
+    "aboutText": "Mechanical engineering researcher combining high-precision 3D modeling with numerical physics simulations to design, analyze, and optimize complex mechanical components and fluid systems.",
     "contact": {
-      "email": "saqifshahriar81@gmail.com",
+      "email": "saqifshahriar007@gmail.com",
       "github": "https://github.com/saqifshahriar007",
       "linkedin": "https://linkedin.com/in/saqifshahriar007"
     }
@@ -14,7 +14,7 @@
   "overview": [
     {
       "title": "Parametric CAD",
-      "desc": "Advanced multi body part creation and kinematic assemblies.",
+      "desc": "Advanced multi-body part creation and kinematic assemblies.",
       "shape": "cad"
     },
     {
@@ -33,12 +33,12 @@
       "title": "SolidWorks Professional (CSWP)",
       "issuer": "Dassault Systèmes",
       "image": "assets/certificates/images.jfif",
-      "pdfUrl": "assets/certificates/images.pdf"
+      "pdfUrl": "assets/certificates/cswp.pdf"
     },
     {
       "title": "CFD Specialization",
       "issuer": "Ansys Academy",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Ansys_logo.svg/512px-Ansys_logo.svg.png",
+      "image": "assets/certificates/images.jfif",
       "pdfUrl": "assets/certificates/cfd_ansys.pdf"
     }
   ],
@@ -59,6 +59,13 @@
               "fileName": "adaptive_tire.step",
               "fileUrl": "assets/cad/adaptive_tire.step",
               "tags": ["Kinematics", "Assemblies"]
+            },
+            {
+              "title": "Slider-Crank Actuator",
+              "description": "Motor-driven slider-crank linkages for precision mechanical actuation.",
+              "fileName": "slider_crank.sldasm",
+              "fileUrl": "assets/cad/slider_crank.sldasm",
+              "tags": ["Machine Design", "Linkages"]
             }
           ]
         },
@@ -91,60 +98,6 @@
               "fileName": "hydrofoil_cfd.pdf",
               "fileUrl": "assets/simulations/hydrofoil_cfd.pdf",
               "tags": ["Fluent", "Hydrodynamics"]
-            }
-          ]
-        }
-      }
-    },
-    "Comsol": {
-      "logos": [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/COMSOL_Inc._logo.svg/512px-COMSOL_Inc._logo.svg.png"
-      ],
-      "description": "Multiphysics Heat Transfer & Fluid Flow",
-      "subfolders": {
-        "Simulations": {
-          "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/COMSOL_Inc._logo.svg/512px-COMSOL_Inc._logo.svg.png",
-          "files": [
-            {
-              "title": "Thermal Heat Exchanger",
-              "description": "Coupled thermodynamic and fluid flow analysis.",
-              "fileName": "thermal_flow.pdf",
-              "fileUrl": "assets/simulations/thermal_flow.pdf",
-              "tags": ["Multiphysics", "Thermodynamics"]
-            }
-          ]
-        }
-      }
-    }
-  }
-        },
-        "Fusion 360": {
-          "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Autodesk_Fusion_360_Logo.svg",
-          "files": [
-            {
-              "title": "Sensor Enclosure",
-              "description": "Precision modeled casing optimized for 3D printing.",
-              "fileName": "sensor_case.f3d",
-              "fileUrl": "assets/cad/sensor_case.f3d",
-              "tags": ["Surface Modeling", "3D Printing"]
-            }
-          ]
-        }
-      }
-    },
-    "Ansys": {
-      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Ansys_logo.svg/512px-Ansys_logo.svg.png",
-      "description": "Finite Element & Fluid Dynamics Research",
-      "subfolders": {
-        "Simulations": {
-          "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Ansys_logo.svg/512px-Ansys_logo.svg.png",
-          "files": [
-            {
-              "title": "Penguin-Inspired Hydrofoil",
-              "description": "Transient CFD research evaluating thrust generation.",
-              "fileName": "hydrofoil_cfd.pdf",
-              "fileUrl": "assets/simulations/hydrofoil_cfd.pdf",
-              "tags": ["Fluent", "Hydrodynamics"]
             },
             {
               "title": "Tubercle Diffuser Optimization",
@@ -158,8 +111,10 @@
       }
     },
     "Comsol": {
-      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/COMSOL_Inc._logo.svg/512px-COMSOL_Inc._logo.svg.png",
-      "description": "Multiphysics Heat & Flow Transfer",
+      "logos": [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/COMSOL_Inc._logo.svg/512px-COMSOL_Inc._logo.svg.png"
+      ],
+      "description": "Multiphysics Heat Transfer & Fluid Flow",
       "subfolders": {
         "Simulations": {
           "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/COMSOL_Inc._logo.svg/512px-COMSOL_Inc._logo.svg.png",
