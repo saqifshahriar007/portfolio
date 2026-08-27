@@ -53,13 +53,13 @@
         "SolidWorks": {
           "logo": "assets/logos/SolidWorks-Logo.png",
           "files": [
-            {
-              "title": "Adaptive Tread Tire",
-              "description": "Kinematic assembly featuring active tread-block adjustment.",
-              "fileName": "adaptive_tire.step",
-              "fileUrl": "assets/cad/adaptive_tire.step",
-              "tags": ["Kinematics", "Assemblies"]
-            },
+           {
+  "title": "Ketley Component",
+  "description": "Parametric part model built in SolidWorks and viewed in interactive 3D.",
+  "fileName": "ketley.STL",
+  "fileUrl": "assets/cad/solidworks/ketley.STL",
+  "tags": ["SolidWorks", "STL", "3D Preview"]
+},
             {
               "title": "Slider-Crank Actuator",
               "description": "Motor-driven slider-crank linkages for precision mechanical actuation.",
