@@ -170,7 +170,8 @@
 
     async function loadData() {
       try {
-        const response = await fetch('./data.json');
+        // ULTIMATE CACHE-BUSTER: Forces browser to pull fresh JSON every time.
+        const response = await fetch('./data.json?v=' + new Date().getTime());
         const data = await response.json();
 
         // Populate Profile
@@ -178,7 +179,7 @@
         document.getElementById('nav-initial').textContent = data.profile.name.charAt(0);
         document.getElementById('nav-name').textContent = data.profile.name;
         
-        // This targets the new separate heroName variable from data.json
+        // Will correctly fall back to name if heroName isn't in your data.json yet
         document.getElementById('hero-name').textContent = data.profile.heroName || data.profile.name;
         
         document.getElementById('hero-bio').textContent = data.profile.heroBio;
