@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="doc-title">Portfolio</title>
   
+  <!-- Professional Fonts: Inter for clean UI, JetBrains Mono for data/tech elements -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -17,12 +18,15 @@
           colors: {
             void: "#030605",
             surface: "#070d0a",
-            "surface-subtle": "#0b1410",
-            border: "rgba(255, 255, 255, 0.06)",
+            "surface-subtle": "#0a120e",
+            border: "rgba(255, 255, 255, 0.08)",
             pine: { accent: "#4d8f7a", light: "#72a997", dark: "#142820", muted: "#2d5246" },
-            text: { primary: "#f1f5f9", secondary: "#94a3b8", muted: "#64748b" }
+            text: { primary: "#f8fafc", secondary: "#94a3b8", muted: "#64748b" }
           },
-          fontFamily: { sans: ["'Plus Jakarta Sans'", "sans-serif"], mono: ["'JetBrains Mono'", "monospace"] }
+          fontFamily: { 
+            sans: ["'Inter'", "sans-serif"], 
+            mono: ["'JetBrains Mono'", "monospace"] 
+          }
         }
       }
     }
@@ -30,26 +34,33 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     * { scroll-behavior: smooth; }
-    body { background-color: #030605; color: #f1f5f9; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body { background-color: #030605; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    
+    /* Background Glows */
     .ambient-glow { position: absolute; top: -80px; right: 0; width: 650px; height: 480px; background: radial-gradient(circle, rgba(77, 143, 122, 0.06) 0%, transparent 70%); filter: blur(120px); pointer-events: none; z-index: 1; }
-    .glow-card { background: rgba(7, 13, 10, 0.85); backdrop-filter: blur(18px); border: 1px solid rgba(255, 255, 255, 0.06); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-    .glow-card:hover { border-color: rgba(77, 143, 122, 0.32); box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.85); transform: translateY(-3px); }
     .gradient-line { background: linear-gradient(to bottom, #4d8f7a 0%, rgba(77, 143, 122, 0) 100%); }
     
-    /* Dynamic Tab Styling */
-    .tab-btn { padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; font-weight: 600; color: #94a3b8; border: 1px solid transparent; transition: all 0.2s ease; display: flex; items-center; gap: 0.5rem; }
-    .tab-btn:hover { color: #f1f5f9; background: rgba(255,255,255,0.02); }
-    .tab-btn.active { color: #4d8f7a; background: rgba(77, 143, 122, 0.1); border-color: rgba(77, 143, 122, 0.3); }
+    /* Elegant Professional Cards */
+    .pro-card { background: rgba(10, 18, 14, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; transition: all 0.3s ease; }
+    .pro-card:hover { border-color: rgba(77, 143, 122, 0.4); background: rgba(15, 26, 20, 0.8); transform: translateY(-2px); }
     
-    .sub-tab-btn { padding: 0.5rem 1rem; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; color: #64748b; border-bottom: 2px solid transparent; transition: all 0.2s ease; }
-    .sub-tab-btn:hover { color: #f1f5f9; }
-    .sub-tab-btn.active { color: #72a997; border-bottom-color: #4d8f7a; }
+    /* Interactive Folder Cards */
+    .folder-card { cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; }
+    .folder-card img { height: 64px; width: auto; max-width: 100%; object-fit: contain; margin-bottom: 1.5rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); transition: transform 0.3s ease;}
+    .folder-card:hover img { transform: scale(1.05); }
 
+    /* Certificates Images */
+    .cert-image-wrapper { width: 100%; height: 220px; border-radius: 8px; overflow: hidden; background: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; border: 1px solid rgba(255,255,255,0.1); }
+    .cert-image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Clean Section Headers */
+    .section-header { border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 1rem; margin-bottom: 3rem; }
+    .section-header h2 { font-weight: 300; letter-spacing: -0.02em; font-size: 2.25rem; color: #f8fafc; }
+    
     @keyframes mouseBounce { 0%, 100% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(18px); opacity: 0.35; } }
     .animate-mouse-dot { animation: mouseBounce 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
   </style>
@@ -57,22 +68,22 @@
 <body class="selection:bg-pine-dark selection:text-white">
 
   <!-- Header -->
-  <header class="fixed top-0 left-0 w-full z-50 bg-void/85 backdrop-blur-xl border-b border-white/5">
+  <header class="fixed top-0 left-0 w-full z-50 bg-void/85 backdrop-blur-md border-b border-white/5">
     <div class="max-w-7xl mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
       <a href="#" class="flex items-center gap-3 group">
-        <div id="nav-initial" class="w-9 h-9 rounded-lg bg-pine-dark/50 border border-pine-muted/40 flex items-center justify-center font-mono font-bold text-pine-light text-sm group-hover:border-pine-accent transition"></div>
-        <span class="text-text-primary font-bold text-base tracking-tight"><span id="nav-name"></span> <span id="nav-title" class="text-text-muted font-normal text-sm hidden sm:inline"></span></span>
+        <div id="nav-initial" class="w-9 h-9 rounded bg-pine-dark/50 border border-pine-muted/40 flex items-center justify-center font-mono font-bold text-pine-light text-sm transition group-hover:border-pine-accent"></div>
+        <span class="text-text-primary font-medium text-base tracking-tight"><span id="nav-name"></span></span>
       </a>
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-        <a href="#about" class="text-text-secondary hover:text-text-primary transition">Overview</a>
-        <a href="#certificates" class="text-text-secondary hover:text-text-primary transition">Certificates</a>
-        <a href="#projects" class="text-text-secondary hover:text-text-primary transition">Workspace</a>
-        <a href="#contact" class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-pine-accent/50 text-text-primary font-mono text-xs hover:text-pine-light transition">Contact</a>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-text-secondary">
+        <a href="#about" class="hover:text-text-primary transition">Overview</a>
+        <a href="#certificates" class="hover:text-text-primary transition">Certificates</a>
+        <a href="#workspace" class="hover:text-text-primary transition">Workspace</a>
+        <a href="#contact" class="hover:text-text-primary transition">Contact</a>
       </nav>
     </div>
   </header>
 
-  <!-- 1. HERO -->
+  <!-- 1. HERO (Kept Original 3D Flow Design) -->
   <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
     <div class="ambient-glow"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 flex flex-row items-start gap-6 z-20 w-full">
@@ -81,83 +92,80 @@
         <div class="w-[2px] sm:h-72 h-40 gradient-line mt-1"></div>
       </div>
       <div class="max-w-2xl">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pine-dark/40 border border-pine-muted/30 text-pine-light font-mono text-xs mb-4 backdrop-blur-sm">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pine-dark/30 border border-pine-muted/30 text-pine-light font-mono text-xs mb-6 backdrop-blur-sm">
           <span class="w-1.5 h-1.5 rounded-full bg-pine-accent animate-pulse"></span> AVAILABLE FOR COLLABORATIONS
         </div>
-        <h1 class="font-extrabold text-text-primary text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.08] mb-4">
-          Hi, I'm <span id="hero-name" class="text-transparent bg-clip-text bg-gradient-to-r from-pine-light via-pine-accent to-text-secondary"></span>
+        <h1 class="font-bold text-text-primary text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-6">
+          Hi, I'm <span id="hero-name" class="text-transparent bg-clip-text bg-gradient-to-r from-pine-light to-text-secondary"></span>
         </h1>
-        <p id="hero-bio" class="text-text-secondary text-base sm:text-xl font-normal leading-relaxed mb-8 max-w-xl"></p>
+        <p id="hero-bio" class="text-text-secondary text-lg sm:text-xl font-light leading-relaxed mb-10 max-w-xl"></p>
         <div class="flex gap-4">
-          <a href="#projects" class="px-6 py-3 rounded-xl bg-text-primary text-void font-bold text-sm hover:bg-slate-200 transition shadow-lg shadow-white/5 flex items-center gap-2">Explore Workspace <i data-lucide="arrow-down" size="16"></i></a>
-          <a href="#contact" class="px-6 py-3 rounded-xl bg-surface border border-white/10 hover:border-pine-accent text-text-primary font-medium text-sm transition flex items-center gap-2">Contact Me <i data-lucide="mail" size="16"></i></a>
+          <a href="#workspace" class="px-6 py-3 rounded bg-text-primary text-void font-semibold text-sm hover:bg-slate-200 transition shadow-lg shadow-white/5 flex items-center gap-2">View Workspace <i data-lucide="arrow-down" size="16"></i></a>
+          <a href="#contact" class="px-6 py-3 rounded bg-surface border border-white/10 hover:border-pine-accent text-text-primary font-medium text-sm transition flex items-center gap-2">Contact Me <i data-lucide="mail" size="16"></i></a>
         </div>
       </div>
     </div>
     <div id="heroCanvasContainer" class="w-full h-full cursor-grab active:cursor-grabbing absolute inset-0 z-10"></div>
     <div class="absolute bottom-8 w-full flex justify-center items-center z-30 pointer-events-none">
-      <a href="#about" class="w-[30px] h-[52px] rounded-full border-2 border-white/15 flex justify-center items-start p-1.5 pointer-events-auto">
+      <a href="#about" class="w-[30px] h-[52px] rounded-full border border-white/20 flex justify-center items-start p-1.5 pointer-events-auto">
         <div class="w-2 h-2 rounded-full bg-pine-accent animate-mouse-dot"></div>
       </a>
     </div>
   </section>
 
-  <!-- 2. OVERVIEW & SKILLS -->
+  <!-- 2. OVERVIEW (Professional Typography) -->
   <section id="about" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
-    <div class="mb-16">
-      <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[01 // OVERVIEW]</p>
-      <h2 class="text-text-primary font-extrabold text-3xl sm:text-5xl tracking-tight">Introduction.</h2>
-      <p id="about-text" class="mt-4 text-text-secondary text-base sm:text-lg max-w-3xl leading-relaxed"></p>
+    <div class="section-header">
+      <h2>Professional Overview</h2>
     </div>
+    <p id="about-text" class="text-text-secondary text-lg font-light leading-relaxed max-w-4xl mb-12"></p>
+    
     <!-- 3-Column Engineering Node Grid -->
-    <div id="focus-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+    <div id="focus-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </section>
 
-  <!-- 3. CERTIFICATES TIMELINE -->
-  <section id="certificates" class="py-20 max-w-7xl mx-auto px-6 sm:px-12 relative z-20 border-t border-white/5">
-    <div class="mb-14">
-      <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[02 // CREDENTIALS]</p>
-      <h2 class="text-text-primary font-extrabold text-3xl sm:text-5xl tracking-tight">Certificates.</h2>
+  <!-- 3. CERTIFICATES (Image First Display) -->
+  <section id="certificates" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
+    <div class="section-header">
+      <h2>Certifications & Credentials</h2>
     </div>
-    <div class="flex flex-col gap-6" id="certificates-container"></div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="certificates-container"></div>
   </section>
 
-  <!-- 4. DYNAMIC FOLDER WORKSPACE -->
-  <section id="projects" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20 border-t border-white/5">
-    <div class="mb-10">
-      <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[03 // WORKSPACE]</p>
-      <h2 class="text-text-primary font-extrabold text-3xl sm:text-5xl tracking-tight">My Projects.</h2>
+  <!-- 4. DYNAMIC FOLDER WORKSPACE (Interactive) -->
+  <section id="workspace" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
+    <div class="section-header flex justify-between items-end">
+      <h2>Engineering Workspace</h2>
+      
+      <!-- Interactive Breadcrumbs -->
+      <div id="breadcrumb-container" class="hidden sm:flex items-center gap-2 font-mono text-sm text-text-secondary">
+        <!-- Generated by JS -->
+      </div>
     </div>
 
-    <!-- Main Folders (CAD, Ansys, Comsol) -->
-    <div id="main-folders" class="flex flex-wrap gap-4 mb-6 pb-6 border-b border-white/10"></div>
-
-    <!-- Sub Folders (SolidWorks, Fusion, Simulations) -->
-    <div id="sub-folders" class="flex flex-wrap gap-6 mb-8"></div>
-
-    <!-- Files/Cards Container -->
-    <div id="files-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <!-- Container for dynamic UI updates -->
+    <div id="workspace-ui-container" class="min-h-[400px]"></div>
   </section>
 
   <!-- 5. CONTACT -->
   <section id="contact" class="py-28 relative overflow-hidden flex flex-col items-center justify-center border-t border-white/5">
     <div id="contactCanvasContainer" class="w-full h-full absolute inset-0 z-10 pointer-events-none"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 w-full relative z-20">
-      <div class="glow-card rounded-3xl p-8 sm:p-14 max-w-3xl mx-auto">
-        <p class="text-pine-accent font-mono text-xs uppercase tracking-widest mb-2">[04 // COMMUNICATION]</p>
-        <h2 class="text-text-primary font-black text-3xl sm:text-5xl tracking-tight mb-4">Let's Connect.</h2>
-        <div class="flex flex-col gap-4 font-mono text-sm mt-8">
-          <a href="#" id="contact-email-link" class="p-4 rounded-xl bg-void/70 border border-white/10 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
-            <div class="flex items-center gap-3"><span class="text-lg">📧</span><span id="contact-email"></span></div>
-            <span class="text-pine-light group-hover:translate-x-1 transition">→</span>
+      <div class="pro-card p-10 sm:p-14 max-w-3xl mx-auto text-center">
+        <h2 class="text-text-primary font-light text-3xl sm:text-4xl tracking-tight mb-4">Let's Connect</h2>
+        <p class="text-text-secondary font-light text-base mb-10">Available for engineering inquiries, research collaborations, and technical discussions.</p>
+        <div class="flex flex-col gap-4 font-mono text-sm text-left">
+          <a href="#" id="contact-email-link" class="p-4 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
+            <div class="flex items-center gap-3"><i data-lucide="mail" size="18" class="text-pine-light"></i><span id="contact-email"></span></div>
+            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition"></i>
           </a>
-          <a href="#" id="contact-github-link" target="_blank" class="p-4 rounded-xl bg-void/70 border border-white/10 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
-            <div class="flex items-center gap-3"><span class="text-lg">💻</span><span>GitHub Profile</span></div>
-            <span class="text-pine-light group-hover:translate-x-1 transition">→</span>
+          <a href="#" id="contact-github-link" target="_blank" class="p-4 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
+            <div class="flex items-center gap-3"><i data-lucide="github" size="18" class="text-pine-light"></i><span>GitHub Profile</span></div>
+            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition"></i>
           </a>
-          <a href="#" id="contact-linkedin-link" target="_blank" class="p-4 rounded-xl bg-void/70 border border-white/10 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
-            <div class="flex items-center gap-3"><span class="text-lg">🔗</span><span>LinkedIn Profile</span></div>
-            <span class="text-pine-light group-hover:translate-x-1 transition">→</span>
+          <a href="#" id="contact-linkedin-link" target="_blank" class="p-4 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
+            <div class="flex items-center gap-3"><i data-lucide="linkedin" size="18" class="text-pine-light"></i><span>LinkedIn Profile</span></div>
+            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition"></i>
           </a>
         </div>
       </div>
@@ -165,14 +173,13 @@
   </section>
 
   <footer class="text-center py-8 text-text-muted text-xs border-t border-white/5 font-mono relative z-20">
-    © <span id="footer-year"></span> <span id="footer-name"></span> • High-Precision Dark Pine Studio
+    © <span id="footer-year"></span> <span id="footer-name"></span> • Mechanical Engineering Portfolio
   </footer>
 
   <!-- SCRIPT 0: DATA LOADER & FOLDER LOGIC -->
   <script>
-    let globalFolders = {};
-    let activeMain = "";
-    let activeSub = "";
+    let workspaceData = {};
+    let currentPath = []; // [] = Root, ['CAD'] = Level 1, ['CAD', 'SolidWorks'] = Level 2
 
     async function loadData() {
       try {
@@ -183,7 +190,6 @@
         document.getElementById('doc-title').textContent = data.profile.name + " — Portfolio";
         document.getElementById('nav-initial').textContent = data.profile.name.charAt(0);
         document.getElementById('nav-name').textContent = data.profile.name;
-        document.getElementById('nav-title').textContent = "| " + data.profile.title;
         document.getElementById('hero-name').textContent = data.profile.name;
         document.getElementById('hero-bio').textContent = data.profile.heroBio;
         document.getElementById('about-text').textContent = data.profile.aboutText;
@@ -197,120 +203,126 @@
 
         // Populate Overview 3D Cards
         document.getElementById('focus-grid').innerHTML = data.overview.map(item => `
-          <div class="glow-card rounded-2xl p-8 flex flex-col justify-between tilt-card" data-tilt data-tilt-max="10">
+          <div class="pro-card p-8 flex flex-col justify-between h-full">
             <div class="w-24 h-24 card-3d-node mx-auto" data-shape="${item.shape}"></div>
             <div>
-              <h3 class="text-text-primary font-bold text-xl text-center mt-6">${item.title}</h3>
-              <p class="text-text-secondary text-sm text-center mt-3 leading-relaxed">${item.desc}</p>
+              <h3 class="text-text-primary font-medium text-xl text-center mt-6">${item.title}</h3>
+              <p class="text-text-secondary font-light text-sm text-center mt-3 leading-relaxed">${item.desc}</p>
             </div>
           </div>
         `).join('');
 
-        // Populate Certificates
+        // Populate Certificates (Image First)
         document.getElementById('certificates-container').innerHTML = data.certificates.map(cert => `
-          <div class="glow-card rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-            <div class="flex items-start sm:items-center gap-6">
-              <div class="w-14 h-14 rounded-xl bg-pine-dark/50 border border-pine-muted/30 flex items-center justify-center font-mono font-bold text-pine-light text-lg shrink-0">
-                ${cert.id}
+          <div class="pro-card p-5 flex flex-col justify-between">
+            <div>
+              <div class="cert-image-wrapper">
+                <img src="${cert.image}" alt="${cert.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlMGUwZTAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4='">
               </div>
-              <div>
-                <h3 class="text-text-primary font-bold text-xl">${cert.title}</h3>
-                <div class="flex items-center gap-2 mt-1">
-                  <span class="text-pine-accent text-xs font-mono uppercase tracking-wider">${cert.issuer}</span>
-                  <span class="text-text-muted">•</span>
-                  <p class="text-text-secondary text-sm">${cert.desc}</p>
-                </div>
-              </div>
+              <h3 class="text-text-primary font-medium text-lg mb-1 leading-tight">${cert.title}</h3>
+              <p class="text-pine-light font-mono text-xs uppercase tracking-wider mb-6">${cert.issuer}</p>
             </div>
-            <a href="${cert.fileUrl}" target="_blank" class="px-5 py-2.5 rounded-lg bg-surface border border-white/10 hover:border-pine-accent text-text-primary font-mono text-xs hover:text-pine-light transition shrink-0 flex items-center gap-2">
-              View PDF <i data-lucide="external-link" size="14"></i>
+            <a href="${cert.pdfUrl}" target="_blank" class="w-full py-3 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary font-mono text-xs flex justify-center items-center gap-2 transition">
+              <i data-lucide="file-text" size="14"></i> View Document
             </a>
           </div>
         `).join('');
 
-        // Initialize Workspace Folders
-        globalFolders = data.folders;
-        const mainKeys = Object.keys(globalFolders);
-        if (mainKeys.length > 0) {
-          activeMain = mainKeys[0];
-          renderMainFolders();
-        }
-
+        // Initialize Workspace
+        workspaceData = data.workspace;
+        renderWorkspace();
+        
         init3DNodes();
         lucide.createIcons();
-        VanillaTilt.init(document.querySelectorAll(".tilt-card"), { max: 10, speed: 400, glare: true, "max-glare": 0.1 });
 
       } catch(err) {
         console.error("Data load failed:", err);
       }
     }
 
-    // --- FOLDER NAVIGATION LOGIC ---
-    function renderMainFolders() {
-      const mainContainer = document.getElementById('main-folders');
-      mainContainer.innerHTML = Object.keys(globalFolders).map(key => `
-        <button onclick="setMainFolder('${key}')" class="tab-btn ${activeMain === key ? 'active' : ''}">
-          <i data-lucide="folder" size="16"></i> ${key}
-        </button>
-      `).join('');
-      lucide.createIcons();
-
-      // Reset sub folder when main changes
-      const subKeys = Object.keys(globalFolders[activeMain]);
-      activeSub = subKeys.length > 0 ? subKeys[0] : "";
-      renderSubFolders();
+    // --- NESTED WORKSPACE LOGIC ---
+    function navigateWorkspace(level1, level2) {
+      currentPath = [];
+      if (level1) currentPath.push(level1);
+      if (level2) currentPath.push(level2);
+      renderWorkspace();
     }
 
-    function setMainFolder(key) {
-      activeMain = key;
-      renderMainFolders();
-    }
-
-    function renderSubFolders() {
-      const subContainer = document.getElementById('sub-folders');
-      const subKeys = Object.keys(globalFolders[activeMain]);
+    function renderWorkspace() {
+      const container = document.getElementById('workspace-ui-container');
+      const breadcrumbs = document.getElementById('breadcrumb-container');
       
-      subContainer.innerHTML = subKeys.map(key => `
-        <button onclick="setSubFolder('${key}')" class="sub-tab-btn ${activeSub === key ? 'active' : ''}">
-          ${key}
-        </button>
-      `).join('');
-      
-      renderFiles();
-    }
+      // Build Breadcrumbs
+      let breadHtml = `<button onclick="navigateWorkspace()" class="hover:text-text-primary transition">Root</button>`;
+      if (currentPath.length > 0) {
+        breadHtml += ` <span class="opacity-50">/</span> <button onclick="navigateWorkspace('${currentPath[0]}')" class="hover:text-text-primary transition">${currentPath[0]}</button>`;
+      }
+      if (currentPath.length > 1) {
+        breadHtml += ` <span class="opacity-50">/</span> <span class="text-text-primary">${currentPath[1]}</span>`;
+      }
+      breadcrumbs.innerHTML = breadHtml;
 
-    function setSubFolder(key) {
-      activeSub = key;
-      renderSubFolders();
-    }
-
-    function renderFiles() {
-      const filesContainer = document.getElementById('files-container');
-      const files = globalFolders[activeMain][activeSub] || [];
-
-      filesContainer.innerHTML = files.map(file => `
-        <div class="glow-card rounded-2xl p-6 flex flex-col justify-between tilt-card" data-tilt data-tilt-max="10">
-          <div>
-            <div class="w-full h-40 bg-surface-subtle border border-white/5 rounded-xl flex flex-col items-center justify-center font-mono text-xs text-text-muted mb-6 text-center px-4">
-              <i data-lucide="file-code-2" size="28" class="text-pine-muted mb-2"></i>
-              ${file.fileName}
-            </div>
-            <h3 class="text-text-primary font-bold text-lg mb-2">${file.title}</h3>
-            <p class="text-text-secondary text-sm leading-relaxed mb-6">${file.description}</p>
+      // Render based on depth
+      if (currentPath.length === 0) {
+        // Show Root Folders (CAD, Ansys, Comsol)
+        const keys = Object.keys(workspaceData);
+        container.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">` + keys.map(key => `
+          <div onclick="navigateWorkspace('${key}')" class="pro-card folder-card">
+            <img src="${workspaceData[key].logo}" alt="${key} Logo">
+            <h3 class="text-text-primary font-medium text-xl mb-2">${key}</h3>
+            <p class="text-text-secondary font-light text-sm">${workspaceData[key].description}</p>
           </div>
-          <div>
-            <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light mb-4">
-              ${file.tags.map(tag => `<span class="px-2 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#${tag}</span>`).join('')}
-            </div>
-            <a href="${file.fileUrl}" target="_blank" download class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-white/5 justify-center rounded-lg border border-white/10 hover:border-pine-accent">
-              <i data-lucide="download" size="14"></i> Download Asset
-            </a>
+        `).join('') + `</div>`;
+
+      } else if (currentPath.length === 1) {
+        // Show Sub Folders (SolidWorks, Fusion, etc)
+        const mainCat = workspaceData[currentPath[0]];
+        const subKeys = Object.keys(mainCat.subfolders);
+        
+        container.innerHTML = `
+          <button onclick="navigateWorkspace()" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
+            <i data-lucide="arrow-left" size="16"></i> Back to Main Folders
+          </button>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        ` + subKeys.map(subKey => `
+          <div onclick="navigateWorkspace('${currentPath[0]}', '${subKey}')" class="pro-card folder-card">
+            <img src="${mainCat.subfolders[subKey].logo}" alt="${subKey} Logo">
+            <h3 class="text-text-primary font-medium text-xl mb-2">${subKey}</h3>
+            <p class="text-text-secondary font-mono text-xs opacity-70">${mainCat.subfolders[subKey].files.length} Files Inside</p>
           </div>
-        </div>
-      `).join('');
-      
+        `).join('') + `</div>`;
+
+      } else if (currentPath.length === 2) {
+        // Show Actual Files
+        const files = workspaceData[currentPath[0]].subfolders[currentPath[1]].files;
+        
+        container.innerHTML = `
+          <button onclick="navigateWorkspace('${currentPath[0]}')" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
+            <i data-lucide="arrow-left" size="16"></i> Back to ${currentPath[0]}
+          </button>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        ` + files.map(file => `
+          <div class="pro-card p-6 flex flex-col justify-between">
+            <div>
+              <div class="w-full h-32 bg-surface-subtle rounded flex flex-col items-center justify-center text-pine-muted mb-6 text-center border border-white/5">
+                <i data-lucide="file-code" size="32" class="mb-2"></i>
+                <span class="font-mono text-xs">${file.fileName}</span>
+              </div>
+              <h3 class="text-text-primary font-medium text-lg mb-2">${file.title}</h3>
+              <p class="text-text-secondary font-light text-sm leading-relaxed mb-6">${file.description}</p>
+            </div>
+            <div>
+              <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light mb-4">
+                ${file.tags.map(tag => `<span class="px-2 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#${tag}</span>`).join('')}
+              </div>
+              <a href="${file.fileUrl}" target="_blank" download class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent">
+                <i data-lucide="download" size="14"></i> Download File
+              </a>
+            </div>
+          </div>
+        `).join('') + `</div>`;
+      }
       lucide.createIcons();
-      VanillaTilt.init(document.querySelectorAll(".tilt-card"), { max: 10, speed: 400, glare: true, "max-glare": 0.1 });
     }
 
     document.addEventListener('DOMContentLoaded', loadData);
@@ -387,26 +399,29 @@
     window.addEventListener('resize', () => { heroCamera.aspect = heroContainer.clientWidth / heroContainer.clientHeight; heroCamera.updateProjectionMatrix(); heroRenderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight); });
   </script>
 
-  <!-- SCRIPT 2: ENGINEERING WIREFRAME SHAPES IN OVERVIEW CARDS -->
+  <!-- SCRIPT 2: NEW PROFESSIONAL ENGINEERING 3D SHAPES -->
   <script>
     function init3DNodes() {
       document.querySelectorAll('.card-3d-node').forEach(el => {
         if(el.hasChildNodes()) return; 
         const shapeType = el.dataset.shape;
         const cScene = new THREE.Scene();
-        const cCam = new THREE.PerspectiveCamera(50, 1, 0.1, 100); cCam.position.z = 3.5;
+        const cCam = new THREE.PerspectiveCamera(50, 1, 0.1, 100); cCam.position.z = 3.8;
         const cRend = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         cRend.setSize(96, 96); cRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         el.appendChild(cRend.domElement);
 
         let geo;
-        if (shapeType === 'icosahedron') geo = new THREE.IcosahedronGeometry(1.3, 1); // Fluid mesh
-        else if (shapeType === 'octahedron') geo = new THREE.OctahedronGeometry(1.3, 2); // FEA structure
-        else geo = new THREE.TorusKnotGeometry(0.8, 0.25, 100, 16); // CAD Spline
+        // High-precision mechanical bearing (CAD)
+        if (shapeType === 'bearing') geo = new THREE.TorusGeometry(0.9, 0.35, 16, 64);
+        // High-density structural node mesh (FEA)
+        else if (shapeType === 'feamesh') geo = new THREE.OctahedronGeometry(1.2, 3);
+        // Complex turbulent fluid dynamic knot (CFD)
+        else geo = new THREE.TorusKnotGeometry(0.7, 0.2, 128, 16);
 
-        // Technical Wireframe overlay material
-        const mat = new THREE.MeshStandardMaterial({ color: 0x142820, metalness: 0.9, roughness: 0.1 });
-        const wireMat = new THREE.MeshBasicMaterial({ color: 0x4d8f7a, wireframe: true, transparent: true, opacity: 0.6 });
+        // Professional Matte Material with subtle Wireframe
+        const mat = new THREE.MeshStandardMaterial({ color: 0x142820, metalness: 0.5, roughness: 0.8 });
+        const wireMat = new THREE.MeshBasicMaterial({ color: 0x4d8f7a, wireframe: true, transparent: true, opacity: 0.4 });
         
         const mesh = new THREE.Mesh(geo, mat);
         const wireMesh = new THREE.Mesh(geo, wireMat);
@@ -414,9 +429,9 @@
         cScene.add(mesh);
 
         const light1 = new THREE.DirectionalLight(0x72a997, 4.0); light1.position.set(3, 3, 4); cScene.add(light1);
-        cScene.add(new THREE.AmbientLight(0xffffff, 0.5));
+        cScene.add(new THREE.AmbientLight(0xffffff, 0.6));
 
-        function animNode() { requestAnimationFrame(animNode); mesh.rotation.x += 0.008; mesh.rotation.y += 0.012; cRend.render(cScene, cCam); }
+        function animNode() { requestAnimationFrame(animNode); mesh.rotation.x += 0.005; mesh.rotation.y += 0.01; cRend.render(cScene, cCam); }
         animNode();
       });
     }
