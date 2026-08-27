@@ -138,6 +138,7 @@
 
   <a href="#main-content" class="skip-link">Skip to content</a>
 
+  <!-- LOADING / ERROR OVERLAYS -->
   <div id="loading-screen" class="fixed inset-0 z-[200] bg-void flex flex-col items-center justify-center gap-4 transition-opacity duration-500">
     <div class="w-9 h-9 rounded-full border-2 border-pine-muted border-t-pine-accent loader-spin" aria-hidden="true"></div>
     <p class="font-mono text-[10px] text-text-muted tracking-[0.2em] uppercase">Loading Portfolio</p>
@@ -148,6 +149,7 @@
     <button id="retry-btn" type="button" class="px-5 py-2 rounded bg-white/5 border border-white/10 hover:border-pine-accent text-text-primary font-mono text-xs transition">Retry</button>
   </div>
 
+  <!-- Header -->
   <header class="fixed top-0 left-0 w-full z-50 bg-void/85 backdrop-blur-md border-b border-white/5">
     <div class="max-w-7xl mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
       <a href="#" class="flex items-center gap-4 group">
@@ -185,6 +187,7 @@
 
   <main id="main-content">
 
+  <!-- 1. HERO -->
   <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
     <div class="ambient-glow"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 flex flex-row items-start gap-6 z-20 w-full">
@@ -215,6 +218,7 @@
     </div>
   </section>
 
+  <!-- 2. OVERVIEW -->
   <section id="about" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6">
       <div class="absolute left-0 top-1 w-1.5 h-12 bg-gradient-to-b from-pine-accent to-pine-dark rounded-full"></div>
@@ -227,6 +231,7 @@
     <div id="focus-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </section>
 
+  <!-- 3. CERTIFICATES -->
   <section id="certificates" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6">
       <div class="absolute left-0 top-1 w-1.5 h-12 bg-gradient-to-b from-pine-accent to-pine-dark rounded-full"></div>
@@ -238,6 +243,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="certificates-container"></div>
   </section>
 
+  <!-- 4. DYNAMIC FOLDER WORKSPACE -->
   <section id="workspace" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6 flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
       <div>
@@ -252,6 +258,7 @@
     <div id="workspace-ui-container" class="min-h-[400px]" aria-live="polite"></div>
   </section>
 
+  <!-- 5. CONTACT -->
   <section id="contact" class="py-28 relative overflow-hidden flex flex-col items-center justify-center border-t border-white/5">
     <div id="contactCanvasContainer" class="w-full h-full absolute inset-0 z-10 pointer-events-none" aria-hidden="true"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 w-full relative z-20">
@@ -286,6 +293,7 @@
     <p class="mt-1">© <span id="footer-year"></span> <span id="footer-name"></span> • Mechanical Engineering Portfolio</p>
   </footer>
 
+  <!-- FULL SCREEN CERTIFICATE MODAL -->
   <div id="cert-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-void/95 backdrop-blur-md opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
     <div class="absolute inset-0 cursor-pointer" data-modal-close></div>
     <div class="relative z-10 w-full max-w-4xl p-6 flex flex-col items-center">
@@ -305,6 +313,7 @@
     </div>
   </div>
 
+  <!-- SCRIPT UTILS: motion-safe render loop + scroll reveal helpers -->
   <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -339,6 +348,7 @@
     const BRACKET_HTML = `<span class="bracket-corner bracket-tl" aria-hidden="true"></span><span class="bracket-corner bracket-tr" aria-hidden="true"></span><span class="bracket-corner bracket-bl" aria-hidden="true"></span><span class="bracket-corner bracket-br" aria-hidden="true"></span>`;
   </script>
 
+  <!-- SCRIPT 0: DATA LOADER & LOGIC -->
   <script>
     let workspaceData = {};
     let globalCertificates = [];
@@ -525,14 +535,42 @@
       el.click();
     });
 
-    // --- NESTED WORKSPACE LOGIC (Supports single logo or multiple side-by-side logos) ---
+    function renderFileCards(files) {
+      return files.map(file => `
+        <div class="reveal pro-card p-6 flex flex-col justify-between">
+          ${BRACKET_HTML}
+          <div>
+            <div class="w-full h-32 bg-surface-subtle rounded flex flex-col items-center justify-center text-pine-muted mb-6 text-center border border-white/5">
+              <i data-lucide="file-code" size="32" class="mb-2" aria-hidden="true"></i>
+              <span class="font-mono text-xs">${file.fileName}</span>
+            </div>
+            <h3 class="text-text-primary font-medium text-lg mb-2">${file.title}</h3>
+            <p class="text-text-secondary font-light text-sm leading-relaxed mb-6">${file.description}</p>
+          </div>
+          <div>
+            <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light mb-4">
+              ${file.tags.map(tag => `<span class="px-2 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#${tag}</span>`).join('')}
+            </div>
+            <a href="${file.fileUrl}" target="_blank" rel="noopener noreferrer" download class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent">
+              <i data-lucide="download" size="14" aria-hidden="true"></i> Download File
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- NESTED WORKSPACE LOGIC (Supports direct files or subfolder breakdown) ---
     function renderWorkspace() {
       const container = document.getElementById('workspace-ui-container');
       const breadcrumbs = document.getElementById('breadcrumb-container');
 
       let breadHtml = '';
-      if (currentPath.length > 0) breadHtml += `<button data-workspace-nav="" class="hover:text-text-primary transition">Root</button> <span class="opacity-50">/</span> <button data-workspace-nav="${currentPath[0]}" class="hover:text-text-primary transition">${currentPath[0]}</button>`;
-      if (currentPath.length > 1) breadHtml += ` <span class="opacity-50">/</span> <span class="text-text-primary">${currentPath[1]}</span>`;
+      if (currentPath.length > 0) {
+        breadHtml += `<button data-workspace-nav="" class="hover:text-text-primary transition">Root</button> <span class="opacity-50">/</span> <button data-workspace-nav="${currentPath[0]}" class="hover:text-text-primary transition">${currentPath[0]}</button>`;
+      }
+      if (currentPath.length > 1) {
+        breadHtml += ` <span class="opacity-50">/</span> <span class="text-text-primary">${currentPath[1]}</span>`;
+      }
       breadcrumbs.innerHTML = breadHtml;
 
       if (currentPath.length === 0) {
@@ -554,24 +592,40 @@
             </div>
           `;
         }).join('') + `</div>`;
+
       } else if (currentPath.length === 1) {
-        const mainCat = workspaceData[currentPath[0]];
-        const subKeys = Object.keys(mainCat.subfolders);
-        container.innerHTML = `
-          <button data-workspace-nav="" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
-            <i data-lucide="arrow-left" size="16" aria-hidden="true"></i> Back to Main Folders
-          </button>
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        ` + subKeys.map(subKey => `
-          <div class="reveal pro-card folder-card group" role="button" tabindex="0" aria-label="Open ${subKey} folder" data-workspace-nav="${currentPath[0]},${subKey}">
-            ${BRACKET_HTML}
-            <div class="flex items-center justify-center mb-6 h-16">
-              <img src="${mainCat.subfolders[subKey].logo}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="max-h-14 max-w-[110px] object-contain">
+        const category = workspaceData[currentPath[0]];
+
+        if (category.files && category.files.length > 0) {
+          // Direct file list for Ansys / Comsol
+          container.innerHTML = `
+            <button data-workspace-nav="" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
+              <i data-lucide="arrow-left" size="16" aria-hidden="true"></i> Back to Main Folders
+            </button>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              ${renderFileCards(category.files)}
             </div>
-            <h3 class="text-text-primary font-medium text-xl mb-2 group-hover:text-pine-light transition">${subKey}</h3>
-            <p class="text-text-secondary font-mono text-xs opacity-70">${mainCat.subfolders[subKey].files.length} Files Inside</p>
-          </div>
-        `).join('') + `</div>`;
+          `;
+        } else if (category.subfolders) {
+          // Subfolder drill-down for CAD
+          const subKeys = Object.keys(category.subfolders);
+          container.innerHTML = `
+            <button data-workspace-nav="" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
+              <i data-lucide="arrow-left" size="16" aria-hidden="true"></i> Back to Main Folders
+            </button>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          ` + subKeys.map(subKey => `
+            <div class="reveal pro-card folder-card group" role="button" tabindex="0" aria-label="Open ${subKey} folder" data-workspace-nav="${currentPath[0]},${subKey}">
+              ${BRACKET_HTML}
+              <div class="flex items-center justify-center mb-6 h-16">
+                <img src="${category.subfolders[subKey].logo}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="max-h-14 max-w-[110px] object-contain">
+              </div>
+              <h3 class="text-text-primary font-medium text-xl mb-2 group-hover:text-pine-light transition">${subKey}</h3>
+              <p class="text-text-secondary font-mono text-xs opacity-70">${category.subfolders[subKey].files.length} Files Inside</p>
+            </div>
+          `).join('') + `</div>`;
+        }
+
       } else if (currentPath.length === 2) {
         const files = workspaceData[currentPath[0]].subfolders[currentPath[1]].files;
         container.innerHTML = `
@@ -579,28 +633,11 @@
             <i data-lucide="arrow-left" size="16" aria-hidden="true"></i> Back to ${currentPath[0]}
           </button>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        ` + files.map(file => `
-          <div class="reveal pro-card p-6 flex flex-col justify-between">
-            ${BRACKET_HTML}
-            <div>
-              <div class="w-full h-32 bg-surface-subtle rounded flex flex-col items-center justify-center text-pine-muted mb-6 text-center border border-white/5">
-                <i data-lucide="file-code" size="32" class="mb-2" aria-hidden="true"></i>
-                <span class="font-mono text-xs">${file.fileName}</span>
-              </div>
-              <h3 class="text-text-primary font-medium text-lg mb-2">${file.title}</h3>
-              <p class="text-text-secondary font-light text-sm leading-relaxed mb-6">${file.description}</p>
-            </div>
-            <div>
-              <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light mb-4">
-                ${file.tags.map(tag => `<span class="px-2 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#${tag}</span>`).join('')}
-              </div>
-              <a href="${file.fileUrl}" target="_blank" rel="noopener noreferrer" download class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent">
-                <i data-lucide="download" size="14" aria-hidden="true"></i> Download File
-              </a>
-            </div>
+            ${renderFileCards(files)}
           </div>
-        `).join('') + `</div>`;
+        `;
       }
+
       lucide.createIcons();
       observeReveals(container);
     }
@@ -672,6 +709,7 @@
     });
   </script>
 
+  <!-- SCRIPT 1: HERO TOP 3D FLOW -->
   <script>
     const heroContainer = document.getElementById('heroCanvasContainer');
     const heroScene = new THREE.Scene();
@@ -740,6 +778,7 @@
     manageRenderLoop(heroContainer, heroTick, heroRender);
   </script>
 
+  <!-- SCRIPT 2: HIGH-TECH DOTTED POINT CLOUD SHAPES -->
   <script>
     function init3DNodes() {
       document.querySelectorAll('.card-3d-node').forEach(el => {
@@ -788,6 +827,7 @@
     }
   </script>
 
+  <!-- SCRIPT 3: BOTTOM CONTACT 3D FLOW ENGINE -->
   <script>
     const contactContainer = document.getElementById('contactCanvasContainer');
     const contactScene = new THREE.Scene();
