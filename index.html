@@ -77,7 +77,7 @@
     </div>
   </header>
 
-  <!-- 1. HERO -->
+  <!-- 1. HERO (3D Flow Field) -->
   <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
     <div class="ambient-glow"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 flex flex-row items-start gap-6 z-20 w-full">
@@ -107,7 +107,7 @@
     </div>
   </section>
 
-  <!-- 2. OVERVIEW -->
+  <!-- 2. OVERVIEW (Dotted 3D Shapes) -->
   <section id="about" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="section-header">
       <h2>Professional Overview</h2>
@@ -117,7 +117,7 @@
     <div id="focus-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </section>
 
-  <!-- 3. CERTIFICATES -->
+  <!-- 3. CERTIFICATES (Image Viewer) -->
   <section id="certificates" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="section-header">
       <h2>Certifications & Credentials</h2>
@@ -191,7 +191,7 @@
         // Populate Overview 3D Cards
         document.getElementById('focus-grid').innerHTML = data.overview.map(item => `
           <div class="pro-card p-8 flex flex-col justify-between h-full">
-            <div class="w-24 h-24 card-3d-node mx-auto" data-shape="${item.shape}"></div>
+            <div class="w-full h-32 card-3d-node mx-auto flex justify-center items-center" data-shape="${item.shape}"></div>
             <div>
               <h3 class="text-text-primary font-medium text-xl text-center mt-6">${item.title}</h3>
               <p class="text-text-secondary font-light text-sm text-center mt-3 leading-relaxed">${item.desc}</p>
@@ -373,51 +373,74 @@
     window.addEventListener('resize', () => { heroCamera.aspect = heroContainer.clientWidth / heroContainer.clientHeight; heroCamera.updateProjectionMatrix(); heroRenderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight); });
   </script>
 
-  <!-- SCRIPT 2: RESTORED PREMIUM METALLIC 3D SHAPES -->
+  <!-- SCRIPT 2: HIGH-TECH DOTTED POINT CLOUD SHAPES & FLOW LOGO -->
   <script>
     function init3DNodes() {
       document.querySelectorAll('.card-3d-node').forEach(el => {
         if(el.hasChildNodes()) return; 
         const shapeType = el.dataset.shape;
+        
         const cScene = new THREE.Scene();
-        const cCam = new THREE.PerspectiveCamera(50, 1, 0.1, 100); cCam.position.z = 3.5;
+        const cCam = new THREE.PerspectiveCamera(45, 1, 0.1, 100); 
+        cCam.position.z = 3.8;
+        
         const cRend = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        cRend.setSize(96, 96); cRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        // Scale appropriately for the card
+        cRend.setSize(120, 120); 
+        cRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         el.appendChild(cRend.domElement);
 
         let geo;
-        let useFlatShading = false;
         
-        // Solid Machined Bearing for CAD
+        // 1. CAD: High-Density Dotted Bearing
         if (shapeType === 'cad') {
-            geo = new THREE.TorusGeometry(0.8, 0.4, 16, 50);
+            geo = new THREE.TorusGeometry(0.8, 0.35, 24, 70);
         }
-        // Triangulated Solid Mesh for FEA
+        // 2. FEA: Point Cloud Node Mesh Sphere
         else if (shapeType === 'fea') {
-            geo = new THREE.IcosahedronGeometry(1.2, 1);
-            useFlatShading = true; // Creates the faceted element look
+            geo = new THREE.IcosahedronGeometry(1.1, 4); 
         }
-        // Smooth Solid Streamline for CFD
+        // 3. CFD Flow: Aerodynamic Flow Streamlines (Custom Dotted Math)
         else {
-            geo = new THREE.TorusKnotGeometry(0.75, 0.25, 100, 16);
+            const flowPts = [];
+            // Create overlapping sine waves representing aerodynamic flow
+            for (let j = -4; j <= 4; j++) { 
+              for (let i = -1.5; i <= 1.5; i += 0.04) {
+                const x = i;
+                const y = Math.sin(i * 2 + j * 0.5) * 0.4 + (j * 0.15);
+                const z = Math.cos(i * 2) * 0.3;
+                flowPts.push(x, y, z);
+              }
+            }
+            geo = new THREE.BufferGeometry();
+            geo.setAttribute('position', new THREE.Float32BufferAttribute(flowPts, 3));
         }
 
-        // Restored Original Premium Metallic Material
-        const mat = new THREE.MeshStandardMaterial({ 
+        // The "Dot Dots Buildup" Material
+        const mat = new THREE.PointsMaterial({ 
             color: 0x4d8f7a, 
-            metalness: 0.85, 
-            roughness: 0.24, 
-            flatShading: useFlatShading 
+            size: 0.045, // Fine, precise dots
+            transparent: true, 
+            opacity: 0.85
         });
         
-        const mesh = new THREE.Mesh(geo, mat);
+        const mesh = new THREE.Points(geo, mat);
         cScene.add(mesh);
 
-        const light1 = new THREE.DirectionalLight(0x72a997, 3.0); light1.position.set(3, 3, 4); cScene.add(light1);
-        const light2 = new THREE.DirectionalLight(0x142820, 2.0); light2.position.set(-3, -3, -2); cScene.add(light2);
-        cScene.add(new THREE.AmbientLight(0xffffff, 0.45));
-
-        function animNode() { requestAnimationFrame(animNode); mesh.rotation.x += 0.008; mesh.rotation.y += 0.012; cRend.render(cScene, cCam); }
+        function animNode() { 
+            requestAnimationFrame(animNode); 
+            
+            // CFD gets a special swirling flow rotation
+            if(shapeType === 'cfd') {
+                mesh.rotation.y += 0.015;
+                mesh.rotation.x = 0.2; // Slight tilt
+            } else {
+                mesh.rotation.x += 0.008; 
+                mesh.rotation.y += 0.012; 
+            }
+            
+            cRend.render(cScene, cCam); 
+        }
         animNode();
       });
     }
