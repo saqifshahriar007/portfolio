@@ -461,5 +461,150 @@
 
     document.addEventListener('DOMContentLoaded', loadData);
   </script>
+
+  <script>
+    const heroContainer = document.getElementById('heroCanvasContainer');
+    const heroScene = new THREE.Scene();
+    const heroCamera = new THREE.PerspectiveCamera(45, heroContainer.clientWidth / heroContainer.clientHeight, 0.1, 1000);
+    heroCamera.position.set(0, 0, 24);
+    const heroRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    heroRenderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight);
+    heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    heroContainer.appendChild(heroRenderer.domElement);
+
+    const heroWaveGroup = new THREE.Group();
+    heroScene.add(heroWaveGroup);
+    const heroWavePts = []; const heroWaveCols = [];
+    const cPineLight = new THREE.Color(0x72a997); const cPineDark = new THREE.Color(0x142820);
+
+    for (let j = -7; j <= 7; j++) {
+      for (let i = -24; i <= 24; i += 0.3) {
+        const x = 7.5 + Math.sin(i * 0.16 + j * 0.35) * 3.8 + (j * 0.6);
+        const y = i * 0.7;
+        const z = Math.cos(i * 0.12) * 3.2 - 3.5;
+        heroWavePts.push(x, y, z);
+        const mix = (Math.sin(i * 0.1 + j) + 1) / 2;
+        const c = cPineDark.clone().lerp(cPineLight, mix * 0.65);
+        heroWaveCols.push(c.r, c.g, c.b);
+      }
+    }
+    const heroWaveGeo = new THREE.BufferGeometry();
+    heroWaveGeo.setAttribute('position', new THREE.Float32BufferAttribute(heroWavePts, 3));
+    heroWaveGeo.setAttribute('color', new THREE.Float32BufferAttribute(heroWaveCols, 3));
+    const heroWaveMat = new THREE.PointsMaterial({ size: 0.08, vertexColors: true, transparent: true, opacity: 0.42, blending: THREE.AdditiveBlending });
+    heroWaveGroup.add(new THREE.Points(heroWaveGeo, heroWaveMat));
+
+    const HERO_COUNT = 2200;
+    const heroSwarmGeo = new THREE.BufferGeometry();
+    const heroPositions = new Float32Array(HERO_COUNT * 3);
+    const heroColors = new Float32Array(HERO_COUNT * 3);
+    const heroVelocities = new Float32Array(HERO_COUNT * 3);
+
+    for (let i = 0; i < HERO_COUNT; i++) {
+      heroPositions[i * 3] = 3.5 + Math.random() * 15;
+      heroPositions[i * 3 + 1] = (Math.random() - 0.5) * 22;
+      heroPositions[i * 3 + 2] = (Math.random() - 0.5) * 14;
+      heroVelocities[i * 3] = (Math.random() * 0.02 + 0.01);
+      heroVelocities[i * 3 + 1] = (Math.random() - 0.5) * 0.01;
+      const mix = Math.random();
+      const c = cPineDark.clone().lerp(cPineLight, mix * 0.8);
+      heroColors[i * 3] = c.r; heroColors[i * 3 + 1] = c.g; heroColors[i * 3 + 2] = c.b;
+    }
+    heroSwarmGeo.setAttribute('position', new THREE.BufferAttribute(heroPositions, 3));
+    heroSwarmGeo.setAttribute('color', new THREE.BufferAttribute(heroColors, 3));
+    const heroSwarmMat = new THREE.PointsMaterial({ size: 0.09, vertexColors: true, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending });
+    const heroSwarmMesh = new THREE.Points(heroSwarmGeo, heroSwarmMat);
+    heroScene.add(heroSwarmMesh);
+
+    function animateHero() {
+      requestAnimationFrame(animateHero);
+      const pos = heroSwarmGeo.attributes.position.array;
+      for (let i = 0; i < HERO_COUNT; i++) {
+        pos[i * 3] += heroVelocities[i * 3];
+        pos[i * 3 + 1] += Math.sin(pos[i * 3] * 0.2) * 0.008;
+        if (pos[i * 3] > 19) { pos[i * 3] = 3.5; pos[i * 3 + 1] = (Math.random() - 0.5) * 22; }
+      }
+      heroSwarmGeo.attributes.position.needsUpdate = true;
+      heroWaveGroup.rotation.y += 0.0006;
+      heroRenderer.render(heroScene, heroCamera);
+    }
+    animateHero();
+  </script>
+
+  <script>
+    function init3DNodes() {
+      document.querySelectorAll('.card-3d-node').forEach(el => {
+        if(el.hasChildNodes()) return; 
+        const shapeType = el.dataset.shape;
+        const cScene = new THREE.Scene();
+        const cCam = new THREE.PerspectiveCamera(45, 1, 0.1, 100); 
+        cCam.position.z = 3.8;
+        const cRend = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        cRend.setSize(120, 120); 
+        cRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        el.appendChild(cRend.domElement);
+
+        let geo;
+        if (shapeType === 'cad') {
+            geo = new THREE.TorusGeometry(0.8, 0.35, 24, 70);
+        } else if (shapeType === 'fea') {
+            geo = new THREE.IcosahedronGeometry(1.1, 4); 
+        } else {
+            const flowPts = [];
+            for (let j = -4; j <= 4; j++) { 
+              for (let i = -1.5; i <= 1.5; i += 0.04) {
+                flowPts.push(i, Math.sin(i * 2 + j * 0.5) * 0.4 + (j * 0.15), Math.cos(i * 2) * 0.3);
+              }
+            }
+            geo = new THREE.BufferGeometry();
+            geo.setAttribute('position', new THREE.Float32BufferAttribute(flowPts, 3));
+        }
+
+        const mesh = new THREE.Points(geo, new THREE.PointsMaterial({ color: 0x4d8f7a, size: 0.045, transparent: true, opacity: 0.85 }));
+        cScene.add(mesh);
+
+        function animNode() { 
+            requestAnimationFrame(animNode); 
+            if(shapeType === 'cfd') { mesh.rotation.y += 0.015; mesh.rotation.x = 0.2; }
+            else { mesh.rotation.x += 0.008; mesh.rotation.y += 0.012; }
+            cRend.render(cScene, cCam); 
+        }
+        animNode();
+      });
+    }
+  </script>
+
+  <script>
+    const contactContainer = document.getElementById('contactCanvasContainer');
+    const contactScene = new THREE.Scene();
+    const contactCamera = new THREE.PerspectiveCamera(45, contactContainer.clientWidth / contactContainer.clientHeight, 0.1, 1000);
+    contactCamera.position.set(0, 0, 22);
+    const contactRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    contactRenderer.setSize(contactContainer.clientWidth, contactContainer.clientHeight);
+    contactRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    contactContainer.appendChild(contactRenderer.domElement);
+
+    const bottomPts = []; const bottomCols = [];
+    for (let j = -6; j <= 6; j++) {
+      for (let i = -28; i <= 28; i += 0.35) {
+        bottomPts.push(i, Math.sin(i * 0.14 + j * 0.3) * 2.2 + (j * 1.5) - 3, Math.cos(i * 0.1) * 3.5 - 2);
+        const c = cPineDark.clone().lerp(cPineLight, ((Math.sin(i * 0.1 + j) + 1) / 2) * 0.5);
+        bottomCols.push(c.r, c.g, c.b);
+      }
+    }
+    const bottomGeo = new THREE.BufferGeometry();
+    bottomGeo.setAttribute('position', new THREE.Float32BufferAttribute(bottomPts, 3));
+    bottomGeo.setAttribute('color', new THREE.Float32BufferAttribute(bottomCols, 3));
+    const bottomMesh = new THREE.Points(bottomGeo, new THREE.PointsMaterial({ size: 0.08, vertexColors: true, transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending }));
+    contactScene.add(bottomMesh);
+
+    let contactTime = 0;
+    function animateContact() {
+      requestAnimationFrame(animateContact); contactTime += 0.008;
+      bottomMesh.rotation.y = Math.sin(contactTime * 0.4) * 0.06;
+      contactRenderer.render(contactScene, contactCamera);
+    }
+    animateContact();
+  </script>
 </body>
 </html>
