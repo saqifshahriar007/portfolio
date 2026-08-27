@@ -743,41 +743,41 @@
       el.click();
     });
 
-    function renderFileCards(files) {
-      if (!files || files.length === 0) {
-        return `<p class="text-text-muted font-mono text-sm col-span-full py-8 text-center">No files in this category yet.</p>`;
-      }
+  function renderFileCards(files) {
+      if (!files || files.length === 0) return `<p class="text-text-muted font-mono text-sm col-span-full py-8 text-center">No files here yet.</p>`;
       return files.map(file => {
-        // Case insensitive check for STL files
+        // Automatically checks if file extension is .stl (case-insensitive)
         const isSTL = file.fileUrl && file.fileUrl.toLowerCase().endsWith('.stl');
         
-        const actionButton = isSTL ? 
-          `<button onclick="openSTLModal('${file.fileUrl}', '${file.title}')" class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent">
-             <i data-lucide="box" size="14" aria-hidden="true"></i> View 3D Model
-           </button>` :
-          `<a href="${file.fileUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent">
-             <i data-lucide="external-link" size="14" aria-hidden="true"></i> View File
-           </a>`;
+        const btnHtml = isSTL ? 
+          `<button onclick="openSTLModal('${file.fileUrl}', '${file.title}')" class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent"><i data-lucide="box" size="14"></i> View 3D Model</button>` :
+          `<a href="${file.fileUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent"><i data-lucide="external-link" size="14"></i> View File</a>`;
+
+        // NEW: Checks if a preview image exists. If yes, displays it. If no, shows the default gray icon.
+        const previewContent = file.previewImage 
+          ? `<img src="${file.previewImage}" alt="${file.title} preview" loading="lazy" class="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500">` 
+          : `<i data-lucide="${isSTL ? 'box' : 'file-code'}" size="32" class="mb-2"></i><span class="font-mono text-xs px-2 truncate w-full">${file.fileName}</span>`;
 
         return `
-        <div class="reveal pro-card p-6 flex flex-col justify-between">
-          ${BRACKET_HTML}
-          <div>
-            <div class="w-full h-32 bg-surface-subtle rounded flex flex-col items-center justify-center text-pine-muted mb-6 text-center border border-white/5">
-              <i data-lucide="${isSTL ? 'box' : 'file-code'}" size="32" class="mb-2" aria-hidden="true"></i>
-              <span class="font-mono text-xs">${file.fileName}</span>
+          <div class="reveal pro-card p-6 flex flex-col justify-between group">
+            ${BRACKET_HTML}
+            <div>
+              <div class="w-full h-40 bg-surface-subtle rounded flex flex-col items-center justify-center text-pine-muted mb-6 text-center border border-white/5 overflow-hidden relative">
+                <div class="absolute inset-0 z-10 pointer-events-none ring-1 ring-inset ring-white/10 rounded"></div>
+                ${previewContent}
+              </div>
+              <h3 class="text-text-primary font-medium text-lg mb-2">${file.title}</h3>
+              <p class="text-text-secondary font-light text-sm leading-relaxed mb-6">${file.description}</p>
             </div>
-            <h3 class="text-text-primary font-medium text-lg mb-2">${file.title}</h3>
-            <p class="text-text-secondary font-light text-sm leading-relaxed mb-6">${file.description}</p>
-          </div>
-          <div>
-            <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light mb-4">
-              ${(file.tags || []).map(tag => `<span class="px-2 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#${tag}</span>`).join('')}
+            <div>
+              <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light mb-4">
+                ${(file.tags || []).map(t => `<span class="px-2 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#${t}</span>`).join('')}
+              </div>
+              ${btnHtml}
             </div>
-            ${actionButton}
           </div>
-        </div>
-      `}).join('');
+        `;
+      }).join('');
     }
 
     // --- NESTED WORKSPACE LOGIC ---
