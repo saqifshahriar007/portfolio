@@ -101,6 +101,7 @@
     <button id="retry-btn" type="button" class="px-5 py-2 rounded bg-white/5 border border-white/10 hover:border-pine-accent text-text-primary font-mono text-xs transition">Retry</button>
   </div>
 
+  <!-- Header -->
   <header class="fixed top-0 left-0 w-full z-50 bg-void/85 backdrop-blur-md border-b border-white/5">
     <div class="max-w-7xl mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
       <a href="#" class="flex items-center gap-4 group">
@@ -124,6 +125,7 @@
   </header>
 
   <main id="main-content">
+  <!-- HERO -->
   <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
     <div class="ambient-glow"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 flex flex-row items-start gap-6 z-20 w-full">
@@ -148,6 +150,7 @@
     <div id="heroCanvasContainer" class="w-full h-full absolute inset-0 z-10" aria-hidden="true"></div>
   </section>
 
+  <!-- OVERVIEW -->
   <section id="about" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6">
       <div class="absolute left-0 top-1 w-1.5 h-12 bg-gradient-to-b from-pine-accent to-pine-dark rounded-full"></div>
@@ -160,6 +163,7 @@
     <div id="focus-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </section>
 
+  <!-- CERTIFICATES -->
   <section id="certificates" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6">
       <div class="absolute left-0 top-1 w-1.5 h-12 bg-gradient-to-b from-pine-accent to-pine-dark rounded-full"></div>
@@ -171,6 +175,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="certificates-container"></div>
   </section>
 
+  <!-- WORKSPACE -->
   <section id="workspace" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6 flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
       <div>
@@ -185,6 +190,7 @@
     <div id="workspace-ui-container" class="min-h-[400px]"></div>
   </section>
 
+  <!-- CONTACT -->
   <section id="contact" class="py-28 relative overflow-hidden flex flex-col items-center justify-center border-t border-white/5">
     <div id="contactCanvasContainer" class="w-full h-full absolute inset-0 z-10 pointer-events-none" aria-hidden="true"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 w-full relative z-20">
@@ -218,6 +224,7 @@
     <p class="mt-1">© <span id="footer-year"></span> <span id="footer-name"></span> • Mechanical Engineering Portfolio</p>
   </footer>
 
+  <!-- CERTIFICATE MODAL -->
   <div id="cert-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-void/95 backdrop-blur-md opacity-0 transition-opacity duration-300">
     <div class="absolute inset-0 cursor-pointer" data-modal-close></div>
     <div class="relative z-10 w-full max-w-4xl p-6 flex flex-col items-center">
@@ -230,6 +237,7 @@
     </div>
   </div>
 
+  <!-- 3D STL VIEWER MODAL -->
   <div id="cad-modal" class="fixed inset-0 z-[110] hidden items-center justify-center bg-void/95 backdrop-blur-md opacity-0 transition-opacity duration-300">
     <div class="absolute inset-0 cursor-pointer" data-cad-close></div>
     <div class="relative z-10 w-full max-w-5xl h-[85vh] p-6 flex flex-col bg-surface border border-white/10 rounded-2xl shadow-2xl">
@@ -246,6 +254,7 @@
     </div>
   </div>
 
+  <!-- APP LOGIC & THREE.JS ANIMATIONS -->
   <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const BRACKET_HTML = `<span class="bracket-corner bracket-tl"></span><span class="bracket-corner bracket-tr"></span><span class="bracket-corner bracket-bl"></span><span class="bracket-corner bracket-br"></span>`;
@@ -258,6 +267,7 @@
     async function loadData() {
       try {
         const response = await fetch('./data.json?v=' + Date.now());
+        if (!response.ok) throw new Error('HTTP error ' + response.status);
         const data = await response.json();
         const fullName = data.profile.name || "Portfolio";
         const firstName = data.profile.heroName || fullName.split(' ')[0];
@@ -292,7 +302,7 @@
           <div class="reveal pro-card p-5 flex flex-col justify-between cursor-pointer group" role="button" tabindex="0" data-cert-index="${index}">
             ${BRACKET_HTML}
             <div class="cert-image-wrapper relative group-hover:border-pine-accent/50 transition-colors">
-              <img src="${cert.image}" alt="${cert.title}" loading="lazy" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlMGUwZTAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4='">
+              <img src="${cert.image}" alt="${cert.title}" loading="lazy" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlMGUwZTAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlIE5vdCBGb3VuZDwvdGV4dD4='">
             </div>
             <h3 class="text-text-primary font-medium text-lg mb-1 leading-tight group-hover:text-pine-light transition-colors">${cert.title}</h3>
             <p class="text-text-muted font-mono text-xs uppercase tracking-wider">${cert.issuer}</p>
@@ -303,17 +313,27 @@
         renderWorkspace();
         init3DNodes();
         lucide.createIcons();
-        document.getElementById('loading-screen').style.opacity = '0';
-        setTimeout(() => document.getElementById('loading-screen').classList.add('hidden'), 500);
+        
+        // Hide loading screen safely
+        const loader = document.getElementById('loading-screen');
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => loader.classList.add('hidden'), 500);
+        }
       } catch (err) {
-        console.error(err);
-        document.getElementById('loading-screen').classList.add('hidden');
-        document.getElementById('error-screen').classList.remove('hidden');
-        document.getElementById('error-screen').classList.add('flex');
+        console.error("Data load failed:", err);
+        const loader = document.getElementById('loading-screen');
+        if (loader) loader.classList.add('hidden');
+        const errScreen = document.getElementById('error-screen');
+        if (errScreen) {
+          errScreen.classList.remove('hidden');
+          errScreen.classList.add('flex');
+        }
       }
     }
 
-    document.getElementById('retry-btn').addEventListener('click', loadData);
+    const retryBtn = document.getElementById('retry-btn');
+    if (retryBtn) retryBtn.addEventListener('click', loadData);
 
     // STL VIEWER MODAL
     function openSTLModal(fileUrl, title) {
@@ -404,7 +424,8 @@
     function renderFileCards(files) {
       if (!files || files.length === 0) return `<p class="text-text-muted font-mono text-sm col-span-full py-8 text-center">No files here yet.</p>`;
       return files.map(file => {
-        const isSTL = file.fileUrl && file.fileUrl.endsWith('.STL');
+        // Case-insensitive check for .stl extensions
+        const isSTL = file.fileUrl && file.fileUrl.toLowerCase().endsWith('.stl');
         const btnHtml = isSTL ? 
           `<button onclick="openSTLModal('${file.fileUrl}', '${file.title}')" class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent"><i data-lucide="box" size="14"></i> View 3D Model</button>` :
           `<a href="${file.fileUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent"><i data-lucide="external-link" size="14"></i> View File</a>`;
@@ -462,75 +483,79 @@
     document.addEventListener('DOMContentLoaded', loadData);
   </script>
 
+  <!-- HERO BACKGROUND 3D ANIMATION -->
   <script>
     const heroContainer = document.getElementById('heroCanvasContainer');
-    const heroScene = new THREE.Scene();
-    const heroCamera = new THREE.PerspectiveCamera(45, heroContainer.clientWidth / heroContainer.clientHeight, 0.1, 1000);
-    heroCamera.position.set(0, 0, 24);
-    const heroRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    heroRenderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight);
-    heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    heroContainer.appendChild(heroRenderer.domElement);
+    if (heroContainer) {
+      const heroScene = new THREE.Scene();
+      const heroCamera = new THREE.PerspectiveCamera(45, heroContainer.clientWidth / heroContainer.clientHeight, 0.1, 1000);
+      heroCamera.position.set(0, 0, 24);
+      const heroRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      heroRenderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight);
+      heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      heroContainer.appendChild(heroRenderer.domElement);
 
-    const heroWaveGroup = new THREE.Group();
-    heroScene.add(heroWaveGroup);
-    const heroWavePts = []; const heroWaveCols = [];
-    const cPineLight = new THREE.Color(0x72a997); const cPineDark = new THREE.Color(0x142820);
+      const heroWaveGroup = new THREE.Group();
+      heroScene.add(heroWaveGroup);
+      const heroWavePts = []; const heroWaveCols = [];
+      const cPineLight = new THREE.Color(0x72a997); const cPineDark = new THREE.Color(0x142820);
 
-    for (let j = -7; j <= 7; j++) {
-      for (let i = -24; i <= 24; i += 0.3) {
-        const x = 7.5 + Math.sin(i * 0.16 + j * 0.35) * 3.8 + (j * 0.6);
-        const y = i * 0.7;
-        const z = Math.cos(i * 0.12) * 3.2 - 3.5;
-        heroWavePts.push(x, y, z);
-        const mix = (Math.sin(i * 0.1 + j) + 1) / 2;
-        const c = cPineDark.clone().lerp(cPineLight, mix * 0.65);
-        heroWaveCols.push(c.r, c.g, c.b);
+      for (let j = -7; j <= 7; j++) {
+        for (let i = -24; i <= 24; i += 0.3) {
+          const x = 7.5 + Math.sin(i * 0.16 + j * 0.35) * 3.8 + (j * 0.6);
+          const y = i * 0.7;
+          const z = Math.cos(i * 0.12) * 3.2 - 3.5;
+          heroWavePts.push(x, y, z);
+          const mix = (Math.sin(i * 0.1 + j) + 1) / 2;
+          const c = cPineDark.clone().lerp(cPineLight, mix * 0.65);
+          heroWaveCols.push(c.r, c.g, c.b);
+        }
       }
-    }
-    const heroWaveGeo = new THREE.BufferGeometry();
-    heroWaveGeo.setAttribute('position', new THREE.Float32BufferAttribute(heroWavePts, 3));
-    heroWaveGeo.setAttribute('color', new THREE.Float32BufferAttribute(heroWaveCols, 3));
-    const heroWaveMat = new THREE.PointsMaterial({ size: 0.08, vertexColors: true, transparent: true, opacity: 0.42, blending: THREE.AdditiveBlending });
-    heroWaveGroup.add(new THREE.Points(heroWaveGeo, heroWaveMat));
+      const heroWaveGeo = new THREE.BufferGeometry();
+      heroWaveGeo.setAttribute('position', new THREE.Float32BufferAttribute(heroWavePts, 3));
+      heroWaveGeo.setAttribute('color', new THREE.Float32BufferAttribute(heroWaveCols, 3));
+      const heroWaveMat = new THREE.PointsMaterial({ size: 0.08, vertexColors: true, transparent: true, opacity: 0.42, blending: THREE.AdditiveBlending });
+      heroWaveGroup.add(new THREE.Points(heroWaveGeo, heroWaveMat));
 
-    const HERO_COUNT = 2200;
-    const heroSwarmGeo = new THREE.BufferGeometry();
-    const heroPositions = new Float32Array(HERO_COUNT * 3);
-    const heroColors = new Float32Array(HERO_COUNT * 3);
-    const heroVelocities = new Float32Array(HERO_COUNT * 3);
+      const HERO_COUNT = 2200;
+      const heroSwarmGeo = new THREE.BufferGeometry();
+      const heroPositions = new Float32Array(HERO_COUNT * 3);
+      const heroColors = new Float32Array(HERO_COUNT * 3);
+      const heroVelocities = new Float32Array(HERO_COUNT * 3);
 
-    for (let i = 0; i < HERO_COUNT; i++) {
-      heroPositions[i * 3] = 3.5 + Math.random() * 15;
-      heroPositions[i * 3 + 1] = (Math.random() - 0.5) * 22;
-      heroPositions[i * 3 + 2] = (Math.random() - 0.5) * 14;
-      heroVelocities[i * 3] = (Math.random() * 0.02 + 0.01);
-      heroVelocities[i * 3 + 1] = (Math.random() - 0.5) * 0.01;
-      const mix = Math.random();
-      const c = cPineDark.clone().lerp(cPineLight, mix * 0.8);
-      heroColors[i * 3] = c.r; heroColors[i * 3 + 1] = c.g; heroColors[i * 3 + 2] = c.b;
-    }
-    heroSwarmGeo.setAttribute('position', new THREE.BufferAttribute(heroPositions, 3));
-    heroSwarmGeo.setAttribute('color', new THREE.BufferAttribute(heroColors, 3));
-    const heroSwarmMat = new THREE.PointsMaterial({ size: 0.09, vertexColors: true, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending });
-    const heroSwarmMesh = new THREE.Points(heroSwarmGeo, heroSwarmMat);
-    heroScene.add(heroSwarmMesh);
-
-    function animateHero() {
-      requestAnimationFrame(animateHero);
-      const pos = heroSwarmGeo.attributes.position.array;
       for (let i = 0; i < HERO_COUNT; i++) {
-        pos[i * 3] += heroVelocities[i * 3];
-        pos[i * 3 + 1] += Math.sin(pos[i * 3] * 0.2) * 0.008;
-        if (pos[i * 3] > 19) { pos[i * 3] = 3.5; pos[i * 3 + 1] = (Math.random() - 0.5) * 22; }
+        heroPositions[i * 3] = 3.5 + Math.random() * 15;
+        heroPositions[i * 3 + 1] = (Math.random() - 0.5) * 22;
+        heroPositions[i * 3 + 2] = (Math.random() - 0.5) * 14;
+        heroVelocities[i * 3] = (Math.random() * 0.02 + 0.01);
+        heroVelocities[i * 3 + 1] = (Math.random() - 0.5) * 0.01;
+        const mix = Math.random();
+        const c = cPineDark.clone().lerp(cPineLight, mix * 0.8);
+        heroColors[i * 3] = c.r; heroColors[i * 3 + 1] = c.g; heroColors[i * 3 + 2] = c.b;
       }
-      heroSwarmGeo.attributes.position.needsUpdate = true;
-      heroWaveGroup.rotation.y += 0.0006;
-      heroRenderer.render(heroScene, heroCamera);
+      heroSwarmGeo.setAttribute('position', new THREE.BufferAttribute(heroPositions, 3));
+      heroSwarmGeo.setAttribute('color', new THREE.BufferAttribute(heroColors, 3));
+      const heroSwarmMat = new THREE.PointsMaterial({ size: 0.09, vertexColors: true, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending });
+      const heroSwarmMesh = new THREE.Points(heroSwarmGeo, heroSwarmMat);
+      heroScene.add(heroSwarmMesh);
+
+      function animateHero() {
+        requestAnimationFrame(animateHero);
+        const pos = heroSwarmGeo.attributes.position.array;
+        for (let i = 0; i < HERO_COUNT; i++) {
+          pos[i * 3] += heroVelocities[i * 3];
+          pos[i * 3 + 1] += Math.sin(pos[i * 3] * 0.2) * 0.008;
+          if (pos[i * 3] > 19) { pos[i * 3] = 3.5; pos[i * 3 + 1] = (Math.random() - 0.5) * 22; }
+        }
+        heroSwarmGeo.attributes.position.needsUpdate = true;
+        heroWaveGroup.rotation.y += 0.0006;
+        heroRenderer.render(heroScene, heroCamera);
+      }
+      animateHero();
     }
-    animateHero();
   </script>
 
+  <!-- OVERVIEW CARDS 3D NODES -->
   <script>
     function init3DNodes() {
       document.querySelectorAll('.card-3d-node').forEach(el => {
@@ -574,37 +599,40 @@
     }
   </script>
 
+  <!-- CONTACT BACKGROUND 3D ANIMATION -->
   <script>
     const contactContainer = document.getElementById('contactCanvasContainer');
-    const contactScene = new THREE.Scene();
-    const contactCamera = new THREE.PerspectiveCamera(45, contactContainer.clientWidth / contactContainer.clientHeight, 0.1, 1000);
-    contactCamera.position.set(0, 0, 22);
-    const contactRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    contactRenderer.setSize(contactContainer.clientWidth, contactContainer.clientHeight);
-    contactRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    contactContainer.appendChild(contactRenderer.domElement);
+    if (contactContainer) {
+      const contactScene = new THREE.Scene();
+      const contactCamera = new THREE.PerspectiveCamera(45, contactContainer.clientWidth / contactContainer.clientHeight, 0.1, 1000);
+      contactCamera.position.set(0, 0, 22);
+      const contactRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      contactRenderer.setSize(contactContainer.clientWidth, contactContainer.clientHeight);
+      contactRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      contactContainer.appendChild(contactRenderer.domElement);
 
-    const bottomPts = []; const bottomCols = [];
-    for (let j = -6; j <= 6; j++) {
-      for (let i = -28; i <= 28; i += 0.35) {
-        bottomPts.push(i, Math.sin(i * 0.14 + j * 0.3) * 2.2 + (j * 1.5) - 3, Math.cos(i * 0.1) * 3.5 - 2);
-        const c = cPineDark.clone().lerp(cPineLight, ((Math.sin(i * 0.1 + j) + 1) / 2) * 0.5);
-        bottomCols.push(c.r, c.g, c.b);
+      const bottomPts = []; const bottomCols = [];
+      for (let j = -6; j <= 6; j++) {
+        for (let i = -28; i <= 28; i += 0.35) {
+          bottomPts.push(i, Math.sin(i * 0.14 + j * 0.3) * 2.2 + (j * 1.5) - 3, Math.cos(i * 0.1) * 3.5 - 2);
+          const c = cPineDark.clone().lerp(cPineLight, ((Math.sin(i * 0.1 + j) + 1) / 2) * 0.5);
+          bottomCols.push(c.r, c.g, c.b);
+        }
       }
-    }
-    const bottomGeo = new THREE.BufferGeometry();
-    bottomGeo.setAttribute('position', new THREE.Float32BufferAttribute(bottomPts, 3));
-    bottomGeo.setAttribute('color', new THREE.Float32BufferAttribute(bottomCols, 3));
-    const bottomMesh = new THREE.Points(bottomGeo, new THREE.PointsMaterial({ size: 0.08, vertexColors: true, transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending }));
-    contactScene.add(bottomMesh);
+      const bottomGeo = new THREE.BufferGeometry();
+      bottomGeo.setAttribute('position', new THREE.Float32BufferAttribute(bottomPts, 3));
+      bottomGeo.setAttribute('color', new THREE.Float32BufferAttribute(bottomCols, 3));
+      const bottomMesh = new THREE.Points(bottomGeo, new THREE.PointsMaterial({ size: 0.08, vertexColors: true, transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending }));
+      contactScene.add(bottomMesh);
 
-    let contactTime = 0;
-    function animateContact() {
-      requestAnimationFrame(animateContact); contactTime += 0.008;
-      bottomMesh.rotation.y = Math.sin(contactTime * 0.4) * 0.06;
-      contactRenderer.render(contactScene, contactCamera);
+      let contactTime = 0;
+      function animateContact() {
+        requestAnimationFrame(animateContact); contactTime += 0.008;
+        bottomMesh.rotation.y = Math.sin(contactTime * 0.4) * 0.06;
+        contactRenderer.render(contactScene, contactCamera);
+      }
+      animateContact();
     }
-    animateContact();
   </script>
 </body>
 </html>
