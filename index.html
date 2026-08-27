@@ -64,10 +64,24 @@
   <!-- Header -->
   <header class="fixed top-0 left-0 w-full z-50 bg-void/85 backdrop-blur-md border-b border-white/5">
     <div class="max-w-7xl mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-3 group">
-        <div id="nav-initial" class="w-9 h-9 rounded bg-pine-dark/50 border border-pine-muted/40 flex items-center justify-center font-mono font-bold text-pine-light text-sm transition group-hover:border-pine-accent"></div>
-        <span class="text-text-primary font-medium text-base tracking-tight"><span id="nav-name"></span></span>
+      
+      <!-- Logo & Name Section -->
+      <a href="#" class="flex items-center gap-3.5 group">
+        <!-- Dynamic Glowing S Logo -->
+        <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-surface-subtle to-pine-dark/60 border border-white/10 overflow-hidden transition-all duration-500 shadow-lg group-hover:shadow-[0_0_20px_rgba(77,143,122,0.3)] group-hover:border-pine-accent group-hover:-translate-y-0.5">
+          <div class="absolute inset-0 bg-pine-accent/30 blur-md rounded-full scale-0 group-hover:scale-150 transition-transform duration-700 ease-out"></div>
+          <span id="nav-initial" class="relative z-10 font-bold text-lg text-white transition-colors duration-300"></span>
+        </div>
+        
+        <!-- Name & Title Beside Logo -->
+        <div class="flex items-center">
+          <span class="text-text-primary font-medium text-base tracking-tight" id="nav-name"></span>
+          <span class="hidden sm:inline-block mx-2.5 text-white/10">|</span>
+          <span class="hidden sm:inline-block text-pine-light font-mono text-[11px] uppercase tracking-widest mt-0.5" id="nav-title"></span>
+        </div>
       </a>
+
+      <!-- Navigation Links -->
       <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-text-secondary">
         <a href="#about" class="hover:text-text-primary transition">Overview</a>
         <a href="#certificates" class="hover:text-text-primary transition">Certificates</a>
@@ -173,22 +187,25 @@
         const response = await fetch('./data.json?v=' + new Date().getTime());
         const data = await response.json();
 
-        // 1. BULLETPROOF NAME SLICER
-        // Takes "Saqif Shahriar" and cuts it into ["Saqif", "Shahriar"], then grabs the first piece.
+        // Process Name and Titles
         const fullName = data.profile.name || "Saqif Shahriar";
         const firstName = fullName.split(' ')[0];
+        
+        // This splits "Mechanical Engineer & CFD Researcher" into just "Mechanical Engineer"
+        const fullTitle = data.profile.title || "Mechanical Engineer";
+        const mainTitle = fullTitle.split('&')[0].trim();
 
-        // Populate Profile
+        // Populate Layout
         document.getElementById('doc-title').textContent = fullName + " — Portfolio";
         document.getElementById('nav-initial').textContent = fullName.charAt(0);
-        document.getElementById('nav-name').textContent = fullName; // Navbar gets full name
-        document.getElementById('footer-name').textContent = fullName; // Footer gets full name
+        document.getElementById('nav-name').textContent = fullName;
+        document.getElementById('nav-title').textContent = mainTitle; // Added Title Beside Name
         
-        // Hero Section is FORCED to only use the First Name (Saqif)
-        document.getElementById('hero-name').textContent = firstName;
+        document.getElementById('hero-name').textContent = firstName; // Hero stays just "Saqif"
         
         document.getElementById('hero-bio').textContent = data.profile.heroBio;
         document.getElementById('about-text').textContent = data.profile.aboutText;
+        document.getElementById('footer-name').textContent = fullName;
         document.getElementById('footer-year').textContent = new Date().getFullYear();
 
         document.getElementById('contact-email-link').href = "mailto:" + data.profile.contact.email;
@@ -381,7 +398,7 @@
     window.addEventListener('resize', () => { heroCamera.aspect = heroContainer.clientWidth / heroContainer.clientHeight; heroCamera.updateProjectionMatrix(); heroRenderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight); });
   </script>
 
-  <!-- SCRIPT 2: HIGH-TECH DOTTED POINT CLOUD SHAPES & FLOW LOGO -->
+  <!-- SCRIPT 2: HIGH-TECH DOTTED POINT CLOUD SHAPES -->
   <script>
     function init3DNodes() {
       document.querySelectorAll('.card-3d-node').forEach(el => {
