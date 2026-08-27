@@ -14,6 +14,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://unpkg.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -38,10 +40,7 @@
     }
   </script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://unpkg.com/lucide@1.34.0"></script>
+  <script src="https://unpkg.com/lucide@1.34.0" defer></script>
 
   <style>
     html { scroll-behavior: smooth; }
@@ -512,7 +511,7 @@
     async function loadData() {
       showLoading();
       try {
-        const response = await fetch('./data.json?v=' + Date.now());
+        const response = await fetch('./data.json');
         if (!response.ok) throw new Error('HTTP ' + response.status);
         const data = await response.json();
 
@@ -620,18 +619,47 @@
       if (lastFocusedBeforeModal) lastFocusedBeforeModal.focus();
     }
 
+    // --- LAZY-LOAD THREE.JS ADDONS (only fetched the first time a user opens a 3D model) ---
+    let cadDepsPromise = null;
+    function loadScript(src) {
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = src;
+        s.onload = resolve;
+        s.onerror = () => reject(new Error('Failed to load ' + src));
+        document.head.appendChild(s);
+      });
+    }
+    function loadCADDependencies() {
+      if (!cadDepsPromise) {
+        cadDepsPromise = Promise.all([
+          loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js'),
+          loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js')
+        ]);
+      }
+      return cadDepsPromise;
+    }
+
     // --- STL VIEWER MODAL LOGIC ---
-    function openSTLModal(fileUrl, title) {
+    async function openSTLModal(fileUrl, title) {
       document.getElementById('cad-modal-title').textContent = title;
       const modal = document.getElementById('cad-modal');
       modal.classList.remove('hidden'); modal.classList.add('flex');
       setTimeout(() => { modal.classList.remove('opacity-0'); modal.classList.add('opacity-100'); }, 10);
       document.body.style.overflow = 'hidden';
-      
+
       const container = document.getElementById('stl-viewer-container');
       const loaderEl = document.getElementById('stl-loading');
       loaderEl.style.display = 'block';
       loaderEl.textContent = "Loading 3D Geometry...";
+
+      try {
+        await loadCADDependencies();
+      } catch (err) {
+        loaderEl.textContent = "Error loading 3D viewer. Check your connection and try again.";
+        console.error(err);
+        return;
+      }
 
       if (!cadScene) {
         cadScene = new THREE.Scene();
@@ -664,8 +692,14 @@
         });
         const mesh = new THREE.Mesh(geometry, material);
         
-        // Clear previous meshes
-        cadScene.children.forEach(child => { if (child.isMesh) cadScene.remove(child); });
+        // Clear + dispose previous mesh (prevents GPU memory buildup when switching between models)
+        [...cadScene.children].forEach(child => {
+          if (child.isMesh) {
+            cadScene.remove(child);
+            child.geometry?.dispose();
+            child.material?.dispose();
+          }
+        });
         cadScene.add(mesh);
 
         geometry.computeBoundingSphere();
@@ -733,6 +767,9 @@
       
       const certEl = e.target.closest('[data-cert-index]');
       if (certEl) { openModal(Number(certEl.dataset.certIndex)); return; }
+
+      const stlEl = e.target.closest('[data-stl-url]');
+      if (stlEl) { openSTLModal(stlEl.dataset.stlUrl, stlEl.dataset.stlTitle); return; }
     });
 
     document.addEventListener('keydown', (e) => {
@@ -750,7 +787,7 @@
         const isSTL = file.fileUrl && file.fileUrl.toLowerCase().endsWith('.stl');
         
         const btnHtml = isSTL ? 
-          `<button onclick="openSTLModal('${file.fileUrl}', '${file.title}')" class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent"><i data-lucide="box" size="14"></i> View 3D Model</button>` :
+          `<button type="button" data-stl-url="${file.fileUrl}" data-stl-title="${file.title}" class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent"><i data-lucide="box" size="14"></i> View 3D Model</button>` :
           `<a href="${file.fileUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent"><i data-lucide="external-link" size="14"></i> View File</a>`;
 
         // NEW: Checks if a preview image exists. If yes, displays it. If no, shows the default gray icon.
@@ -931,6 +968,11 @@
       }
     });
   </script>
+
+  <!-- three.js core is loaded here (not in <head>) so it never blocks first paint.
+       STLLoader/OrbitControls are only needed for the CAD modal, so they're
+       fetched lazily on first use — see loadCADDependencies() above. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <!-- SCRIPT 1: HERO TOP 3D FLOW -->
   <script>
