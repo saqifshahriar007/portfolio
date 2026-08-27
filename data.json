@@ -1,51 +1,75 @@
 {
   "profile": {
-    "name": "[Your Name]",
-    "title": "[Your Specialization, e.g., Mechanical Engineer]",
-    "bioText": "[List your worked skills: Fusion 360, SolidWorks, Ansys.]",
-    "aboutText": "[Add your personalized about paragraph here.]",
+    "name": "Saqif Shahriar",
+    "title": "Mechanical Engineer",
+    "heroBio": "Specializing in parametric CAD modeling, finite element analysis (FEA), and computational fluid dynamics (CFD) using SolidWorks, Fusion 360, and Ansys.",
+    "aboutText": "Mechanical engineer combining high-precision 3D modeling with numerical physics simulations to design, analyze, and optimize mechanical components and fluid systems.",
     "contact": {
-      "email": "[your.email@example.com]",
+      "email": "saqifshahriar007@gmail.com",
       "github": "https://github.com/saqifshahriar007",
-      "linkedin": "[yourlinkedinURL]"
+      "linkedin": "https://linkedin.com/in/saqifshahriar007"
     }
   },
-  "sections": [
+  "focusAreas": [
     {
-      "displayTitle": "CAD & Design",
-      "folderPath": "assets/cad/",
-      "items": [
-        {
-          "title": "[Project Title]",
-          "description": "[Description... Worked with Fusion 360/SolidWorks...]",
-          "tags": ["#[Tool]", "#[Method]"],
-          "fileName": "[your_cad_model.step]"
-        }
-      ]
+      "title": "Parametric CAD & Design",
+      "desc": "Advanced multi-body part creation and assemblies in SolidWorks and Fusion 360.",
+      "shape": "icosahedron"
     },
     {
-      "displayTitle": "Certificates",
-      "folderPath": "assets/certificates/",
-      "items": [
-        {
-          "title": "[Certification Name]",
-          "description": "[Details about certification...]",
-          "tags": ["#[Topic]", "#[Issuer]"],
-          "fileName": "[your_certificate.pdf]"
-        }
-      ]
+      "title": "Structural FEA",
+      "desc": "Static structural and stress distribution simulations using Ansys Mechanical.",
+      "shape": "octahedron"
     },
     {
-      "displayTitle": "Simulations",
-      "folderPath": "assets/simulations/",
-      "items": [
-        {
-          "title": "[Simulation Title]",
-          "description": "[Worked with Ansys... Results of simulation...]",
-          "tags": ["#Ansys", "#[Method]"],
-          "fileName": "[your_simulation_report.pdf]"
-        }
-      ]
+      "title": "CFD & Flow",
+      "desc": "Fluid dynamics and velocity flow field simulations using Ansys Fluent.",
+      "shape": "torusknot"
+    },
+    {
+      "title": "CAM & Prototyping",
+      "desc": "Toolpath generation in Fusion 360 and physical design validation.",
+      "shape": "dodecahedron"
+    }
+  ],
+  "capabilities": [
+    {
+      "title": "3D CAD & Modeling",
+      "icon": "layers",
+      "skills": ["SolidWorks (Assemblies)", "Fusion 360 Modeling", "Engineering Drawings"]
+    },
+    {
+      "title": "Simulation & Physics",
+      "icon": "activity",
+      "skills": ["Ansys Mechanical (FEA)", "Ansys Fluent (CFD)", "Mesh Generation"]
+    },
+    {
+      "title": "Prototyping",
+      "icon": "cpu",
+      "skills": ["Fusion 360 CAM", "3D Printing (STL/STEP)", "Physical Testing"]
+    }
+  ],
+  "projects": [
+    {
+      "title": "Structural Chassis Stress",
+      "description": "SolidWorks parametric geometry imported into Ansys Mechanical for static stress concentration mapping.",
+      "tags": ["SolidWorks", "Ansys FEA"],
+      "fileName": "chassis_model.step",
+      "fileUrl": "assets/cad/chassis_model.step"
+    },
+    {
+      "title": "Internal Flow Simulation",
+      "description": "Transient flow field simulation modeled in Fusion 360 and solved in Ansys Fluent to analyze pressure drop.",
+      "tags": ["Ansys Fluent", "CFD"],
+      "fileName": "cfd_report.pdf",
+      "fileUrl": "assets/simulations/cfd_report.pdf"
+    },
+    {
+      "title": "CNC Enclosure Toolpaths",
+      "description": "Complex mechanical enclosure designed in Fusion 360 featuring integrated CAM setup and optimized toolpath strategies.",
+      "tags": ["Fusion 360", "CAM"],
+      "fileName": "enclosure.f3d",
+      "fileUrl": "assets/cad/enclosure.f3d"
     }
   ]
 }
