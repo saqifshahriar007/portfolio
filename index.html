@@ -5,11 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="doc-title">Saqif Shahriar — Mechanical Engineering Portfolio</title>
 
-  <meta name="description" content="Mechanical engineering portfolio specializing in parametric CAD modeling, Finite Element Analysis (FEA), and Computational Fluid Dynamics (CFD) simulation work.">
-  <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#030605">
-  <meta name="color-scheme" content="dark">
-
   <link rel="icon" id="dynamic-favicon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a120e'/%3E%3Crect x='1' y='1' width='62' height='62' rx='13' fill='none' stroke='%234d8f7a' stroke-width='2'/%3E%3C/svg%3E">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,39 +34,29 @@
   </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <script src="https://unpkg.com/lucide@1.34.0"></script>
 
   <style>
     html { scroll-behavior: smooth; }
     body { background-color: #030605; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-
     section[id] { scroll-margin-top: 88px; }
 
     ::-webkit-scrollbar { width: 10px; height: 10px; }
     ::-webkit-scrollbar-track { background: #030605; }
     ::-webkit-scrollbar-thumb { background: #2d5246; border-radius: 999px; border: 2px solid #030605; }
     ::-webkit-scrollbar-thumb:hover { background: #4d8f7a; }
-    html { scrollbar-color: #2d5246 #030605; scrollbar-width: thin; }
-
-    a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
-      outline: 2px solid #4d8f7a; outline-offset: 3px; border-radius: 4px;
-    }
 
     .ambient-glow { position: absolute; top: -80px; right: 0; width: 650px; height: 480px; background: radial-gradient(circle, rgba(77, 143, 122, 0.06) 0%, transparent 70%); filter: blur(120px); pointer-events: none; z-index: 1; }
     .gradient-line { background: linear-gradient(to bottom, #4d8f7a 0%, rgba(77, 143, 122, 0) 100%); }
 
     body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(114, 169, 151, 0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(114, 169, 151, 0.06) 1px, transparent 1px);
+      content: ""; position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(114, 169, 151, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(114, 169, 151, 0.06) 1px, transparent 1px);
       background-size: 48px 48px;
       -webkit-mask-image: radial-gradient(ellipse 85% 55% at 50% 0%, black 30%, transparent 100%);
-      mask-image: radial-gradient(ellipse 85% 55% at 50% 0%, black 30%, transparent 100%);
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
 
     .pro-card { position: relative; background: rgba(10, 18, 14, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; }
@@ -82,65 +67,40 @@
     .bracket-tr { top: 9px; right: 9px; border-top: 1.5px solid; border-right: 1.5px solid; transform: translate(-4px, 4px); }
     .bracket-bl { bottom: 9px; left: 9px; border-bottom: 1.5px solid; border-left: 1.5px solid; transform: translate(4px, -4px); }
     .bracket-br { bottom: 9px; right: 9px; border-bottom: 1.5px solid; border-right: 1.5px solid; transform: translate(-4px, -4px); }
-    .pro-card:hover .bracket-corner, .pro-card:focus-within .bracket-corner, .pro-card:focus-visible .bracket-corner {
-      opacity: 1; transform: translate(0, 0);
-    }
+    .pro-card:hover .bracket-corner { opacity: 1; transform: translate(0, 0); }
 
     .flow-dot-strip { position: relative; width: 100%; height: 56px; overflow: hidden; }
     .flow-dot { position: absolute; border-radius: 50%; animation-name: dotDrift; animation-timing-function: linear; animation-iteration-count: infinite; will-change: left, opacity; }
-    @keyframes dotDrift {
-      0% { left: -3%; opacity: 0; }
-      10% { opacity: var(--dot-opacity, 0.55); }
-      90% { opacity: var(--dot-opacity, 0.55); }
-      100% { left: 103%; opacity: 0; }
-    }
+    @keyframes dotDrift { 0% { left: -3%; opacity: 0; } 10% { opacity: var(--dot-opacity, 0.55); } 90% { opacity: var(--dot-opacity, 0.55); } 100% { left: 103%; opacity: 0; } }
 
     .folder-card { cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; }
-
     .cert-image-wrapper { width: 100%; height: 220px; border-radius: 8px; overflow: hidden; background: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; border: 1px solid rgba(255,255,255,0.1); }
     .cert-image-wrapper img { width: 100%; height: 100%; object-fit: contain; padding: 1rem; }
 
-    .section-header { border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 1rem; margin-bottom: 3rem; }
-    .nav-link[aria-current="true"] { color: #f8fafc; }
-
     .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.revealed { opacity: 1; transform: translateY(0); }
-
     .skip-link { position: absolute; left: -9999px; top: 0; background: #4d8f7a; color: #030605; padding: 0.75rem 1.25rem; z-index: 200; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 600; border-radius: 0 0 8px 0; }
     .skip-link:focus { left: 0; }
-
     @keyframes mouseBounce { 0%, 100% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(18px); opacity: 0.35; } }
     .animate-mouse-dot { animation: mouseBounce 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
-
     @keyframes spin { to { transform: rotate(360deg); } }
     .loader-spin { animation: spin 0.9s linear infinite; }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
-      .animate-mouse-dot { animation: none; }
-      .loader-spin { animation: none; }
-      .flow-dot { animation: none !important; opacity: 0.35 !important; }
-      * { scroll-behavior: auto !important; }
-    }
   </style>
 </head>
 <body class="selection:bg-pine-dark selection:text-white relative">
 
   <a href="#main-content" class="skip-link">Skip to content</a>
 
-  <!-- LOADING / ERROR OVERLAYS -->
   <div id="loading-screen" class="fixed inset-0 z-[200] bg-void flex flex-col items-center justify-center gap-4 transition-opacity duration-500">
     <div class="w-9 h-9 rounded-full border-2 border-pine-muted border-t-pine-accent loader-spin" aria-hidden="true"></div>
     <p class="font-mono text-[10px] text-text-muted tracking-[0.2em] uppercase">Loading Portfolio</p>
   </div>
   <div id="error-screen" class="fixed inset-0 z-[200] bg-void hidden flex-col items-center justify-center gap-4 px-6 text-center">
     <i data-lucide="alert-triangle" class="text-pine-light" size="32" aria-hidden="true"></i>
-    <p class="font-mono text-sm text-text-secondary max-w-sm">Couldn't load portfolio content. Check your connection or JSON syntax and try again.</p>
+    <p class="font-mono text-sm text-text-secondary max-w-sm">Couldn't load portfolio content. Check your connection or JSON syntax.</p>
     <button id="retry-btn" type="button" class="px-5 py-2 rounded bg-white/5 border border-white/10 hover:border-pine-accent text-text-primary font-mono text-xs transition">Retry</button>
   </div>
 
-  <!-- Header -->
   <header class="fixed top-0 left-0 w-full z-50 bg-void/85 backdrop-blur-md border-b border-white/5">
     <div class="max-w-7xl mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
       <a href="#" class="flex items-center gap-4 group">
@@ -154,31 +114,16 @@
           <span class="hidden sm:inline-flex items-center px-3 py-1 rounded-md bg-pine-accent/20 border border-pine-accent/30 text-white font-sans text-xs font-semibold tracking-wide shadow-[0_0_12px_rgba(77,143,122,0.15)]" id="nav-title"></span>
         </div>
       </a>
-
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-text-secondary" aria-label="Primary">
-        <a href="#about" class="nav-link hover:text-text-primary transition">Overview</a>
-        <a href="#certificates" class="nav-link hover:text-text-primary transition">Certificates</a>
-        <a href="#workspace" class="nav-link hover:text-text-primary transition">Workspace</a>
-        <a href="#contact" class="nav-link px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-pine-accent/50 text-text-primary font-mono text-xs hover:text-pine-light transition">Contact</a>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-text-secondary">
+        <a href="#about" class="hover:text-text-primary transition">Overview</a>
+        <a href="#certificates" class="hover:text-text-primary transition">Certificates</a>
+        <a href="#workspace" class="hover:text-text-primary transition">Workspace</a>
+        <a href="#contact" class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-pine-accent/50 text-text-primary font-mono text-xs hover:text-pine-light transition">Contact</a>
       </nav>
-
-      <button id="mobile-menu-btn" type="button" class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg border border-white/10 text-text-secondary hover:text-text-primary hover:border-pine-accent/50 transition" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle navigation menu">
-        <i data-lucide="menu" size="20" id="menu-icon-open"></i>
-        <i data-lucide="x" size="20" id="menu-icon-close" class="hidden"></i>
-      </button>
-    </div>
-
-    <div id="mobile-menu" class="md:hidden hidden flex-col gap-1 px-6 pb-6 pt-2 bg-void/95 backdrop-blur-md border-b border-white/5">
-      <a href="#about" class="mobile-nav-link py-3 px-2 rounded text-text-secondary hover:text-text-primary hover:bg-white/5 transition text-sm font-medium">Overview</a>
-      <a href="#certificates" class="mobile-nav-link py-3 px-2 rounded text-text-secondary hover:text-text-primary hover:bg-white/5 transition text-sm font-medium">Certificates</a>
-      <a href="#workspace" class="mobile-nav-link py-3 px-2 rounded text-text-secondary hover:text-text-primary hover:bg-white/5 transition text-sm font-medium">Workspace</a>
-      <a href="#contact" class="mobile-nav-link py-3 px-2 rounded bg-white/5 border border-white/10 text-text-primary font-mono text-xs mt-2 text-center">Contact</a>
     </div>
   </header>
 
   <main id="main-content">
-
-  <!-- 1. HERO -->
   <section class="relative w-full h-screen mx-auto overflow-hidden flex items-center">
     <div class="ambient-glow"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 flex flex-row items-start gap-6 z-20 w-full">
@@ -195,21 +140,14 @@
         </h1>
         <p id="hero-bio" class="text-text-secondary text-lg sm:text-xl font-light leading-relaxed mb-10 max-w-xl"></p>
         <div class="flex gap-4">
-          <a href="#workspace" class="px-6 py-3 rounded bg-text-primary text-void font-semibold text-sm hover:bg-slate-200 transition shadow-lg shadow-white/5 flex items-center gap-2">View Workspace <i data-lucide="arrow-down" size="16" aria-hidden="true"></i></a>
-          <a href="#contact" class="px-6 py-3 rounded bg-surface border border-white/10 hover:border-pine-accent text-text-primary font-medium text-sm transition flex items-center gap-2">Contact Me <i data-lucide="mail" size="16" aria-hidden="true"></i></a>
+          <a href="#workspace" class="px-6 py-3 rounded bg-text-primary text-void font-semibold text-sm hover:bg-slate-200 transition shadow-lg shadow-white/5 flex items-center gap-2">View Workspace <i data-lucide="arrow-down" size="16"></i></a>
+          <a href="#contact" class="px-6 py-3 rounded bg-surface border border-white/10 hover:border-pine-accent text-text-primary font-medium text-sm transition flex items-center gap-2">Contact Me <i data-lucide="mail" size="16"></i></a>
         </div>
       </div>
     </div>
     <div id="heroCanvasContainer" class="w-full h-full absolute inset-0 z-10" aria-hidden="true"></div>
-
-    <div class="absolute bottom-8 w-full flex justify-center items-center z-30 pointer-events-none">
-      <a href="#about" class="w-[30px] h-[52px] rounded-full border border-white/20 flex justify-center items-start p-1.5 pointer-events-auto" aria-label="Scroll to overview">
-        <div class="w-2 h-2 rounded-full bg-pine-accent animate-mouse-dot"></div>
-      </a>
-    </div>
   </section>
 
-  <!-- 2. OVERVIEW -->
   <section id="about" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6">
       <div class="absolute left-0 top-1 w-1.5 h-12 bg-gradient-to-b from-pine-accent to-pine-dark rounded-full"></div>
@@ -222,7 +160,6 @@
     <div id="focus-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </section>
 
-  <!-- 3. CERTIFICATES -->
   <section id="certificates" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6">
       <div class="absolute left-0 top-1 w-1.5 h-12 bg-gradient-to-b from-pine-accent to-pine-dark rounded-full"></div>
@@ -234,7 +171,6 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="certificates-container"></div>
   </section>
 
-  <!-- 4. DYNAMIC FOLDER WORKSPACE -->
   <section id="workspace" class="py-24 max-w-7xl mx-auto px-6 sm:px-12 relative z-20">
     <div class="reveal relative mb-14 pl-6 flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
       <div>
@@ -244,39 +180,37 @@
           Engineering Workspace<span class="text-pine-accent">.</span>
         </h2>
       </div>
-      <div id="breadcrumb-container" class="flex items-center gap-2 font-mono text-sm text-text-secondary pb-1 flex-wrap" aria-label="Workspace breadcrumb"></div>
+      <div id="breadcrumb-container" class="flex items-center gap-2 font-mono text-sm text-text-secondary pb-1 flex-wrap"></div>
     </div>
-    <div id="workspace-ui-container" class="min-h-[400px]" aria-live="polite"></div>
+    <div id="workspace-ui-container" class="min-h-[400px]"></div>
   </section>
 
-  <!-- 5. CONTACT -->
   <section id="contact" class="py-28 relative overflow-hidden flex flex-col items-center justify-center border-t border-white/5">
     <div id="contactCanvasContainer" class="w-full h-full absolute inset-0 z-10 pointer-events-none" aria-hidden="true"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 w-full relative z-20">
       <div class="reveal pro-card p-10 sm:p-14 max-w-3xl mx-auto text-center">
-        <span class="bracket-corner bracket-tl" aria-hidden="true"></span><span class="bracket-corner bracket-tr" aria-hidden="true"></span><span class="bracket-corner bracket-bl" aria-hidden="true"></span><span class="bracket-corner bracket-br" aria-hidden="true"></span>
+        <span class="bracket-corner bracket-tl"></span><span class="bracket-corner bracket-tr"></span><span class="bracket-corner bracket-bl"></span><span class="bracket-corner bracket-br"></span>
         <h2 class="inline-block text-3xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-600 tracking-tight mb-4 pb-2">
           Let's Connect<span class="text-pine-accent">.</span>
         </h2>
-        <p class="text-text-secondary font-light text-base mb-10">Available for engineering inquiries, research collaborations, and technical discussions.</p>
+        <p class="text-text-secondary font-light text-base mb-10">Available for engineering inquiries and research collaborations.</p>
         <div class="flex flex-col gap-4 font-mono text-sm text-left">
           <a href="#" id="contact-email-link" class="p-4 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
-            <div class="flex items-center gap-3"><i data-lucide="mail" size="18" class="text-pine-light" aria-hidden="true"></i><span id="contact-email"></span></div>
-            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition" aria-hidden="true"></i>
+            <div class="flex items-center gap-3"><i data-lucide="mail" size="18" class="text-pine-light"></i><span id="contact-email"></span></div>
+            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition"></i>
           </a>
-          <a href="#" id="contact-github-link" target="_blank" rel="noopener noreferrer" class="p-4 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
-            <div class="flex items-center gap-3"><i data-lucide="github" size="18" class="text-pine-light" aria-hidden="true"></i><span>GitHub Profile</span></div>
-            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition" aria-hidden="true"></i>
+          <a href="#" id="contact-github-link" target="_blank" class="p-4 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
+            <div class="flex items-center gap-3"><i data-lucide="github" size="18" class="text-pine-light"></i><span>GitHub Profile</span></div>
+            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition"></i>
           </a>
-          <a href="#" id="contact-linkedin-link" target="_blank" rel="noopener noreferrer" class="p-4 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
-            <div class="flex items-center gap-3"><i data-lucide="linkedin" size="18" class="text-pine-light" aria-hidden="true"></i><span>LinkedIn Profile</span></div>
-            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition" aria-hidden="true"></i>
+          <a href="#" id="contact-linkedin-link" target="_blank" class="p-4 rounded bg-surface-subtle border border-white/5 hover:border-pine-accent text-text-primary flex items-center justify-between transition group">
+            <div class="flex items-center gap-3"><i data-lucide="linkedin" size="18" class="text-pine-light"></i><span>LinkedIn Profile</span></div>
+            <i data-lucide="arrow-right" size="16" class="text-pine-light group-hover:translate-x-1 transition"></i>
           </a>
         </div>
       </div>
     </div>
   </section>
-
   </main>
 
   <footer class="text-center pt-2 pb-8 text-text-muted text-xs font-mono relative z-20 border-t border-white/5">
@@ -284,14 +218,11 @@
     <p class="mt-1">© <span id="footer-year"></span> <span id="footer-name"></span> • Mechanical Engineering Portfolio</p>
   </footer>
 
-  <!-- FULL SCREEN CERTIFICATE MODAL (Download button removed) -->
-  <div id="cert-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-void/95 backdrop-blur-md opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+  <div id="cert-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-void/95 backdrop-blur-md opacity-0 transition-opacity duration-300">
     <div class="absolute inset-0 cursor-pointer" data-modal-close></div>
     <div class="relative z-10 w-full max-w-4xl p-6 flex flex-col items-center">
-      <button id="modal-close-btn" type="button" data-modal-close class="absolute -top-12 right-6 sm:right-0 text-white/50 hover:text-white transition" aria-label="Close certificate preview"><i data-lucide="x" size="32" aria-hidden="true"></i></button>
-
-      <img id="modal-image" src="" alt="" decoding="async" referrerpolicy="no-referrer" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlMGUwZTAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4='" class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-2xl mb-6 bg-white/5 border border-white/10 p-2">
-
+      <button id="modal-close-btn" type="button" data-modal-close class="absolute -top-12 right-6 sm:right-0 text-white/50 hover:text-white transition"><i data-lucide="x" size="32"></i></button>
+      <img id="modal-image" src="" alt="" class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-2xl mb-6 bg-white/5 border border-white/10 p-2">
       <div class="w-full max-w-2xl bg-surface-subtle border border-white/10 p-5 rounded-xl shadow-xl text-center">
         <h3 id="modal-title" class="text-text-primary font-semibold text-lg leading-tight"></h3>
         <p id="modal-issuer" class="text-pine-light font-mono text-xs uppercase tracking-wider mt-1"></p>
@@ -299,88 +230,42 @@
     </div>
   </div>
 
-  <!-- SCRIPT UTILS -->
+  <div id="cad-modal" class="fixed inset-0 z-[110] hidden items-center justify-center bg-void/95 backdrop-blur-md opacity-0 transition-opacity duration-300">
+    <div class="absolute inset-0 cursor-pointer" data-cad-close></div>
+    <div class="relative z-10 w-full max-w-5xl h-[85vh] p-6 flex flex-col bg-surface border border-white/10 rounded-2xl shadow-2xl">
+      <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+        <div>
+          <h3 id="cad-modal-title" class="text-text-primary font-semibold text-xl">3D Part Preview</h3>
+          <p class="text-pine-light font-mono text-xs uppercase tracking-wider mt-0.5">Click & drag to rotate • Scroll to zoom</p>
+        </div>
+        <button type="button" data-cad-close class="text-white/50 hover:text-white transition"><i data-lucide="x" size="28"></i></button>
+      </div>
+      <div id="stl-viewer-container" class="w-full flex-1 rounded-xl bg-void border border-white/5 relative overflow-hidden flex items-center justify-center">
+        <div id="stl-loading" class="absolute font-mono text-xs text-pine-light animate-pulse">Loading 3D Geometry...</div>
+      </div>
+    </div>
+  </div>
+
   <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const BRACKET_HTML = `<span class="bracket-corner bracket-tl"></span><span class="bracket-corner bracket-tr"></span><span class="bracket-corner bracket-bl"></span><span class="bracket-corner bracket-br"></span>`;
 
-    function manageRenderLoop(container, tick, render) {
-      let rafId = null;
-      function frame() { rafId = requestAnimationFrame(frame); tick(); render(); }
-      function start() { if (!rafId && !prefersReducedMotion) frame(); }
-      function stop() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
-
-      if (prefersReducedMotion) { tick(); render(); return { start(){}, stop(){} }; }
-
-      const observer = new IntersectionObserver(([entry]) => {
-        entry.isIntersecting ? start() : stop();
-      }, { threshold: 0.01 });
-      observer.observe(container);
-      return { start, stop };
-    }
-
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
-
-    function observeReveals(root = document) {
-      root.querySelectorAll('.reveal:not(.revealed)').forEach(el => revealObserver.observe(el));
-    }
-
-    const BRACKET_HTML = `<span class="bracket-corner bracket-tl" aria-hidden="true"></span><span class="bracket-corner bracket-tr" aria-hidden="true"></span><span class="bracket-corner bracket-bl" aria-hidden="true"></span><span class="bracket-corner bracket-br" aria-hidden="true"></span>`;
-  </script>
-
-  <!-- SCRIPT 0: DATA LOADER & LOGIC -->
-  <script>
     let workspaceData = {};
     let globalCertificates = [];
     let currentPath = [];
-    let lastFocusedBeforeModal = null;
-
-    function showLoading() {
-      const err = document.getElementById('error-screen');
-      err.classList.add('hidden');
-      err.classList.remove('flex');
-      const loader = document.getElementById('loading-screen');
-      loader.classList.remove('hidden');
-      loader.style.opacity = '1';
-    }
-
-    function hideLoading() {
-      const loader = document.getElementById('loading-screen');
-      loader.style.opacity = '0';
-      setTimeout(() => loader.classList.add('hidden'), 500);
-    }
-
-    function showError() {
-      document.getElementById('loading-screen').classList.add('hidden');
-      const err = document.getElementById('error-screen');
-      err.classList.remove('hidden');
-      err.classList.add('flex');
-      lucide.createIcons();
-    }
+    let cadScene, cadCamera, cadRenderer, cadControls, cadAnimationFrame;
 
     async function loadData() {
-      showLoading();
       try {
         const response = await fetch('./data.json?v=' + Date.now());
-        if (!response.ok) throw new Error('HTTP ' + response.status);
         const data = await response.json();
-
         const fullName = data.profile.name || "Portfolio";
         const firstName = data.profile.heroName || fullName.split(' ')[0];
-        const fullTitle = data.profile.title || "Mechanical Engineer";
-        const mainTitle = fullTitle.split('&')[0].trim();
-        const initial = fullName.charAt(0).toUpperCase();
-
+        
         document.getElementById('doc-title').textContent = fullName + " — Portfolio";
-        document.getElementById('nav-initial').textContent = initial;
+        document.getElementById('nav-initial').textContent = fullName.charAt(0).toUpperCase();
         document.getElementById('nav-name').textContent = fullName;
-        document.getElementById('nav-title').textContent = mainTitle;
+        document.getElementById('nav-title').textContent = (data.profile.title || "").split('&')[0].trim();
         document.getElementById('hero-name').textContent = firstName;
         document.getElementById('hero-bio').textContent = data.profile.heroBio;
         document.getElementById('about-text').textContent = data.profile.aboutText;
@@ -391,9 +276,6 @@
         document.getElementById('contact-github-link').href = data.profile.contact.github;
         document.getElementById('contact-linkedin-link').href = data.profile.contact.linkedin;
 
-        setFavicon(initial);
-
-        // Overview cards
         document.getElementById('focus-grid').innerHTML = data.overview.map(item => `
           <div class="reveal pro-card p-8 flex flex-col justify-between h-full">
             ${BRACKET_HTML}
@@ -405,18 +287,12 @@
           </div>
         `).join('');
 
-        // Certificates
         globalCertificates = data.certificates || [];
         document.getElementById('certificates-container').innerHTML = globalCertificates.map((cert, index) => `
-          <div class="reveal pro-card p-5 flex flex-col justify-between cursor-pointer group" role="button" tabindex="0" aria-label="Preview certificate: ${cert.title}" data-cert-index="${index}">
+          <div class="reveal pro-card p-5 flex flex-col justify-between cursor-pointer group" role="button" tabindex="0" data-cert-index="${index}">
             ${BRACKET_HTML}
             <div class="cert-image-wrapper relative group-hover:border-pine-accent/50 transition-colors">
-              <div class="absolute inset-0 bg-void/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex items-center justify-center">
-                <div class="w-12 h-12 rounded-full bg-pine-dark/80 border border-pine-accent/50 flex items-center justify-center text-pine-light transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                  <i data-lucide="zoom-in" size="20" aria-hidden="true"></i>
-                </div>
-              </div>
-              <img src="${cert.image}" alt="${cert.title}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlMGUwZTAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlIE5vdCBGb3VuZDwvdGV4dD4='">
+              <img src="${cert.image}" alt="${cert.title}" loading="lazy" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlMGUwZTAiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4='">
             </div>
             <h3 class="text-text-primary font-medium text-lg mb-1 leading-tight group-hover:text-pine-light transition-colors">${cert.title}</h3>
             <p class="text-text-muted font-mono text-xs uppercase tracking-wider">${cert.issuer}</p>
@@ -427,449 +303,163 @@
         renderWorkspace();
         init3DNodes();
         lucide.createIcons();
-        observeReveals();
-        hideLoading();
-
+        document.getElementById('loading-screen').style.opacity = '0';
+        setTimeout(() => document.getElementById('loading-screen').classList.add('hidden'), 500);
       } catch (err) {
-        console.error("Data load failed:", err);
-        showError();
+        console.error(err);
+        document.getElementById('loading-screen').classList.add('hidden');
+        document.getElementById('error-screen').classList.remove('hidden');
+        document.getElementById('error-screen').classList.add('flex');
       }
     }
 
     document.getElementById('retry-btn').addEventListener('click', loadData);
 
-    // --- CERTIFICATE MODAL (Download button removed) ---
-    function openModal(index) {
-      const cert = globalCertificates[index];
-      if (!cert) return;
-      lastFocusedBeforeModal = document.activeElement;
+    // STL VIEWER MODAL
+    function openSTLModal(fileUrl, title) {
+      document.getElementById('cad-modal-title').textContent = title;
+      const modal = document.getElementById('cad-modal');
+      modal.classList.remove('hidden'); modal.classList.add('flex');
+      setTimeout(() => { modal.classList.remove('opacity-0'); modal.classList.add('opacity-100'); }, 10);
+      
+      const container = document.getElementById('stl-viewer-container');
+      const loaderEl = document.getElementById('stl-loading');
+      loaderEl.style.display = 'block';
 
-      document.getElementById('modal-image').src = cert.image;
-      document.getElementById('modal-image').alt = cert.title;
-      document.getElementById('modal-title').textContent = cert.title;
-      document.getElementById('modal-issuer').textContent = cert.issuer;
+      if (!cadScene) {
+        cadScene = new THREE.Scene();
+        cadScene.background = new THREE.Color(0x030605);
+        cadCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        cadRenderer = new THREE.WebGLRenderer({ antialias: true });
+        cadRenderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(cadRenderer.domElement);
+        cadControls = new THREE.OrbitControls(cadCamera, cadRenderer.domElement);
+        cadControls.enableDamping = true;
 
-      const modal = document.getElementById('cert-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-      setTimeout(() => {
-        modal.classList.remove('opacity-0');
-        modal.classList.add('opacity-100');
-        document.getElementById('modal-close-btn').focus();
-      }, 10);
+        cadScene.add(new THREE.AmbientLight(0xffffff, 0.6));
+        const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+        dir.position.set(1, 2, 3);
+        cadScene.add(dir);
+      }
+
+      new THREE.STLLoader().load(fileUrl, function (geometry) {
+        loaderEl.style.display = 'none';
+        geometry.center();
+        const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: 0x4d8f7a, roughness: 0.4, metalness: 0.6 }));
+        cadScene.children.forEach(child => { if (child.isMesh) cadScene.remove(child); });
+        cadScene.add(mesh);
+
+        geometry.computeBoundingSphere();
+        const r = geometry.boundingSphere.radius;
+        cadCamera.position.set(r * 2, r * 2, r * 2);
+        cadControls.target.set(0, 0, 0);
+        cadControls.update();
+
+        if (cadAnimationFrame) cancelAnimationFrame(cadAnimationFrame);
+        function anim() {
+          cadAnimationFrame = requestAnimationFrame(anim);
+          cadControls.update();
+          cadRenderer.render(cadScene, cadCamera);
+        }
+        anim();
+      }, undefined, () => { loaderEl.textContent = "Error loading 3D file."; });
     }
 
-    function closeModal() {
-      const modal = document.getElementById('cert-modal');
-      modal.classList.remove('opacity-100');
-      modal.classList.add('opacity-0');
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-      setTimeout(() => {
-        modal.classList.remove('flex');
-        modal.classList.add('hidden');
-        document.getElementById('modal-image').src = "";
-      }, 300);
-      if (lastFocusedBeforeModal) lastFocusedBeforeModal.focus();
+    function closeSTLModal() {
+      const modal = document.getElementById('cad-modal');
+      modal.classList.remove('opacity-100'); modal.classList.add('opacity-0');
+      if (cadAnimationFrame) cancelAnimationFrame(cadAnimationFrame);
+      setTimeout(() => { modal.classList.remove('flex'); modal.classList.add('hidden'); }, 300);
     }
 
     document.addEventListener('click', (e) => {
-      if (e.target.closest('[data-modal-close]')) closeModal();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      const modal = document.getElementById('cert-modal');
-      const isOpen = !modal.classList.contains('hidden');
-      if (e.key === 'Escape' && isOpen) { closeModal(); return; }
-      if (isOpen && e.key === 'Tab') {
-        const focusables = modal.querySelectorAll('button, a[href]');
-        if (!focusables.length) return;
-        const first = focusables[0], last = focusables[focusables.length - 1];
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      if (e.target.closest('[data-cad-close]')) closeSTLModal();
+      if (e.target.closest('[data-cert-index]')) {
+        const idx = e.target.closest('[data-cert-index]').dataset.certIndex;
+        const cert = globalCertificates[idx];
+        document.getElementById('modal-image').src = cert.image;
+        document.getElementById('modal-title').textContent = cert.title;
+        document.getElementById('modal-issuer').textContent = cert.issuer;
+        const m = document.getElementById('cert-modal');
+        m.classList.remove('hidden'); m.classList.add('flex');
+        setTimeout(() => { m.classList.remove('opacity-0'); m.classList.add('opacity-100'); }, 10);
+      }
+      if (e.target.closest('[data-modal-close]')) {
+        const m = document.getElementById('cert-modal');
+        m.classList.remove('opacity-100'); m.classList.add('opacity-0');
+        setTimeout(() => { m.classList.remove('flex'); m.classList.add('hidden'); }, 300);
       }
     });
-
-    function setFavicon(letter) {
-      const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>` +
-        `<rect width='64' height='64' rx='14' fill='%230a120e'/>` +
-        `<rect x='1' y='1' width='62' height='62' rx='13' fill='none' stroke='%234d8f7a' stroke-width='2'/>` +
-        `<text x='32' y='43' font-family='Inter, sans-serif' font-weight='700' font-size='28' fill='%23f8fafc' text-anchor='middle'>${letter}</text></svg>`;
-      document.getElementById('dynamic-favicon').href = 'data:image/svg+xml,' + svg;
-    }
 
     function navigateTo(pathStr) {
       currentPath = pathStr ? pathStr.split(',') : [];
       renderWorkspace();
-      document.getElementById('workspace-ui-container').scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
     }
 
     document.addEventListener('click', (e) => {
       const navEl = e.target.closest('[data-workspace-nav]');
-      if (navEl) { navigateTo(navEl.dataset.workspaceNav); return; }
-      const certEl = e.target.closest('[data-cert-index]');
-      if (certEl) { openModal(Number(certEl.dataset.certIndex)); return; }
+      if (navEl) navigateTo(navEl.dataset.workspaceNav);
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      const el = e.target.closest('[data-workspace-nav], [data-cert-index]');
-      if (!el) return;
-      e.preventDefault();
-      el.click();
-    });
-
-    // --- RENDER FILES WITH "VIEW FILE" INSTEAD OF FORCED DOWNLOAD ---
     function renderFileCards(files) {
-      if (!files || files.length === 0) {
-        return `<p class="text-text-muted font-mono text-sm col-span-full py-8 text-center">No files in this category yet.</p>`;
-      }
-      return files.map(file => `
-        <div class="reveal pro-card p-6 flex flex-col justify-between">
-          ${BRACKET_HTML}
-          <div>
-            <div class="w-full h-32 bg-surface-subtle rounded flex flex-col items-center justify-center text-pine-muted mb-6 text-center border border-white/5">
-              <i data-lucide="file-code" size="32" class="mb-2" aria-hidden="true"></i>
-              <span class="font-mono text-xs">${file.fileName}</span>
+      if (!files || files.length === 0) return `<p class="text-text-muted font-mono text-sm col-span-full py-8 text-center">No files here yet.</p>`;
+      return files.map(file => {
+        const isSTL = file.fileUrl && file.fileUrl.endsWith('.STL');
+        const btnHtml = isSTL ? 
+          `<button onclick="openSTLModal('${file.fileUrl}', '${file.title}')" class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent"><i data-lucide="box" size="14"></i> View 3D Model</button>` :
+          `<a href="${file.fileUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent"><i data-lucide="external-link" size="14"></i> View File</a>`;
+
+        return `
+          <div class="reveal pro-card p-6 flex flex-col justify-between">
+            ${BRACKET_HTML}
+            <div>
+              <div class="w-full h-32 bg-surface-subtle rounded flex flex-col items-center justify-center text-pine-muted mb-6 text-center border border-white/5">
+                <i data-lucide="${isSTL ? 'box' : 'file-code'}" size="32" class="mb-2"></i>
+                <span class="font-mono text-xs">${file.fileName}</span>
+              </div>
+              <h3 class="text-text-primary font-medium text-lg mb-2">${file.title}</h3>
+              <p class="text-text-secondary font-light text-sm leading-relaxed mb-6">${file.description}</p>
             </div>
-            <h3 class="text-text-primary font-medium text-lg mb-2">${file.title}</h3>
-            <p class="text-text-secondary font-light text-sm leading-relaxed mb-6">${file.description}</p>
-          </div>
-          <div>
-            <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light mb-4">
-              ${(file.tags || []).map(tag => `<span class="px-2 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#${tag}</span>`).join('')}
+            <div>
+              <div class="flex flex-wrap gap-2 font-mono text-xs text-pine-light mb-4">
+                ${(file.tags || []).map(t => `<span class="px-2 py-1 rounded bg-pine-dark/40 border border-pine-muted/30">#${t}</span>`).join('')}
+              </div>
+              ${btnHtml}
             </div>
-            <!-- Opens file directly in browser tab instead of forcing download -->
-            <a href="${file.fileUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-mono text-pine-light hover:text-white transition w-full py-3 bg-surface-subtle justify-center rounded border border-white/5 hover:border-pine-accent">
-              <i data-lucide="external-link" size="14" aria-hidden="true"></i> View File
-            </a>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
-    // --- NESTED WORKSPACE LOGIC ---
     function renderWorkspace() {
       const container = document.getElementById('workspace-ui-container');
       const breadcrumbs = document.getElementById('breadcrumb-container');
-
-      let breadHtml = '';
-      if (currentPath.length > 0) {
-        breadHtml += `<button data-workspace-nav="" class="hover:text-text-primary transition">Root</button> <span class="opacity-50">/</span> <button data-workspace-nav="${currentPath[0]}" class="hover:text-text-primary transition">${currentPath[0]}</button>`;
-      }
-      if (currentPath.length > 1) {
-        breadHtml += ` <span class="opacity-50">/</span> <span class="text-text-primary">${currentPath[1]}</span>`;
-      }
+      let breadHtml = currentPath.length > 0 ? `<button data-workspace-nav="" class="hover:text-text-primary transition">Root</button> / <span class="text-text-primary">${currentPath[0]}</span>` : '';
+      if (currentPath.length > 1) breadHtml += ` / <span class="text-text-primary">${currentPath[1]}</span>`;
       breadcrumbs.innerHTML = breadHtml;
 
       if (currentPath.length === 0) {
-        const keys = Object.keys(workspaceData);
-        container.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">` + keys.map(key => {
+        container.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">` + Object.keys(workspaceData).map(key => {
           const item = workspaceData[key];
-          const logos = item.logos || (item.logo ? [item.logo] : []);
-          
-          const logoHtml = `
-            <div class="flex items-center justify-center gap-3 mb-6 min-h-[64px] w-full">
-              ${logos.map(src => `
-                <div class="h-14 min-w-[70px] max-w-[120px] px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
-                  <img src="${src}" alt="${key} logo" loading="lazy" decoding="async" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InRyYW5zcGFyZW50Ii8+PC9zdmc+'">
-                </div>
-              `).join('')}
-            </div>
-          `;
-
-          return `
-            <div class="reveal pro-card folder-card group" role="button" tabindex="0" aria-label="Open ${key} folder" data-workspace-nav="${key}">
-              ${BRACKET_HTML}
-              ${logoHtml}
-              <h3 class="text-text-primary font-medium text-xl mb-2 group-hover:text-pine-light transition">${key}</h3>
-              <p class="text-text-secondary font-light text-sm">${item.description}</p>
-            </div>
-          `;
+          const logos = item.logos || [item.logo];
+          const logoHtml = `<div class="flex items-center justify-center gap-3 mb-6 min-h-[64px] w-full">${logos.map(src => `<div class="h-14 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center"><img src="${src}" class="max-h-full max-w-full object-contain" onerror="this.style.display='none'"></div>`).join('')}</div>`;
+          return `<div class="reveal pro-card folder-card group cursor-pointer" data-workspace-nav="${key}">${BRACKET_HTML}${logoHtml}<h3 class="text-text-primary font-medium text-xl mb-2 group-hover:text-pine-light transition">${key}</h3><p class="text-text-secondary font-light text-sm">${item.description}</p></div>`;
         }).join('') + `</div>`;
-
       } else if (currentPath.length === 1) {
         const category = workspaceData[currentPath[0]];
-
-        if (category.files && category.files.length > 0) {
-          container.innerHTML = `
-            <button data-workspace-nav="" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
-              <i data-lucide="arrow-left" size="16" aria-hidden="true"></i> Back to Main Folders
-            </button>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              ${renderFileCards(category.files)}
-            </div>
-          `;
+        if (category.files) {
+          container.innerHTML = `<button data-workspace-nav="" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition"><i data-lucide="arrow-left" size="16"></i> Back</button><div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">${renderFileCards(category.files)}</div>`;
         } else if (category.subfolders) {
-          const subKeys = Object.keys(category.subfolders);
-          container.innerHTML = `
-            <button data-workspace-nav="" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
-              <i data-lucide="arrow-left" size="16" aria-hidden="true"></i> Back to Main Folders
-            </button>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          ` + subKeys.map(subKey => `
-            <div class="reveal pro-card folder-card group" role="button" tabindex="0" aria-label="Open ${subKey} folder" data-workspace-nav="${currentPath[0]},${subKey}">
-              ${BRACKET_HTML}
-              <div class="h-16 px-4 py-2 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center mb-6">
-                <img src="${category.subfolders[subKey].logo}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="max-h-full max-w-[120px] object-contain">
-              </div>
-              <h3 class="text-text-primary font-medium text-xl mb-2 group-hover:text-pine-light transition">${subKey}</h3>
-              <p class="text-text-secondary font-mono text-xs opacity-70">${category.subfolders[subKey].files.length} Files Inside</p>
-            </div>
-          `).join('') + `</div>`;
+          container.innerHTML = `<button data-workspace-nav="" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition"><i data-lucide="arrow-left" size="16"></i> Back</button><div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">` + Object.keys(category.subfolders).map(sub => `<div class="reveal pro-card folder-card group cursor-pointer" data-workspace-nav="${currentPath[0]},${sub}">${BRACKET_HTML}<h3 class="text-text-primary font-medium text-xl mb-2">${sub}</h3><p class="text-text-secondary font-mono text-xs">${category.subfolders[sub].files.length} Files</p></div>`).join('') + `</div>`;
         }
-
       } else if (currentPath.length === 2) {
         const files = workspaceData[currentPath[0]].subfolders[currentPath[1]].files;
-        container.innerHTML = `
-          <button data-workspace-nav="${currentPath[0]}" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition">
-            <i data-lucide="arrow-left" size="16" aria-hidden="true"></i> Back to ${currentPath[0]}
-          </button>
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            ${renderFileCards(files)}
-          </div>
-        `;
+        container.innerHTML = `<button data-workspace-nav="${currentPath[0]}" class="mb-6 flex items-center gap-2 text-sm font-mono text-pine-light hover:text-white transition"><i data-lucide="arrow-left" size="16"></i> Back</button><div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">${renderFileCards(files)}</div>`;
       }
-
       lucide.createIcons();
-      observeReveals(container);
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      loadData();
-
-      // Mobile nav menu
-      const menuBtn = document.getElementById('mobile-menu-btn');
-      const mobileMenu = document.getElementById('mobile-menu');
-      const iconOpen = document.getElementById('menu-icon-open');
-      const iconClose = document.getElementById('menu-icon-close');
-
-      function closeMobileMenu() {
-        mobileMenu.classList.add('hidden'); mobileMenu.classList.remove('flex');
-        iconOpen.classList.remove('hidden'); iconClose.classList.add('hidden');
-        menuBtn.setAttribute('aria-expanded', 'false');
-      }
-      menuBtn.addEventListener('click', () => {
-        const isOpen = !mobileMenu.classList.contains('hidden');
-        if (isOpen) { closeMobileMenu(); return; }
-        mobileMenu.classList.remove('hidden'); mobileMenu.classList.add('flex');
-        iconOpen.classList.add('hidden'); iconClose.classList.remove('hidden');
-        menuBtn.setAttribute('aria-expanded', 'true');
-      });
-      document.querySelectorAll('.mobile-nav-link').forEach(link => link.addEventListener('click', closeMobileMenu));
-
-      // Scroll-spy
-      const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
-      const spySections = document.querySelectorAll('main section[id]');
-      const spyObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            navLinks.forEach(link => {
-              link.removeAttribute('aria-current');
-              if (link.getAttribute('href') === '#' + entry.target.id) link.setAttribute('aria-current', 'true');
-            });
-          }
-        });
-      }, { rootMargin: '-45% 0px -50% 0px' });
-      spySections.forEach(s => spyObserver.observe(s));
-
-      // Footer flow
-      const flowStrip = document.getElementById('footer-flow');
-      if (flowStrip) {
-        const dotColors = ['#4d8f7a', '#72a997', '#2d5246'];
-        const count = window.innerWidth < 640 ? 16 : 32;
-        for (let i = 0; i < count; i++) {
-          const dot = document.createElement('span');
-          dot.className = 'flow-dot';
-          const size = 2 + Math.random() * 2;
-          dot.style.width = size + 'px';
-          dot.style.height = size + 'px';
-          dot.style.top = (8 + Math.random() * 78) + '%';
-          dot.style.background = dotColors[Math.floor(Math.random() * dotColors.length)];
-          dot.style.setProperty('--dot-opacity', (0.35 + Math.random() * 0.35).toFixed(2));
-          if (prefersReducedMotion) {
-            dot.style.left = (Math.random() * 100) + '%';
-            dot.style.opacity = '0.35';
-          } else {
-            dot.style.animationDuration = (9 + Math.random() * 12) + 's';
-            dot.style.animationDelay = (Math.random() * -20) + 's';
-          }
-          flowStrip.appendChild(dot);
-        }
-      }
-
-      observeReveals();
-    });
-  </script>
-
-  <!-- SCRIPT 1: HERO TOP 3D FLOW -->
-  <script>
-    const heroContainer = document.getElementById('heroCanvasContainer');
-    const heroScene = new THREE.Scene();
-    const heroCamera = new THREE.PerspectiveCamera(45, heroContainer.clientWidth / heroContainer.clientHeight, 0.1, 1000);
-    heroCamera.position.set(0, 0, 24);
-    const heroRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    heroRenderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight);
-    heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    heroContainer.appendChild(heroRenderer.domElement);
-
-    const heroWaveGroup = new THREE.Group();
-    heroScene.add(heroWaveGroup);
-    const heroWavePts = []; const heroWaveCols = [];
-    const cPineLight = new THREE.Color(0x72a997); const cPineDark = new THREE.Color(0x142820);
-
-    for (let j = -7; j <= 7; j++) {
-      for (let i = -24; i <= 24; i += 0.3) {
-        const x = 7.5 + Math.sin(i * 0.16 + j * 0.35) * 3.8 + (j * 0.6);
-        const y = i * 0.7;
-        const z = Math.cos(i * 0.12) * 3.2 - 3.5;
-        heroWavePts.push(x, y, z);
-        const mix = (Math.sin(i * 0.1 + j) + 1) / 2;
-        const c = cPineDark.clone().lerp(cPineLight, mix * 0.65);
-        heroWaveCols.push(c.r, c.g, c.b);
-      }
-    }
-    const heroWaveGeo = new THREE.BufferGeometry();
-    heroWaveGeo.setAttribute('position', new THREE.Float32BufferAttribute(heroWavePts, 3));
-    heroWaveGeo.setAttribute('color', new THREE.Float32BufferAttribute(heroWaveCols, 3));
-    const heroWaveMat = new THREE.PointsMaterial({ size: 0.08, vertexColors: true, transparent: true, opacity: 0.42, blending: THREE.AdditiveBlending });
-    heroWaveGroup.add(new THREE.Points(heroWaveGeo, heroWaveMat));
-
-    const HERO_COUNT = window.innerWidth < 768 ? 1100 : 2200;
-    const heroSwarmGeo = new THREE.BufferGeometry();
-    const heroPositions = new Float32Array(HERO_COUNT * 3);
-    const heroColors = new Float32Array(HERO_COUNT * 3);
-    const heroVelocities = new Float32Array(HERO_COUNT * 3);
-
-    for (let i = 0; i < HERO_COUNT; i++) {
-      heroPositions[i * 3] = 3.5 + Math.random() * 15;
-      heroPositions[i * 3 + 1] = (Math.random() - 0.5) * 22;
-      heroPositions[i * 3 + 2] = (Math.random() - 0.5) * 14;
-      heroVelocities[i * 3] = (Math.random() * 0.02 + 0.01);
-      heroVelocities[i * 3 + 1] = (Math.random() - 0.5) * 0.01;
-      const mix = Math.random();
-      const c = cPineDark.clone().lerp(cPineLight, mix * 0.8);
-      heroColors[i * 3] = c.r; heroColors[i * 3 + 1] = c.g; heroColors[i * 3 + 2] = c.b;
-    }
-    heroSwarmGeo.setAttribute('position', new THREE.BufferAttribute(heroPositions, 3));
-    heroSwarmGeo.setAttribute('color', new THREE.BufferAttribute(heroColors, 3));
-    const heroSwarmMat = new THREE.PointsMaterial({ size: 0.09, vertexColors: true, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending });
-    const heroSwarmMesh = new THREE.Points(heroSwarmGeo, heroSwarmMat);
-    heroScene.add(heroSwarmMesh);
-
-    function heroTick() {
-      const pos = heroSwarmGeo.attributes.position.array;
-      for (let i = 0; i < HERO_COUNT; i++) {
-        pos[i * 3] += heroVelocities[i * 3];
-        pos[i * 3 + 1] += Math.sin(pos[i * 3] * 0.2) * 0.008;
-        if (pos[i * 3] > 19) { pos[i * 3] = 3.5; pos[i * 3 + 1] = (Math.random() - 0.5) * 22; }
-      }
-      heroSwarmGeo.attributes.position.needsUpdate = true;
-      heroWaveGroup.rotation.y += 0.0006;
-    }
-    function heroRender() { heroRenderer.render(heroScene, heroCamera); }
-    manageRenderLoop(heroContainer, heroTick, heroRender);
-  </script>
-
-  <!-- SCRIPT 2: HIGH-TECH DOTTED POINT CLOUD SHAPES -->
-  <script>
-    function init3DNodes() {
-      document.querySelectorAll('.card-3d-node').forEach(el => {
-        if (el.hasChildNodes()) return;
-        const shapeType = el.dataset.shape;
-
-        const cScene = new THREE.Scene();
-        const cCam = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-        cCam.position.z = 3.8;
-
-        const cRend = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        cRend.setSize(120, 120);
-        cRend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        el.appendChild(cRend.domElement);
-
-        let geo;
-        if (shapeType === 'cad') {
-          geo = new THREE.TorusGeometry(0.8, 0.35, 24, 70);
-        } else if (shapeType === 'fea') {
-          geo = new THREE.IcosahedronGeometry(1.1, 4);
-        } else {
-          const flowPts = [];
-          for (let j = -4; j <= 4; j++) {
-            for (let i = -1.5; i <= 1.5; i += 0.04) {
-              const x = i;
-              const y = Math.sin(i * 2 + j * 0.5) * 0.4 + (j * 0.15);
-              const z = Math.cos(i * 2) * 0.3;
-              flowPts.push(x, y, z);
-            }
-          }
-          geo = new THREE.BufferGeometry();
-          geo.setAttribute('position', new THREE.Float32BufferAttribute(flowPts, 3));
-        }
-
-        const mat = new THREE.PointsMaterial({ color: 0x4d8f7a, size: 0.045, transparent: true, opacity: 0.85 });
-        const mesh = new THREE.Points(geo, mat);
-        cScene.add(mesh);
-
-        function nodeTick() {
-          if (shapeType === 'cfd') { mesh.rotation.y += 0.015; mesh.rotation.x = 0.2; }
-          else { mesh.rotation.x += 0.008; mesh.rotation.y += 0.012; }
-        }
-        function nodeRender() { cRend.render(cScene, cCam); }
-        manageRenderLoop(el, nodeTick, nodeRender);
-      });
-    }
-  </script>
-
-  <!-- SCRIPT 3: BOTTOM CONTACT 3D FLOW ENGINE -->
-  <script>
-    const contactContainer = document.getElementById('contactCanvasContainer');
-    const contactScene = new THREE.Scene();
-    const contactCamera = new THREE.PerspectiveCamera(45, contactContainer.clientWidth / contactContainer.clientHeight, 0.1, 1000);
-    contactCamera.position.set(0, 0, 22);
-    const contactRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    contactRenderer.setSize(contactContainer.clientWidth, contactContainer.clientHeight);
-    contactRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    contactContainer.appendChild(contactRenderer.domElement);
-
-    const bottomPts = []; const bottomCols = [];
-    for (let j = -6; j <= 6; j++) {
-      for (let i = -28; i <= 28; i += 0.35) {
-        const x = i;
-        const y = Math.sin(i * 0.14 + j * 0.3) * 2.2 + (j * 1.5) - 3;
-        const z = Math.cos(i * 0.1) * 3.5 - 2;
-        bottomPts.push(x, y, z);
-        const mix = (Math.sin(i * 0.1 + j) + 1) / 2;
-        const c = cPineDark.clone().lerp(cPineLight, mix * 0.5);
-        bottomCols.push(c.r, c.g, c.b);
-      }
-    }
-    const bottomGeo = new THREE.BufferGeometry();
-    bottomGeo.setAttribute('position', new THREE.Float32BufferAttribute(bottomPts, 3));
-    bottomGeo.setAttribute('color', new THREE.Float32BufferAttribute(bottomCols, 3));
-    const bottomMat = new THREE.PointsMaterial({ size: 0.08, vertexColors: true, transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending });
-    const bottomMesh = new THREE.Points(bottomGeo, bottomMat);
-    contactScene.add(bottomMesh);
-
-    let contactTime = 0;
-    function contactTick() { contactTime += 0.008; bottomMesh.rotation.y = Math.sin(contactTime * 0.4) * 0.06; }
-    function contactRender() { contactRenderer.render(contactScene, contactCamera); }
-    manageRenderLoop(contactContainer, contactTick, contactRender);
-
-    let resizeRAF;
-    function resizeCanvas(camera, renderer, container) {
-      camera.aspect = container.clientWidth / container.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
-    }
-    window.addEventListener('resize', () => {
-      if (resizeRAF) cancelAnimationFrame(resizeRAF);
-      resizeRAF = requestAnimationFrame(() => {
-        resizeCanvas(heroCamera, heroRenderer, heroContainer);
-        resizeCanvas(contactCamera, contactRenderer, contactContainer);
-      });
-    });
+    document.addEventListener('DOMContentLoaded', loadData);
   </script>
 </body>
 </html>
