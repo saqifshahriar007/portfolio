@@ -14,17 +14,17 @@
     {
       "title": "Parametric CAD",
       "desc": "Advanced multi-body part creation and kinematic assemblies.",
-      "shape": "bearing"
+      "shape": "cad"
     },
     {
       "title": "Structural FEA",
       "desc": "Static structural and stress distribution analysis.",
-      "shape": "feamesh"
+      "shape": "fea"
     },
     {
       "title": "CFD & Flow",
       "desc": "Fluid dynamics, boundary layers, and velocity flow fields.",
-      "shape": "turbulent"
+      "shape": "cfd"
     }
   ],
   "certificates": [
