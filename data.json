@@ -1,0 +1,51 @@
+{
+  "profile": {
+    "name": "[Your Name]",
+    "title": "[Your Specialization, e.g., Mechanical Engineer]",
+    "bioText": "[List your worked skills: Fusion 360, SolidWorks, Ansys.]",
+    "aboutText": "[Add your personalized about paragraph here.]",
+    "contact": {
+      "email": "[your.email@example.com]",
+      "github": "https://github.com/saqifshahriar007",
+      "linkedin": "[yourlinkedinURL]"
+    }
+  },
+  "sections": [
+    {
+      "displayTitle": "CAD & Design",
+      "folderPath": "assets/cad/",
+      "items": [
+        {
+          "title": "[Project Title]",
+          "description": "[Description... Worked with Fusion 360/SolidWorks...]",
+          "tags": ["#[Tool]", "#[Method]"],
+          "fileName": "[your_cad_model.step]"
+        }
+      ]
+    },
+    {
+      "displayTitle": "Certificates",
+      "folderPath": "assets/certificates/",
+      "items": [
+        {
+          "title": "[Certification Name]",
+          "description": "[Details about certification...]",
+          "tags": ["#[Topic]", "#[Issuer]"],
+          "fileName": "[your_certificate.pdf]"
+        }
+      ]
+    },
+    {
+      "displayTitle": "Simulations",
+      "folderPath": "assets/simulations/",
+      "items": [
+        {
+          "title": "[Simulation Title]",
+          "description": "[Worked with Ansys... Results of simulation...]",
+          "tags": ["#Ansys", "#[Method]"],
+          "fileName": "[your_simulation_report.pdf]"
+        }
+      ]
+    }
+  ]
+}
