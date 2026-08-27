@@ -69,8 +69,44 @@
     .ambient-glow { position: absolute; top: -80px; right: 0; width: 650px; height: 480px; background: radial-gradient(circle, rgba(77, 143, 122, 0.06) 0%, transparent 70%); filter: blur(120px); pointer-events: none; z-index: 1; }
     .gradient-line { background: linear-gradient(to bottom, #4d8f7a 0%, rgba(77, 143, 122, 0) 100%); }
 
-    .pro-card { background: rgba(10, 18, 14, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; }
+    /* Faint CAD-grid texture behind the page, fading out below the hero so it reads as
+       an ambient drafting-sheet backdrop rather than noise competing with content. */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(114, 169, 151, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(114, 169, 151, 0.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+      -webkit-mask-image: radial-gradient(ellipse 85% 55% at 50% 0%, black 30%, transparent 100%);
+      mask-image: radial-gradient(ellipse 85% 55% at 50% 0%, black 30%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .pro-card { position: relative; background: rgba(10, 18, 14, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; }
     .pro-card:hover { border-color: rgba(77, 143, 122, 0.4); box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.85); transform: translateY(-2px); }
+
+    /* Viewport-select brackets — a nod to the corner handles in CAD/FEA viewports, revealed on hover/focus */
+    .bracket-corner { position: absolute; width: 14px; height: 14px; border-color: #72a997; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; }
+    .bracket-tl { top: 9px; left: 9px; border-top: 1.5px solid; border-left: 1.5px solid; transform: translate(4px, 4px); }
+    .bracket-tr { top: 9px; right: 9px; border-top: 1.5px solid; border-right: 1.5px solid; transform: translate(-4px, 4px); }
+    .bracket-bl { bottom: 9px; left: 9px; border-bottom: 1.5px solid; border-left: 1.5px solid; transform: translate(4px, -4px); }
+    .bracket-br { bottom: 9px; right: 9px; border-bottom: 1.5px solid; border-right: 1.5px solid; transform: translate(-4px, -4px); }
+    .pro-card:hover .bracket-corner, .pro-card:focus-within .bracket-corner, .pro-card:focus-visible .bracket-corner {
+      opacity: 1; transform: translate(0, 0);
+    }
+
+    /* Flowing dot stream — reuses the "dotted streamline" language from the CFD visualizer, at the foot of the page */
+    .flow-dot-strip { position: relative; width: 100%; height: 56px; overflow: hidden; }
+    .flow-dot { position: absolute; border-radius: 50%; animation-name: dotDrift; animation-timing-function: linear; animation-iteration-count: infinite; will-change: left, opacity; }
+    @keyframes dotDrift {
+      0% { left: -3%; opacity: 0; }
+      10% { opacity: var(--dot-opacity, 0.55); }
+      90% { opacity: var(--dot-opacity, 0.55); }
+      100% { left: 103%; opacity: 0; }
+    }
 
     .folder-card { cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; }
     .folder-card img { height: 64px; width: auto; max-width: 100%; object-fit: contain; margin-bottom: 1.5rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); transition: transform 0.3s ease;}
@@ -101,6 +137,7 @@
       .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
       .animate-mouse-dot { animation: none; }
       .loader-spin { animation: none; }
+      .flow-dot { animation: none !important; opacity: 0.35 !important; }
       * { scroll-behavior: auto !important; }
     }
   </style>
@@ -181,6 +218,18 @@
       </div>
     </div>
     <div id="heroCanvasContainer" class="w-full h-full absolute inset-0 z-10" aria-hidden="true"></div>
+
+    <!-- Static CAD-viewport frame: a nod to the corner ticks of a technical drawing sheet -->
+    <div class="hidden sm:block absolute inset-6 sm:inset-10 z-20 pointer-events-none" aria-hidden="true">
+      <span class="absolute top-0 left-0 w-6 h-6 border-t border-l border-pine-light/25"></span>
+      <span class="absolute top-0 right-0 w-6 h-6 border-t border-r border-pine-light/25"></span>
+      <span class="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-pine-light/25"></span>
+      <span class="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-pine-light/25"></span>
+    </div>
+    <div class="hidden lg:flex absolute bottom-12 left-12 z-20 items-center gap-2 font-mono text-[10px] text-pine-light/40 tracking-widest uppercase pointer-events-none" aria-hidden="true">
+      <span class="w-6 h-px bg-pine-light/30"></span> Fig. 01 — Portfolio
+    </div>
+
     <div class="absolute bottom-8 w-full flex justify-center items-center z-30 pointer-events-none">
       <a href="#about" class="w-[30px] h-[52px] rounded-full border border-white/20 flex justify-center items-start p-1.5 pointer-events-auto" aria-label="Scroll to overview">
         <div class="w-2 h-2 rounded-full bg-pine-accent animate-mouse-dot"></div>
@@ -233,6 +282,7 @@
     <div id="contactCanvasContainer" class="w-full h-full absolute inset-0 z-10 pointer-events-none" aria-hidden="true"></div>
     <div class="max-w-7xl mx-auto px-6 sm:px-12 w-full relative z-20">
       <div class="reveal pro-card p-10 sm:p-14 max-w-3xl mx-auto text-center">
+        <span class="bracket-corner bracket-tl" aria-hidden="true"></span><span class="bracket-corner bracket-tr" aria-hidden="true"></span><span class="bracket-corner bracket-bl" aria-hidden="true"></span><span class="bracket-corner bracket-br" aria-hidden="true"></span>
         <h2 class="inline-block text-3xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-600 tracking-tight mb-4 pb-2">
           Let's Connect<span class="text-pine-accent">.</span>
         </h2>
@@ -257,8 +307,9 @@
 
   </main>
 
-  <footer class="text-center py-8 text-text-muted text-xs border-t border-white/5 font-mono relative z-20">
-    © <span id="footer-year"></span> <span id="footer-name"></span> • Mechanical Engineering Portfolio
+  <footer class="text-center pt-2 pb-8 text-text-muted text-xs font-mono relative z-20 border-t border-white/5">
+    <div id="footer-flow" class="flow-dot-strip" aria-hidden="true"></div>
+    <p class="mt-1">© <span id="footer-year"></span> <span id="footer-name"></span> • Mechanical Engineering Portfolio</p>
   </footer>
 
   <!-- FULL SCREEN CERTIFICATE MODAL -->
@@ -314,6 +365,9 @@
     function observeReveals(root = document) {
       root.querySelectorAll('.reveal:not(.revealed)').forEach(el => revealObserver.observe(el));
     }
+
+    // Viewport-select corner brackets, echoing CAD/FEA software selection handles.
+    const BRACKET_HTML = `<span class="bracket-corner bracket-tl" aria-hidden="true"></span><span class="bracket-corner bracket-tr" aria-hidden="true"></span><span class="bracket-corner bracket-bl" aria-hidden="true"></span><span class="bracket-corner bracket-br" aria-hidden="true"></span>`;
   </script>
 
   <!-- SCRIPT 0: DATA LOADER & LOGIC -->
@@ -377,6 +431,7 @@
         // Overview cards (with 3D point-cloud visualizer mounts)
         document.getElementById('focus-grid').innerHTML = data.overview.map(item => `
           <div class="reveal pro-card p-8 flex flex-col justify-between h-full">
+            ${BRACKET_HTML}
             <div class="w-full h-32 card-3d-node mx-auto flex justify-center items-center" data-shape="${item.shape}"></div>
             <div>
               <h3 class="text-text-primary font-medium text-xl text-center mt-6">${item.title}</h3>
@@ -389,6 +444,7 @@
         globalCertificates = data.certificates;
         document.getElementById('certificates-container').innerHTML = data.certificates.map((cert, index) => `
           <div class="reveal pro-card p-5 flex flex-col justify-between cursor-pointer group" role="button" tabindex="0" aria-label="Preview certificate: ${cert.title}" data-cert-index="${index}">
+            ${BRACKET_HTML}
             <div class="cert-image-wrapper relative group-hover:border-pine-accent/50 transition-colors">
               <div class="absolute inset-0 bg-void/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex items-center justify-center">
                 <div class="w-12 h-12 rounded-full bg-pine-dark/80 border border-pine-accent/50 flex items-center justify-center text-pine-light transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
@@ -516,6 +572,7 @@
         const keys = Object.keys(workspaceData);
         container.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">` + keys.map(key => `
           <div class="reveal pro-card folder-card group" role="button" tabindex="0" aria-label="Open ${key} folder" data-workspace-nav="${key}">
+            ${BRACKET_HTML}
             <img src="${workspaceData[key].logo}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">
             <h3 class="text-text-primary font-medium text-xl mb-2 group-hover:text-pine-light transition">${key}</h3>
             <p class="text-text-secondary font-light text-sm">${workspaceData[key].description}</p>
@@ -531,6 +588,7 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         ` + subKeys.map(subKey => `
           <div class="reveal pro-card folder-card group" role="button" tabindex="0" aria-label="Open ${subKey} folder" data-workspace-nav="${currentPath[0]},${subKey}">
+            ${BRACKET_HTML}
             <img src="${mainCat.subfolders[subKey].logo}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">
             <h3 class="text-text-primary font-medium text-xl mb-2 group-hover:text-pine-light transition">${subKey}</h3>
             <p class="text-text-secondary font-mono text-xs opacity-70">${mainCat.subfolders[subKey].files.length} Files Inside</p>
@@ -545,6 +603,7 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         ` + files.map(file => `
           <div class="reveal pro-card p-6 flex flex-col justify-between">
+            ${BRACKET_HTML}
             <div>
               <div class="w-full h-32 bg-surface-subtle rounded flex flex-col items-center justify-center text-pine-muted mb-6 text-center border border-white/5">
                 <i data-lucide="file-code" size="32" class="mb-2" aria-hidden="true"></i>
@@ -606,6 +665,31 @@
       }, { rootMargin: '-45% 0px -50% 0px' });
       spySections.forEach(s => spyObserver.observe(s));
 
+      // Flowing dot stream in the footer — echoes the dotted-streamline motif used in the CFD visualizer
+      const flowStrip = document.getElementById('footer-flow');
+      if (flowStrip) {
+        const dotColors = ['#4d8f7a', '#72a997', '#2d5246'];
+        const count = window.innerWidth < 640 ? 16 : 32;
+        for (let i = 0; i < count; i++) {
+          const dot = document.createElement('span');
+          dot.className = 'flow-dot';
+          const size = 2 + Math.random() * 2;
+          dot.style.width = size + 'px';
+          dot.style.height = size + 'px';
+          dot.style.top = (8 + Math.random() * 78) + '%';
+          dot.style.background = dotColors[Math.floor(Math.random() * dotColors.length)];
+          dot.style.setProperty('--dot-opacity', (0.35 + Math.random() * 0.35).toFixed(2));
+          if (prefersReducedMotion) {
+            dot.style.left = (Math.random() * 100) + '%';
+            dot.style.opacity = '0.35';
+          } else {
+            dot.style.animationDuration = (9 + Math.random() * 12) + 's';
+            dot.style.animationDelay = (Math.random() * -20) + 's';
+          }
+          flowStrip.appendChild(dot);
+        }
+      }
+
       observeReveals();
     });
   </script>
@@ -665,16 +749,6 @@
     const heroSwarmMesh = new THREE.Points(heroSwarmGeo, heroSwarmMat);
     heroScene.add(heroSwarmMesh);
 
-    // Genuine interactivity: the wave subtly parallaxes toward the cursor instead of the
-    // unused OrbitControls import that shipped before but was never wired up.
-    let heroMouseX = 0, heroMouseY = 0;
-    heroContainer.addEventListener('mousemove', (e) => {
-      const rect = heroContainer.getBoundingClientRect();
-      heroMouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      heroMouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-    });
-    heroContainer.addEventListener('mouseleave', () => { heroMouseX = 0; heroMouseY = 0; });
-
     function heroTick() {
       const pos = heroSwarmGeo.attributes.position.array;
       for (let i = 0; i < HERO_COUNT; i++) {
@@ -683,9 +757,7 @@
         if (pos[i * 3] > 19) { pos[i * 3] = 3.5; pos[i * 3 + 1] = (Math.random() - 0.5) * 22; }
       }
       heroSwarmGeo.attributes.position.needsUpdate = true;
-      heroWaveGroup.rotation.y += 0.0006 + heroMouseX * 0.0005;
-      heroCamera.position.x += (heroMouseX * 1.4 - heroCamera.position.x) * 0.03;
-      heroCamera.position.y += (-heroMouseY * 1.0 - heroCamera.position.y) * 0.03;
+      heroWaveGroup.rotation.y += 0.0006;
     }
     function heroRender() { heroRenderer.render(heroScene, heroCamera); }
     manageRenderLoop(heroContainer, heroTick, heroRender);
